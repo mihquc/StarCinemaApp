@@ -8,46 +8,50 @@ export default function Account({navigation}) {
       <SafeAreaView style={styles.container}>
         <StatusBar style="auto"/>
 
-        <Text style={{fontSize: 18, fontWeight: '600', marginTop: 10}}>Tài khoản</Text>
+        <View style={{width: '100%', height: '5%', alignItems: 'center', justifyContent: 'center',}}>
+            <Text style={{fontSize: 18, fontWeight: '600'}}>Tài khoản</Text>
+        </View>
 
         <ScrollView>
             <View style={{alignItems: 'center'}}>
-            <Image source={require('./Image/Bap.png')} style={{ width: 190, height: 190, marginTop: 60}} />
-            <Text style={{ fontSize: 17, color: 'black', fontWeight: '600', marginTop: 40}}>Đăng Ký Thành Viên Star</Text>
+                <Image source={require('./Image/Bap.png')} style={{ width: 190, height: 190, marginTop: 60}} />
+                <Text style={{ fontSize: 17, color: 'black', fontWeight: '600', marginTop: 20}}>Đăng Ký Thành Viên Star</Text>
             </View>
 
-            <View style={{flexDirection: 'row', justifyContent:'center', alignItems: 'center', marginTop: 20}}>
-                <View style={{}}>
-                    <Image source={require('./Image/icon_card.png')} style={{ width: 30, height: 30, marginRight: 100, marginBottom: 10, tintColor: '#999900'}}/>
-                    <Text style={{fontWeight: '400'}}>Star</Text>
+            <View style={{flexDirection: 'row', justifyContent:'space-around', marginTop: 40}}>
+                <View style={{alignItems: 'center'}}>
+                    <Image source={require('./Image/icon_card.png')} style={{ width: 40, height: 40, marginBottom: 10, tintColor: '#999900'}}/>
+                    <Text style={{fontWeight: '400', color: 'purple'}}>Star</Text>
                 </View>
-                <View>
-                    <Image source={require('./Image/icon_gift.png')} style={{ width: 30, height: 30, marginBottom: 10, marginLeft: 5, tintColor: '#999900'}}/>
-                    <Text style={{fontWeight: '400'}}>Ưu đãi</Text>
+                <View style={{alignItems: 'center'}}>
+                    <Image source={require('./Image/icon_gift.png')} style={{ width: 40, height: 40, marginBottom: 10, tintColor: '#999900'}}/>
+                    <Text style={{fontWeight: '400', color: 'purple'}}>Ưu đãi</Text>
                 </View>
             </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
-                <TouchableOpacity style={{backgroundColor: '#999900', marginBottom: 25, width: 200, height: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 3}}
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 140}}>
+                <TouchableOpacity style={{backgroundColor: '#999900', marginBottom: 20, width: 300, height: 50, justifyContent: 'center', 
+                    alignItems: 'center', borderRadius: 8, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.2}}
                     onPress={() => {
                         navigation.navigate('Login');
                     }}>
-                    <Text style={{color: 'white', fontWeight: '600', fontSize: 20}}>
+                    <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
                         Đăng nhập
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{borderWidth: 0.5, width: 200, height: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 3}}
+                <TouchableOpacity style={{ width: 300, height: 50, justifyContent: 'center', alignItems: 'center', 
+                    backgroundColor: 'white', borderRadius: 8, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.1,}}
                     onPress={() => {
                         navigation.navigate('Register');
                     }}>
-                    <Text style={{color: '#999900', fontWeight: '600', fontSize: 20}}>
+                    <Text style={{color: '#999900', fontWeight: '600', fontSize: 18}}>
                         Đăng ký
                     </Text>
                 </TouchableOpacity>
             </View>
             
         </ScrollView>
-        
+
       </SafeAreaView>
     )
   }

@@ -29,7 +29,7 @@ export default Register = function({navigation}) {
   };
 
   const [gender, setGender] = useState('');
-  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [openPicker, setOpenPicker] = useState(false);
   const [date, setDate] = useState(new Date());
 
   const renderRadioButton = (value, label) => (
@@ -69,106 +69,115 @@ export default Register = function({navigation}) {
   return(
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <TouchableOpacity onPress={() => {
+      <TouchableOpacity style={{width: '87%', height: '5%', justifyContent: 'flex-end'}} onPress={() => {
         navigation.goBack();
       }}>
-        <Image source={require('./Image/icon_xx.png')}  style={{width: 16, height: 16, marginRight: 330, marginTop: 18}}/>
+        <Image source={require('./Image/icon_xx.png')}  style={{width: 16, height: 16,}}/>
       </TouchableOpacity>
-      <ScrollView>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Image source={require('./Image/Ghe.png')} style={{ width: 190, height: 190, marginTop: 60}} />
+      <ScrollView style={{ width: '100%', height: '88%'}} showsVerticalScrollIndicator={false}>
+        <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%', marginVertical: '6%'}}>
+          <Image source={require('./Image/Ghe.png')} style={{ width: 190, height: 190,}} />
           <Text style={{ fontSize: 17, color: 'black', fontWeight: '600'}}>Đăng Ký Thành Viên Star</Text>
         </View>
 
-        <View style={[styles.inputContainer, {marginTop: 60}]}>
-          <Image source={require('./Image/icon_person.png')} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Họ và tên"
-            // onChangeText={handleNameChange}
-            // value={name1}
-            autoCapitalize="none"
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image source={require('./Image/icon_mail.png')} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            // onChangeText={handleEmailChange}
-            // value={email}
-            autoCapitalize="none"
-          />
-        </View>
-
-        <View style={[styles.inputContainer]}>
-          <Image source={require('./Image/icon_phone.png')} style={{width:20, height: 20, marginLeft: 7, marginTop: 12}} />
-          <TextInput
-            style={[styles.input, {marginLeft: 8}]}
-            placeholder="Số điện thoại"
-            // onChangeText={handlePhoneChange}
-            // value={phone}
-            autoCapitalize="none"
-          />
-        </View>
-
-        <View style={{marginTop: 15}}>
-          <Text>Giới tính (tùy chọn)</Text>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            {renderRadioButton('male', 'Nam')}
-            {renderRadioButton('female', 'Nữ')}
-            {renderRadioButton('undefined', 'Chưa xác định')}
-          </View>
-        </View>
-
-        <TouchableOpacity onPress={() => {}}>
-          <View style={[styles.inputContainer, {justifyContent: 'space-around'}]} >
-            <Text style={{color: '#D3D3D3', marginTop: 13, marginRight: 200}}>
-              Ngày sinh
-            </Text>
-            <Image source={require('./Image/icon_calendar.png')} style={{width:18, height: 18, marginTop: 13, marginLeft: 30}} />
-            <DatePicker
-              modal
-              open = {openDatePicker}
-              date={date}
-              onConfirm={(newDate) => {
-                setDate(newDate);
-                setOpenDatePicker(false);
-              }}
-              onCancel={()=>{
-                setOpenDatePicker(false);
-              }}
+        <View style={{width: '100%', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '6%'}}>
+          <View style={[styles.inputContainer]}>
+            <Image source={require('./Image/icon_person.png')} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Họ và tên"
+              // onChangeText={handleNameChange}
+              // value={name1}
+              autoCapitalize="none"
             />
           </View>
-        </TouchableOpacity>
 
-        <View style={styles.inputContainer}>
-          <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Mật khẩu" 
-            secureTextEntry={true}
-            autoCapitalize="none" 
-          />
-        </View>
+          <View style={styles.inputContainer}>
+            <Image source={require('./Image/icon_mail.png')} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              // onChangeText={handleEmailChange}
+              // value={email}
+              autoCapitalize="none"
+            />
+          </View>
 
-        <View style={[styles.inputContainer, {marginBottom: 90}]}>
-          <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Nhập lại mật khẩu"
-            secureTextEntry={true}
-            autoCapitalize="none" 
-          />
+          <View style={[styles.inputContainer]}>
+            <Image source={require('./Image/icon_phone.png')} style={{width:20, height: 20, marginLeft: 7, marginTop: 12}} />
+            <TextInput
+              style={[styles.input, {marginLeft: 8}]}
+              placeholder="Số điện thoại"
+              // onChangeText={handlePhoneChange}
+              // value={phone}
+              autoCapitalize="none"
+            />
+          </View>
+
+          <View style={{marginTop: 15}}>
+            <Text>Giới tính (tùy chọn)</Text>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              {renderRadioButton('male', 'Nam')}
+              {renderRadioButton('female', 'Nữ')}
+              {renderRadioButton('undefined', 'Chưa xác định')}
+            </View>
+          </View>
+
+          <TouchableOpacity style={[styles.inputContainer, {justifyContent: 'space-between'}]} onPress={() => {setOpenPicker(true)}}>
+            <View style={{height: '100%', width: '24%', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{color: '#D3D3D3',}}>
+                Ngày sinh
+              </Text>
+            </View>
+            <View style={{height: '100%', width: '13%', justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={require('./Image/icon_calendar.png')} style={{width:18, height: 18}} />
+            </View>
+
+            {(!openPicker) && ( 
+              <DatePicker
+                modal
+                mode='date'
+                
+                open = {openPicker}
+                date={date}
+                onConfirm={(newDate) => {
+                  setDate(newDate);
+                  setOpenPicker(false);
+                }}
+                onCancel={()=>{
+                  setOpenPicker(false);
+                }}
+              />
+            )}
+          </TouchableOpacity>
+
+          <View style={styles.inputContainer}>
+            <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Mật khẩu" 
+              secureTextEntry={true}
+              autoCapitalize="none" 
+            />
+          </View>
+
+          <View style={[styles.inputContainer]}>
+            <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Nhập lại mật khẩu"
+              secureTextEntry={true}
+              autoCapitalize="none" 
+            />
+          </View>
         </View>
       </ScrollView>
 
-      <View style={[styles.button, { backgroundColor: isButtonEnabled ? '#999900' : '#DCDCDC'}]}>
+      <TouchableOpacity style={[styles.button, { backgroundColor: isButtonEnabled ? '#999900' : '#DCDCDC'}]}>
         <Text style={{ color: isButtonEnabled ? 'white' : '#F5F5F5', fontSize: 16, fontWeight: '600' }}>Đăng ký</Text>
-      </View>
+      </TouchableOpacity>
 
-      <View style={{flexDirection: 'row', width: '100%', marginTop: 20, borderTopWidth: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flexDirection: 'row', width: '100%', height: '7%', marginTop: 20, borderTopWidth: 0.2, justifyContent: 'center', alignItems: 'center'}}>
         <Text style={{marginTop: 10, marginRight: 10}}>Tài khoản đã được đăng ký!</Text>
         <TouchableOpacity style={{borderWidth: 1, width: 100, height: 35, justifyContent: 'center', alignItems: 'center', borderRadius: 3, marginTop: 10}}
           onPress={() => {
@@ -191,12 +200,12 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flexDirection: 'row',
-        width: 360,
+        width: '88%',
         height: 45,
         backgroundColor: 'white',
         borderWidth: 0.2,
         borderRadius: 4,
-        marginTop: 15, 
+        marginTop: '5%'
     },
     input: {
         marginLeft: 10,
@@ -212,7 +221,7 @@ const styles = StyleSheet.create({
     button: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: 360,
+      width: '88%',
       height: 45,
       borderRadius: 5,
       opacity: 1,

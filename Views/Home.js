@@ -16,7 +16,7 @@ export default Home = function() {
         key={index.toString()}
         style={[
           styles.dot,
-          { backgroundColor: index === currentIndex ? 'blue' : 'gray' },
+          { backgroundColor: index === currentIndex ? 'purple' : 'gray' },
         ]}
       />
     ));
@@ -37,24 +37,18 @@ export default Home = function() {
     // 1. load data tu server
     const data = [
       {
-        image: <View >
-          <Image source={require('./Image/movie_nvcc.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
-        </View>
+        image: <Image source={require('./Image/movie_nvcc.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
       },
       {
-        image: <View >
-          <Image source={require('./Image/movie_theMarvels.jpg')} style={styles.image} resizeMode='cover'/>
-        </View> 
+        image: <Image source={require('./Image/movie_theMarvels.jpg')} style={styles.image} resizeMode='cover'/>
       },
       {
-        image: <View >
-          <Image source={require('./Image/movie_drpn.jpg')} style={styles.image} resizeMode='cover'/>
-        </View>
+        image: <Image source={require('./Image/movie_drpn.jpg')} style={styles.image} resizeMode='cover'/>
+      
       },
       {
-        image: <View >
-          <Image source={require('./Image/movie_taylorswift.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
-        </View>
+        image: <Image source={require('./Image/movie_taylorswift.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
+        
       }
     ];
 
@@ -93,12 +87,20 @@ export default Home = function() {
   useEffect(() => {
     const data1 = [
       {
+        image: <Image style={styles.image1} source={require('./Image/movie_theMarvels1.jpg')} />,
+        name: <Text style={styles.textImage}>Biệt Đội Marvels</Text>
+      },
+      {
         image: <Image style={styles.image1} source={require('./Image/movie_nvcc1.jpg')} />,
         name: <Text style={styles.textImage}>Người Vợ Cuối Cùng</Text>
       },
       {
         image: <Image style={styles.image1} source={require('./Image/movie_drpn1.jpg')} />,
         name: <Text style={styles.textImage}>Đất Rừng Phương Nam</Text>
+      },
+      {
+        image: <Image style={styles.image1} source={require('./Image/movie_ylvn.jpg')} />,
+        name: <Text style={styles.textImage}>Yêu Lại Vợ Ngầu</Text>
       },
       {
         image: <Image style={styles.image1} source={require('./Image/movie_qmq.jpg')} />,
@@ -116,82 +118,88 @@ export default Home = function() {
   useEffect(() => {
     const data2 = [
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_drpn1.jpg')} />,
-        name: <Text style={styles.textImage}>Đất Rừng Phương Nam</Text>
+        image: <Image style={styles.image1} source={require('./Image/movie_dc.jpg')} />,
+        name: <Text style={styles.textImage}>Đường Cùng</Text>
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_nvcc1.jpg')} />,
-        name: <Text style={styles.textImage}>Người Vợ Cuối Cùng</Text>
+        image: <Image style={styles.image1} source={require('./Image/movie_cd.jpg')} />,
+        name: <Text style={styles.textImage}>Chiếm Đoạt</Text>
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_qmq.jpg')} />,
-        name: <Text style={styles.textImage}>Quỷ Môn Quan: Gọi Hồn</Text>
+        image: <Image style={styles.image1} source={require('./Image/movie_yakari.jpg')} />,
+        name: <Text style={styles.textImage}>Cậu Bé Dũng Sĩ Yakari</Text>
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_taylorswift1.jpg')} />,
-        name: <Text style={styles.textImage}>Những Kỷ Nguyên Của Taylor Swift</Text>
-      }
+        image: <Image style={styles.image1} source={require('./Image/movie_dtst.jpg')} />,
+        name: <Text style={styles.textImage}>Đấu Trường Sinh Tử</Text>
+      },
+      
     ]
 
     setImageList2(data2);
   }, [])
 
-  const viewItem = ({item}) => {
+  const viewItem = ({item, index}) => {
     return(
-      <View style={{width: 190, height: 320, alignItems: 'flex-start', marginLeft: 10}}>
+      <TouchableOpacity style={{width: '100%', height: '100%', flex: 1, justifyContent: 'flex-start', alignItems:'stretch', 
+            marginLeft: index % 2 == 0 ? '5%' : '0%', marginRight: '5%', marginTop: (index ===0 || index===1)? '0%':'3%',}}>
         {item.image}
-        <View style={{marginTop: 7}}>
+        
+        <View style={{marginTop: '2%'}}>
           {item.name}
         </View>
-      </View>
+      </TouchableOpacity>
+      
     )
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <ScrollView>
-        <View style={{flex: 1, alignItems: 'center', marginTop: 10}}>
-          <View style={{width: screenWidth, height: 265}}>
-          <FlatList
-            horizontal
-            pagingEnabled
-            data={imageList}
-            renderItem={({ item }) => (
-              <View style={{width: screenWidth, height: 276, alignItems: 'center',}}>{item.image}</View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-          />
+      <ScrollView style={{}} showsVerticalScrollIndicator={false}>
+        <View style={{width: '100%', height: '100%', }}>
+          <View style={{width: '100%', height: 270}}>
+            <ScrollView
+              horizontal
+              pagingEnabled
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
+              showsHorizontalScrollIndicator={false}
+            >
+              {imageList.map((item, index) => (
+                <View key={index} style={{ width: screenWidth, alignItems: 'center' }}>
+                  {item.image}
+                </View>
+              ))}  
+            </ScrollView>
 
-            <View style={{ width: screenWidth, height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: screenWidth, marginTop: '2%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
               {renderDots()}
             </View>
           </View>
 
-          <View style={{flexDirection: 'row', marginTop: 15}}>
-            <TouchableOpacity style={{borderRightWidth: 0.2, width: 120, height: 30, alignItems: 'center', justifyContent: 'center'}}
+          <View style={{flexDirection: 'row', width: '100%', height: 40, marginVertical: '2%'}}>
+            <TouchableOpacity style={{borderRightWidth: 0.2, width: '30%', height: '88%', alignItems: 'center', justifyContent: 'center'}}
               onPress={toggleTextStyles}
               >
-              <Text style={{color: isTextClicked ? 'green' : 'black', fontSize: isTextClicked ? 20 : 16, fontWeight: '500'}}>Đang chiếu</Text>
+              <Text style={{color: isTextClicked ? 'green' : 'black', fontSize: isTextClicked ? 18 : 16, fontWeight: '500'}}>Đang chiếu</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={toggleTextStyles1} style={{width: 120, height: 30, alignItems: 'center', justifyContent: 'center', marginRight: 150}}>
-              <Text style={{color: isTextClicked ? 'black' : 'green', fontSize: isTextClicked ? 16 : 20, fontWeight: '500'}}>Sắp chiếu</Text>
+            <TouchableOpacity onPress={toggleTextStyles1} style={{width: '30%', height: '88%', alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={{color: isTextClicked ? 'black' : 'green', fontSize: isTextClicked ? 16 : 18, fontWeight: '500'}}>Sắp chiếu</Text>
             </TouchableOpacity>
           </View>
 
-          <View>
+          
             <FlatList
               data={isTextClicked ? imageList1 : imageList2}
               numColumns={2}
               renderItem={viewItem}
               keyExtractor={(item, index) => index.toString()}
-              style={{marginTop: 14,}}
               nestedScrollEnabled={true}
               scrollEnabled={false}
+              style={{}}
             />
-          </View>
+          
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -209,7 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   image1: {
-    width: 180, 
+    width: '100%', 
     height: 270,
     borderRadius: 5,
   },
@@ -217,7 +225,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    margin: 2,
+    margin: 4,
   },
   textImage: {
     fontSize: 15,
