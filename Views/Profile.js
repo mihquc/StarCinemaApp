@@ -36,7 +36,7 @@ export default function Profile(navigation, onLogout){
                         <Text style={{fontSize: 13, color: '#ADB04E', fontWeight: '500'}}>Mã thành viên</Text>
                     </View>
                 </View>
-            </View>
+            </View> 
             
         </SafeAreaView>
     )
