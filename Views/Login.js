@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 
-export default Login = function({navigation, onLogin}) {
+export default Login = function({navigation, onLogin, route}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +43,9 @@ export default Login = function({navigation, onLogin}) {
   };
 
   const checkLogin = () => {
-    if(email.toString() === 'abc@gmail.com' && password.toString() === '123') {
+    // const {email1, password1} = route.params;
+    if((email.toString() === 'a@gmail.com' && password.toString() === '123')){ 
+      // || (email.toString() === email1 && password.toString() === password1)) {
       onLogin();
       navigation.navigate('MyTabs', { screen: 'Tài khoản' });
     }
@@ -56,11 +58,13 @@ export default Login = function({navigation, onLogin}) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <TouchableOpacity style={{width: '87%', height: '7%', justifyContent: 'center'}} onPress={() => {
-        navigation.goBack();
-      }}>
+      <View style={{width: '87%', height: '7%', justifyContent: 'center',}} >
+        <TouchableOpacity style={{width: '8%', height: '50%', justifyContent: 'center'}} onPress={() => {
+          navigation.goBack();
+        }}>
           <Image source={require('./Image/icon_xx.png')}  style={{width: 16, height: 16}}/>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{alignItems: 'center'}}>
           <Image source={require('./Image/Bap.png')} style={{ width: 190, height: 190, marginTop: '10%'}} />
@@ -68,7 +72,7 @@ export default Login = function({navigation, onLogin}) {
         </View>
 
         <View style={[styles.inputContainer, {marginTop: 80}]}>
-          <Image source={require('./Image/icon_person.png')} style={styles.icon} />
+          <Image source={require('./Image/icon_person.png')} style={styles.icon}/>
           <TextInput
             style={styles.input}
             keyboardType="email-address"

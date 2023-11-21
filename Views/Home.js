@@ -156,9 +156,9 @@ export default Home = function() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-        <View style={{width: '100%', height: '100%', }}>
-          <View style={{width: '100%', height: 270}}>
+      <ScrollView style={{flex: 1,}} showsVerticalScrollIndicator={false}>
+        <View style={{}}>
+          <View style={{width: '100%', height: 270, }}>
             <ScrollView
               horizontal
               pagingEnabled
@@ -167,7 +167,7 @@ export default Home = function() {
               showsHorizontalScrollIndicator={false}
             >
               {imageList.map((item, index) => (
-                <View key={index} style={{ width: screenWidth, alignItems: 'center' }}>
+                <View key={index} style={{ width: screenWidth, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
                   {item.image}
                 </View>
               ))}  
@@ -179,26 +179,25 @@ export default Home = function() {
           </View>
 
           <View style={{flexDirection: 'row', width: '100%', height: 40, marginVertical: '2%'}}>
-            <TouchableOpacity style={{borderRightWidth: 0.2, width: '30%', height: '88%', alignItems: 'center', justifyContent: 'center'}}
+            <TouchableOpacity style={{borderRightWidth: 0.2, borderColor: 'gray', width: '30%', height: '88%', alignItems: 'center', justifyContent: 'center'}}
               onPress={toggleTextStyles}
               >
-              <Text style={{color: isTextClicked ? 'green' : 'black', fontSize: isTextClicked ? 18 : 16, fontWeight: '500'}}>Đang chiếu</Text>
+              <Text style={{color: isTextClicked ? 'green' : 'gray', fontSize: isTextClicked ? 18 : 16, fontWeight: '600'}}>Đang chiếu</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleTextStyles1} style={{width: '30%', height: '88%', alignItems: 'center', justifyContent: 'center'}}>
-              <Text style={{color: isTextClicked ? 'black' : 'green', fontSize: isTextClicked ? 16 : 18, fontWeight: '500'}}>Sắp chiếu</Text>
+              <Text style={{color: isTextClicked ? 'gray' : 'green', fontSize: isTextClicked ? 16 : 18, fontWeight: '600'}}>Sắp chiếu</Text>
             </TouchableOpacity>
           </View>
 
-          
-            <FlatList
-              data={isTextClicked ? imageList1 : imageList2}
-              numColumns={2}
-              renderItem={viewItem}
-              keyExtractor={(item, index) => index.toString()}
-              nestedScrollEnabled={true}
-              scrollEnabled={false}
-              style={{}}
-            />
+          <FlatList
+            data={isTextClicked ? imageList1 : imageList2}
+            numColumns={2}
+            renderItem={viewItem}
+            keyExtractor={(item, index) => index.toString()}
+            nestedScrollEnabled={true}
+            scrollEnabled={false}
+            style={{}}
+          />
           
         </View>
       </ScrollView>
@@ -212,8 +211,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 360,
-    height: 240,
+    width: '88%',
+    height: '98%',
     borderRadius: 8,
   },
   image1: {

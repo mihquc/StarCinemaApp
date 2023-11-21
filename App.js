@@ -2,7 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 import Home from './Views/Home';
 import Login from './Views/Login';
@@ -49,19 +53,16 @@ function MyTabs({isLoggedIn, onLogout}) {
           )
         }}
       />
-      <Tab.Screen name="Tài khoản" component={isLoggedIn ? (props) => <Profile {...props}
-            isLoggedIn={isLoggedIn}
-            onLogout={() => {
-              onLogout(); // Gọi hàm từ prop để cập nhật trạng thái từ component cha
-            }}/> : Account}
-        options={{
+      <Tab.Screen name="Tài khoản" component={isLoggedIn ? Profile : Account}
+        options={({}) => ({
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
               <Image source={require('./Views/Image/icon_person.png')} style={{width: 20, height: 20, tintColor: focused ? 'red' : 'gray'}}/>
               <Text style={{color: focused ? 'red' : 'white', fontSize: 12}}>Tài khoản</Text>
             </View>
-          )
-        }}
+          ),
+        })}
+        initialParams={{ onLogout }}
       />
     </Tab.Navigator>
   );
@@ -76,12 +77,17 @@ export default function App() {
     setLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    // Call this function when the user logs out
+    setLoggedIn(false);
+  };
+
   return(
     <NavigationContainer>
       <Stack.Navigator initialRouteName="MyTabs" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login">{(props) => <Login {...props} onLogin={handleLogin} />}</Stack.Screen>
         <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} />}</Stack.Screen>
+        <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   )
