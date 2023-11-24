@@ -276,7 +276,7 @@ export default Register = function({navigation}) {
               keyboardType='visible-password'
               value={password1}
               // secureTextEntry={true}
-              autoCapitalize="none"
+              autoCapitalize="none" 
             />
           </View>
         </View>

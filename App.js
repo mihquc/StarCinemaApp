@@ -15,6 +15,7 @@ import Film from './Views/Film';
 import Cinema from './Views/Cinema';
 import Account from './Views/Account';
 import Profile from './Views/Profile';
+import Movies from './Views/Movies';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -27,8 +28,8 @@ function MyTabs({isLoggedIn, onLogout}) {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
-              <Image source={require('./Views/Image/icon_home.png')} style={{width: 20, height: 20, tintColor: focused ? 'red' : 'gray'}}/>
-              <Text style={{color: focused ? 'red' : 'white', fontSize: 12}}>Trang chủ</Text>
+              <Image source={require('./Views/Image/icon_home.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Trang chủ</Text>
             </View>
           )
         }}
@@ -37,8 +38,8 @@ function MyTabs({isLoggedIn, onLogout}) {
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
-              <Image source={require('./Views/Image/icon_cinema1.png')} style={{width: 20, height: 20, tintColor: focused ? 'red' : 'gray'}}/>
-              <Text style={{color: focused ? 'red' : 'white', fontSize: 12}}>Rạp phim</Text>
+              <Image source={require('./Views/Image/icon_cinema1.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Rạp phim</Text>
             </View>
           )
         }}
@@ -47,8 +48,8 @@ function MyTabs({isLoggedIn, onLogout}) {
         options={{  
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
-              <Image source={require('./Views/Image/icon_film.png')} style={{width: 20, height: 20, tintColor: focused ? 'red' : 'gray'}}/>
-              <Text style={{color: focused ? 'red' : 'white', fontSize: 12}}>Điện ảnh</Text>
+              <Image source={require('./Views/Image/icon_film.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Điện ảnh</Text>
             </View>
           )
         }}
@@ -57,8 +58,8 @@ function MyTabs({isLoggedIn, onLogout}) {
         options={({}) => ({
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
-              <Image source={require('./Views/Image/icon_person.png')} style={{width: 20, height: 20, tintColor: focused ? 'red' : 'gray'}}/>
-              <Text style={{color: focused ? 'red' : 'white', fontSize: 12}}>Tài khoản</Text>
+              <Image source={require('./Views/Image/icon_person.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Tài khoản</Text>
             </View>
           ),
         })}
@@ -72,13 +73,10 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
-
   const handleLogin = () => {
     setLoggedIn(true);
   };
-
   const handleLogout = () => {
-    // Call this function when the user logs out
     setLoggedIn(false);
   };
 
@@ -88,6 +86,7 @@ export default function App() {
         <Stack.Screen name="Login">{(props) => <Login {...props} onLogin={handleLogin} />}</Stack.Screen>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
+        <Stack.Screen name="Movies" component={Movies} />
       </Stack.Navigator>
     </NavigationContainer>
   )

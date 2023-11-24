@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 
+import Movies from './Movies';
+
 const { width: screenWidth } = Dimensions.get('window');
 
-export default Home = function() {
+export default Home = function({navigation}) {
   const [imageList, setImageList] = useState([]);
   const [imageList1, setImageList1] = useState([]);
   const [imageList2, setImageList2] = useState([]);
@@ -87,28 +89,32 @@ export default Home = function() {
   useEffect(() => {
     const data1 = [
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_theMarvels1.jpg')} />,
-        name: <Text style={styles.textImage}>Biệt Đội Marvels</Text>
+        idVideo: 'fDPhEkZWTa8',
+        image:require('./Image/movie_theMarvels1.jpg'),
+        name: 'Biệt Đội Marvels'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_nvcc1.jpg')} />,
-        name: <Text style={styles.textImage}>Người Vợ Cuối Cùng</Text>
+        idVideo: 'xrUqv530rOI',
+        image: require('./Image/movie_nvcc1.jpg'),
+        name: 'Người Vợ Cuối Cùng'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_drpn1.jpg')} />,
-        name: <Text style={styles.textImage}>Đất Rừng Phương Nam</Text>
+        idVideo: 'yrMDJduy4wI',
+        image: require('./Image/movie_drpn1.jpg'),
+        name: 'Đất Rừng Phương Nam'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_ylvn.jpg')} />,
-        name: <Text style={styles.textImage}>Yêu Lại Vợ Ngầu</Text>
+        idVideo: 'wWSzkkoeolE',
+        image: require('./Image/movie_ylvn.jpg'),
+        name: 'Yêu Lại Vợ Ngầu'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_qmq.jpg')} />,
-        name: <Text style={styles.textImage}>Quỷ Môn Quan: Gọi Hồn</Text>
+        image: require('./Image/movie_qmq.jpg'),
+        name: 'Quỷ Môn Quan: Gọi Hồn'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_taylorswift1.jpg')} />,
-        name: <Text style={styles.textImage}>Những Kỷ Nguyên Của Taylor Swift</Text>
+        image: require('./Image/movie_taylorswift1.jpg'),
+        name: 'Những Kỷ Nguyên Của Taylor Swift'
       }
     ]
 
@@ -118,20 +124,20 @@ export default Home = function() {
   useEffect(() => {
     const data2 = [
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_dc.jpg')} />,
-        name: <Text style={styles.textImage}>Đường Cùng</Text>
+        image: require('./Image/movie_dc.jpg'),
+        name: 'Đường Cùng'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_cd.jpg')} />,
-        name: <Text style={styles.textImage}>Chiếm Đoạt</Text>
+        image: require('./Image/movie_cd.jpg'),
+        name: 'Chiếm Đoạt'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_yakari.jpg')} />,
-        name: <Text style={styles.textImage}>Cậu Bé Dũng Sĩ Yakari</Text>
+        image: require('./Image/movie_yakari.jpg'),
+        name: 'Cậu Bé Dũng Sĩ Yakari'
       },
       {
-        image: <Image style={styles.image1} source={require('./Image/movie_dtst.jpg')} />,
-        name: <Text style={styles.textImage}>Đấu Trường Sinh Tử</Text>
+        image: require('./Image/movie_dtst.jpg'),
+        name: 'Đấu Trường Sinh Tử'
       },
       
     ]
@@ -140,13 +146,16 @@ export default Home = function() {
   }, [])
 
   const viewItem = ({item, index}) => {
+    const name1 = item.name;
+    const idVideo1 = item.idVideo;
+    const poster = item.image;
     return(
-      <TouchableOpacity style={{width: '100%', height: '100%', flex: 1, justifyContent: 'flex-start', alignItems:'stretch', 
+      <TouchableOpacity onPress={() => {navigation.navigate('Movies', {name1, idVideo1, poster})}} style={{width: '100%', height: '100%', flex: 1, justifyContent: 'flex-start', alignItems:'stretch', 
             marginLeft: index % 2 == 0 ? '5%' : '0%', marginRight: '5%', marginTop: (index ===0 || index===1)? '0%':'3%',}}>
-        {item.image}
+         <Image style={styles.image1} source={item.image}/>
         
         <View style={{marginTop: '2%'}}>
-          {item.name}
+          <Text style={styles.textImage}>{item.name}</Text>
         </View>
       </TouchableOpacity>
       
