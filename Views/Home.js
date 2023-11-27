@@ -91,7 +91,12 @@ export default Home = function({navigation}) {
       {
         idVideo: 'fDPhEkZWTa8',
         image:require('./Image/movie_theMarvels1.jpg'),
-        name: 'Biệt Đội Marvels'
+        name: 'Biệt Đội Marvels',
+        description: "Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang,"+
+        "lấy bối cảnh Việt Nam vào triều Nguyễn. Linh - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con" + 
+        "của một gia đình nông dân nghèo khó, vì không thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của" +
+        "những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người yêu thời thanh mai trúc mã của mình - Nhân" +
+        "đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi."
       },
       {
         idVideo: 'xrUqv530rOI',
@@ -146,11 +151,8 @@ export default Home = function({navigation}) {
   }, [])
 
   const viewItem = ({item, index}) => {
-    const name1 = item.name;
-    const idVideo1 = item.idVideo;
-    const poster = item.image;
     return(
-      <TouchableOpacity onPress={() => {navigation.navigate('Movies', {name1, idVideo1, poster})}} style={{width: '100%', height: '100%', flex: 1, justifyContent: 'flex-start', alignItems:'stretch', 
+      <TouchableOpacity onPress={() => {navigation.navigate('Movies', {item})}} style={{width: '100%', height: '100%', flex: 1, justifyContent: 'flex-start', alignItems:'stretch', 
             marginLeft: index % 2 == 0 ? '5%' : '0%', marginRight: '5%', marginTop: (index ===0 || index===1)? '0%':'3%',}}>
          <Image style={styles.image1} source={item.image}/>
         

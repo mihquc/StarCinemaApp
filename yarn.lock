@@ -7175,6 +7175,11 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
+react-native-orientation-locker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.6.0.tgz#4ea60e7cb5f2864d595a85f3b9af634c8f7c5121"
+  integrity sha512-D3IOtAcaAi6S2w0Y1EUnr16I47isosQbE7F67fAu9A+gE67NkyKaJ9HL5EsZ+Uc7+7m+NsuBjx3dxuANNy8rVA==
+
 react-native-paper@^5.11.1:
   version "5.11.1"
   resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.11.1.tgz"
@@ -7230,6 +7235,11 @@ react-native-youtube-iframe@^2.3.0:
   integrity sha512-M+z63xwXVtS4dX3k8PbtHUUcWN+gRZt6J1EtPE7Y60BMOB979KjpkdrHqeR96or9pNR2W8K5tQhIkMXW2jwo7Q==
   dependencies:
     events "^3.2.0"
+
+react-native-youtube-sdk@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-native-youtube-sdk/-/react-native-youtube-sdk-1.0.12.tgz#cf671b069bf43bcb03d9441246809a4f61599662"
+  integrity sha512-MuyDVu1+FSjFrQvHg1PNsYhNQ+kXUj5D+sF9TC4dQFZ9p3cHwVEpTuSGaj0kwVcQLrquVX3SEtcpz7vhIVfYtw==
 
 react-native-youtube@^2.0.2:
   version "2.0.2"
