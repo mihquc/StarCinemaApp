@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import TextInputField from '../Component/TextInputField';
+import Header from '../Component/header';
 
 export default Login = function({navigation, onLogin, route}) {
 
@@ -58,23 +60,16 @@ export default Login = function({navigation, onLogin, route}) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <View style={{width: '87%', height: '7%', justifyContent: 'center',}} >
-        <TouchableOpacity style={{width: '8%', height: '50%', justifyContent: 'center'}} onPress={() => {
-          navigation.goBack();
-        }}>
-          <Image source={require('./Image/icon_xx.png')}  style={{width: 16, height: 16}}/>
-        </TouchableOpacity>
-      </View>
+      <Header iconSource={require('./Image/icon_xx.png')} onPress={() => { navigation.goBack() }}/>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{alignItems: 'center'}}>
           <Image source={require('./Image/Bap.png')} style={{ width: 190, height: 190, marginTop: '10%'}} />
           <Text style={{ fontSize: 17, color: 'black', fontWeight: '600', marginTop: 10}}>Đăng Nhập Với Tài Khoản Của Bạn</Text>
         </View>
 
-        <View style={[styles.inputContainer, {marginTop: 80}]}>
-          <Image source={require('./Image/icon_person.png')} style={styles.icon}/>
-          <TextInput
-            style={styles.input}
+        <View style={{alignItems: 'center', width: '100%', marginTop: 40}}>
+          <TextInputField style={{marginTop: 80}}
+            iconSource={require('./Image/icon_person.png')}
             keyboardType="email-address"
             placeholder="Email"
             onChangeText={handleEmailChange}
@@ -82,12 +77,9 @@ export default Login = function({navigation, onLogin, route}) {
             autoCapitalize="none"
             onKeyPress={handleKeyPress1}
           />
-        </View>
 
-        <View style={styles.inputContainer}>
-          <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
-          <TextInput
-            style={styles.input}
+          <TextInputField
+            iconSource={require('./Image/icon_lock.png')}
             placeholder="Mật khẩu"
             onChangeText={handlePasswordChange}
             value={password}
@@ -96,6 +88,7 @@ export default Login = function({navigation, onLogin, route}) {
             onKeyPress={handleKeyPress2}
           />
         </View>
+
 
         <Text style={{ color: 'purple', fontSize: 12, fontWeight: '500', marginTop: 10, marginBottom: 170, marginLeft: 260 }}>Quên mật khẩu?</Text>
       </ScrollView>
@@ -125,10 +118,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
-    width: 360,
+    width: '88%',
     height: 45,
     backgroundColor: 'white',
     borderWidth: 0.2,

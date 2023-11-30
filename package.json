@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
     "react-native-date-picker": "^4.3.3",
+    "react-native-element-dropdown": "^2.10.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-orientation-locker": "^1.6.0",
     "react-native-paper": "^5.11.1",

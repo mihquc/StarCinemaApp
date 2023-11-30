@@ -1,13 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, LogBox } from 'react-native';
-
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
-
 import Home from './Views/Home';
 import Login from './Views/Login';
 import Register from './Views/Register';
@@ -16,6 +13,8 @@ import Cinema from './Views/Cinema';
 import Account from './Views/Account';
 import Profile from './Views/Profile';
 import Movies from './Views/Movies';
+import Showtime from './Views/Showtime';
+import Room from './Views/Room';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -87,6 +86,8 @@ export default function App() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
         <Stack.Screen name="Movies" component={Movies} />
+        <Stack.Screen name="Showtime" component={Showtime} />
+        <Stack.Screen name="Room" component={Room} />
       </Stack.Navigator>
     </NavigationContainer>
   )

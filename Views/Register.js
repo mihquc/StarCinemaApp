@@ -4,7 +4,8 @@ import DatePicker from 'react-native-date-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Platform, Pressable, Modal, KeyboardAvoidingView} from 'react-native';
-import Login from './Login';
+import TextInputField from '../Component/TextInputField';
+import Header from '../Component/header';
 
 export default Register = function({navigation}) {
 
@@ -134,13 +135,7 @@ export default Register = function({navigation}) {
   return(
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto"/>
-      <View style={{width: '87%', height: '7%', justifyContent: 'center',}} >
-        <TouchableOpacity style={{width: '8%', height: '50%', justifyContent: 'center',}} onPress={() => {
-          navigation.goBack();
-        }}>
-          <Image source={require('./Image/icon_xx.png')}  style={{width: 16, height: 16,}}/>
-        </TouchableOpacity>
-      </View>
+      <Header iconSource={require('./Image/icon_xx.png')} onPress={() => {navigation.goBack()}}/>
       <KeyboardAwareScrollView style={{ width: '100%', height: '88%'}}
         showsVerticalScrollIndicator={false}
         extraScrollHeight={0} // Chiều cao bổ sung khi bàn phím hiện lên
@@ -153,38 +148,27 @@ export default Register = function({navigation}) {
         </View>
 
         <View style={{width: '100%', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '6%'}}>
-          <View style={[styles.inputContainer]}>
-            <Image source={require('./Image/icon_person.png')} style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Họ và tên"
-              onChangeText={handleNameChange}
-              value={name}
-              autoCapitalize="none"
-            />
-          </View>
+          <TextInputField
+            iconSource={require('./Image/icon_person.png')}
+            placeholder="Họ và tên"
+            onChangeText={handleNameChange}
+            value={name}
+          />
+          <TextInputField
+            iconSource={require('./Image/icon_mail.png')}
+            placeholder="Email"
+            onChangeText={handleEmailChange}
+            value={email}
+            keyboardType="email-address"
+          />
 
-          <View style={styles.inputContainer}>
-            <Image source={require('./Image/icon_mail.png')} style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={handleEmailChange}
-              value={email}
-              autoCapitalize="none"
-            />
-          </View>
-
-          <View style={[styles.inputContainer]}>
-            <Image source={require('./Image/icon_phone.png')} style={{width:20, height: 20, marginLeft: 7, marginTop: 12}} />
-            <TextInput
-              style={[styles.input, {marginLeft: 8}]}
-              placeholder="Số điện thoại"
-              onChangeText={handlePhoneChange}
-              value={phone}
-              autoCapitalize="none"
-            />
-          </View>
+          <TextInputField
+          iconSource={require('./Image/icon_iphone.png')}
+          placeholder="Số điện thoại"
+          onChangeText={handlePhoneChange}
+          value={phone}
+          keyboardType="numeric"
+        />
 
           <View style={{marginTop: 15}}>
             <Text>Giới tính (tùy chọn)</Text>
@@ -201,7 +185,7 @@ export default Register = function({navigation}) {
                 style={{height: '100%', width: '80%'}}
                 onPress={toggleDatePicker}
               >
-                <TextInput 
+                <TextInput
                   style={[styles.input, {}]}
                   placeholder="Ngày sinh"
                   editable={false}
@@ -213,7 +197,7 @@ export default Register = function({navigation}) {
             )}
 
             <View style={{height: '100%', width: '13%', justifyContent: 'center', alignItems: 'center'}}>
-              <Image source={require('./Image/icon_calendar.png')} style={{width:18, height: 18}} />
+              <Image source={require('./Image/icon_calendar.png')} style={{width:18, height: 18, tintColor: 'gray'}} />
             </View>
           </View>
 
@@ -254,31 +238,24 @@ export default Register = function({navigation}) {
               </View>
             </Modal>
           
-          <View style={styles.inputContainer}>
-            <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Mật khẩu" 
-              onChangeText={handlePasswordChange}
-              keyboardType='visible-password'
-              value={password}
-              secureTextEntry={true}
-              autoCapitalize="none"
-            />
-          </View>
-          
-          <View style={[styles.inputContainer]}>
-            <Image source={require('./Image/icon_lock.png')} style={styles.icon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Nhập lại mật khẩu"
-              onChangeText={handlePassword1Change}
-              keyboardType='visible-password'
-              value={password1}
-              // secureTextEntry={true}
-              autoCapitalize="none" 
-            />
-          </View>
+          <TextInputField
+            iconSource={require('./Image/icon_lock.png')}
+            placeholder="Mật khẩu" 
+            onChangeText={handlePasswordChange}
+            keyboardType='visible-password'
+            value={password}
+            secureTextEntry={true}
+            autoCapitalize="none"
+          />
+          <TextInputField
+            iconSource={require('./Image/icon_lock.png')}
+            placeholder="Nhập lại mật khẩu"
+            onChangeText={handlePassword1Change}
+            keyboardType='visible-password'
+            value={password1}
+            // secureTextEntry={true}
+            autoCapitalize="none" 
+          />
         </View>
 
       </KeyboardAwareScrollView>

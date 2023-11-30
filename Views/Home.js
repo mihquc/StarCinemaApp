@@ -92,34 +92,39 @@ export default Home = function({navigation}) {
         idVideo: 'fDPhEkZWTa8',
         image:require('./Image/movie_theMarvels1.jpg'),
         name: 'Biệt Đội Marvels',
-        description: "Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang,"+
-        "lấy bối cảnh Việt Nam vào triều Nguyễn. Linh - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con" + 
-        "của một gia đình nông dân nghèo khó, vì không thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của" +
-        "những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người yêu thời thanh mai trúc mã của mình - Nhân" +
-        "đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi."
+        description: "Carol Danvers bị vướng vào sức mạnh của Kamala Khan và Monica Rambeau, buộc họ phải hợp tác với nhau để cứu vũ trụ.  The Marvels (tựa Việt: Biệt đội Marvel) là dự án cuối cùng của Vũ trụ Điện ảnh Marvel (MCU) trong năm 2023, đóng vai trò quan trọng khi kết nối 3 mini-series ăn khách đã ra mắt là WandaVision, Ms. Marvel và Secret Invasion. Không những đánh dấu màn tái xuất của nhân vật được khán giả yêu thích Captain Marvel Carol Denvers (Brie Larson) trên màn ảnh rộng, bộ phim còn giới thiệu đến khán giả liên minh 3 'chị đại' có vai trò quan trọng đối với tương lai của MCU. Câu chuyện lần này xảy ra sau các sự kiện trong Captain Marvel (2019), Dar-Benn (The Accuser) đã mất đi quê nhà và giờ đây, ả đang tìm cách trả thù mọi hành tinh từng được Carol cứu giúp. Bằng cách nào đó, Dar-Benn sở hữu được chiếc vòng có sự liên kết với Ms. Marvel/Kamala Khan (Iman Vellani) và 'Spectrum' Monica Rambeau (Teyonah Parris). Từ đây, nữ ác nhân có thể thao túng liên kết ánh sáng giữa các siêu anh hùng khiến họ hoán đổi vị trí cho nhau mỗi khi dùng sức mạnh, gây ra những xáo động khôn lường.",
       },
       {
         idVideo: 'xrUqv530rOI',
         image: require('./Image/movie_nvcc1.jpg'),
-        name: 'Người Vợ Cuối Cùng'
+        name: 'Người Vợ Cuối Cùng',
+        description: "Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang, "+
+        "lấy bối cảnh Việt Nam vào triều Nguyễn. Linh - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con " + 
+        "của một gia đình nông dân nghèo khó, vì không thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của " +
+        "những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người yêu thời thanh mai trúc mã của mình - Nhân " +
+        "đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi."
       },
       {
         idVideo: 'yrMDJduy4wI',
         image: require('./Image/movie_drpn1.jpg'),
-        name: 'Đất Rừng Phương Nam'
+        name: 'Đất Rừng Phương Nam',
+        description: "Đất Rừng Phương Nam phiên bản điện ảnh được kế thừa và phát triển từ tiểu thuyết cùng tên của nhà văn Đoàn Giỏi. Bộ phim kể về hành trình phiêu lưu của An - một cậu bé chẳng may mất mẹ trên đường đi tìm cha. Cùng với An, khán giả sẽ trải nghiệm sự trù phú của thiên nhiên và nét đẹp văn hoá đặc sắc của vùng đất Nam Kì Lục Tỉnh, sự hào hiệp của những người nông dân bám đất bám rừng và tinh thần yêu nước kháng Pháp đầu thế kỉ 20. Bên cạnh đó, tình cảm gia đình, tình bạn, tình người, tình thầy trò, tình yêu nước là những cung bậc cảm xúc sâu sắc sẽ đọng lại qua mỗi bước chân của An và đồng bạn.",
       },
       {
         idVideo: 'wWSzkkoeolE',
         image: require('./Image/movie_ylvn.jpg'),
-        name: 'Yêu Lại Vợ Ngầu'
+        name: 'Yêu Lại Vợ Ngầu',
+        description: "Cặp vợ chồng trẻ No Jung Yeol (Kang Ha-neul) và Hong Na Ra (Jung So-min) từ cuộc sống hôn nhân màu hồng dần “hiện nguyên hình” trở thành cái gai trong mắt đối phương với vô vàn thói hư, tật xấu. Không thể đi đến tiếng nói chung, Jung Yeol và Na Ra quyết định ra toà ly dị. Tuy nhiên, họ phải chờ 30 ngày cho đến khi mọi thủ tục chính thức được hoàn tất. Trong khoảng thời gian này, một vụ tai nạn xảy ra khiến cả hai mất đi ký ức và không nhớ người kia là ai. 30 ngày chờ đợi để được “đường ai nấy đi” nhưng nhiều tình huống trớ trêu khiến cả hai bắt đầu nảy sinh tình cảm trở lại. Liệu khi nhớ ra mọi thứ, họ vẫn sẽ ký tên vào tờ giấy ly hôn?"
       },
       {
         image: require('./Image/movie_qmq.jpg'),
-        name: 'Quỷ Môn Quan: Gọi Hồn'
+        name: 'Quỷ Môn Quan: Gọi Hồn',
+        description: "",
       },
       {
         image: require('./Image/movie_taylorswift1.jpg'),
-        name: 'Những Kỷ Nguyên Của Taylor Swift'
+        name: 'Những Kỷ Nguyên Của Taylor Swift',
+        description: ""
       }
     ]
 
@@ -130,19 +135,23 @@ export default Home = function({navigation}) {
     const data2 = [
       {
         image: require('./Image/movie_dc.jpg'),
-        name: 'Đường Cùng'
+        name: 'Đường Cùng',
+        description: ""
       },
       {
         image: require('./Image/movie_cd.jpg'),
-        name: 'Chiếm Đoạt'
+        name: 'Chiếm Đoạt',
+        description: ""
       },
       {
         image: require('./Image/movie_yakari.jpg'),
-        name: 'Cậu Bé Dũng Sĩ Yakari'
+        name: 'Cậu Bé Dũng Sĩ Yakari',
+        description: ""
       },
       {
         image: require('./Image/movie_dtst.jpg'),
-        name: 'Đấu Trường Sinh Tử'
+        name: 'Đấu Trường Sinh Tử',
+        description: ""
       },
       
     ]
@@ -171,6 +180,7 @@ export default Home = function({navigation}) {
         <View style={{}}>
           <View style={{width: '100%', height: 270, }}>
             <ScrollView
+              // ref={stepScroll}
               horizontal
               pagingEnabled
               onScroll={handleScroll}
