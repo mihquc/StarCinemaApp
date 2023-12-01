@@ -35,14 +35,74 @@ export default function Cinema() {
         address: 'Đà Nẵng',
       },
       {
-        id: '01',
+        id: '02',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema 1',
+        address: 'Đà Nẵng',
+      },
+      {
+        id: '03',
         image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
         name: 'Star Cinema',
-        address: 'Đà Nẵng',
+        address: 'Hà Nội',
+      },
+      {
+        id: '04',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema',
+        address: 'TP Hồ Chí Minh',
+      },
+      {
+        id: '05',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema 1',
+        address: 'TP Hồ Chí Minh',
+      },
+      {
+        id: '06',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema 2',
+        address: 'TP Hồ Chí Minh',
+      },
+      {
+        id: '07',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema',
+        address: 'Huế',
+      },
+      {
+        id: '08',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema',
+        address: 'Quảng Nam',
+      },
+      {
+        id: '09',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema',
+        address: 'An Giang',
+      },
+      {
+        id: '10',
+        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        name: 'Star Cinema',
+        address: 'Cà Mau',
       },
     ]
     setCinemaList(data);
   }, [])
+
+  const getCinemaByAddress = (address) => {
+    const data = [];
+    for (let i = 0; i < cinemaList.length; i++) {
+      if (cinemaList[i].address === address) {
+        data.push(cinemaList[i]);
+      } else if (address === 'Toàn quốc') {
+        return cinemaList;
+      }
+    }
+    return data;
+  }
 
   const viewItem = ({item}) => {
     return (
@@ -96,10 +156,13 @@ export default function Cinema() {
                     style={{}}
                   >
                     <Picker.Item label="Toàn quốc" value="Toàn quốc" />
+                    <Picker.Item label="TP Hồ Chí Minh" value="TP Hồ Chí Minh" />
+                    <Picker.Item label="Hà Nội" value="Hà Nội" />
                     <Picker.Item label="Đà Nẵng" value="Đà Nẵng" />
                     <Picker.Item label="Huế" value="Huế" />
                     <Picker.Item label="Quảng Nam" value="Quảng Nam" />
-                    <Picker.Item label="Quảng Ngãi" value="Quảng Ngãi" />
+                    <Picker.Item label="An Giang" value="An Giang" />
+                    <Picker.Item label="Cà Mau" value="Cà Mau" />
                   </Picker>
 
                   <TouchableOpacity onPress={confirm} style={{ height: '15%', alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.2, borderBottomWidth: 0.2}}>
@@ -116,7 +179,7 @@ export default function Cinema() {
         </View>
 
         <FlatList
-          data={cinemaList}
+          data={getCinemaByAddress(address)}
           renderItem={viewItem}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={itemSeparatorView}

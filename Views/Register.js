@@ -253,7 +253,7 @@ export default Register = function({navigation}) {
             onChangeText={handlePassword1Change}
             keyboardType='visible-password'
             value={password1}
-            // secureTextEntry={true}
+            secureTextEntry={true}
             autoCapitalize="none" 
           />
         </View>
@@ -265,8 +265,8 @@ export default Register = function({navigation}) {
           if(isButtonEnabled)
           {
             if (password.trim() === password1.trim()) {
-              navigation.navigate('Login', { email, password });
-              console.log(email, password);
+              navigation.navigate('Login', { email, password1 });
+              console.log(email, password1);
             } else {
               alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');
             }

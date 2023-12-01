@@ -39,19 +39,20 @@ export default Home = function({navigation}) {
     // 1. load data tu server
     const data = [
       {
+        image: <Image source={require('./Image/movie_du1.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
+      },
+      {
         image: <Image source={require('./Image/movie_nvcc.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
+      },
+      {
+        image: <Image source={require('./Image/movie_cd1.jpg')} style={styles.image} resizeMode='cover'/>
       },
       {
         image: <Image source={require('./Image/movie_theMarvels.jpg')} style={styles.image} resizeMode='cover'/>
       },
       {
         image: <Image source={require('./Image/movie_drpn.jpg')} style={styles.image} resizeMode='cover'/>
-      
       },
-      {
-        image: <Image source={require('./Image/movie_taylorswift.jpg')} style={[styles.image, {}]} resizeMode='cover'/>
-        
-      }
     ];
 
     // 2. cap nhat len state cua screen
@@ -67,7 +68,7 @@ export default Home = function({navigation}) {
   //       if(index === imageList.length){
   //         index = 0;
   //       }
-  //     }, 5000);
+  //     }, 3000);
   //   }
   // }, [imageList]);
 
@@ -89,6 +90,18 @@ export default Home = function({navigation}) {
   useEffect(() => {
     const data1 = [
       {
+        idVideo: 'EFRTuiWm3zA',
+        image: require('./Image/movie_du.jpg'),
+        name: 'Điều Ước',
+        description: "Lấy bối cảnh ở vương quốc ma thuật Rosas, câu chuyện giới thiệu Asha (Ariana DeBose lồng tiếng), một người lạc quan với trí thông minh sắc sảo, người quan tâm sâu sắc đến cộng đồng của mình. Khi Asha hướng lên bầu trời trong một khoảnh khắc cần thiết và thực hiện một điều ước, lời cầu xin của cô đã được đáp lại bởi một lực lượng vũ trụ - một quả cầu nhỏ chứa năng lượng vô biên có tên là Ngôi sao . Cùng nhau, họ đối mặt với những kẻ thù ghê gớm nhất để cứu cộng đồng của mình và chứng minh rằng khi ý chí của một con người dũng cảm kết nối với phép thuật của các vì sao, những điều kỳ diệu có thể xảy ra.",
+      },
+      {
+        idVideo: 'qz0_9ITGwws',
+        image: require('./Image/movie_ch.jpg'),
+        name: 'Cầu Hồn',
+        description: "Cầu Hồn bắt đầu trong bối cảnh kỳ lạ của những câu chuyện siêu nhiên được lưu hành trong trường. Các địa điểm chính của trường bao gồm thư viện, phòng tập nhảy và thang máy đều toát lên sự kinh dị về những điềm báo đen tối sẽ diễn ra. Điểm đặc biệt của phim là cách lồng ghép khéo léo 3 nghi thức tâm linh vào 1 trò chơi thực tế ảo: Trò chơi 4 góc; Trò chơi trốn tìm 1 người; và Trò chơi thang máy. Bộ phim là sự trỗi dậy của truyền thuyết kinh hoàng cây cầu ma nữ tại Đài Loan.",
+      },
+      {
         idVideo: 'fDPhEkZWTa8',
         image:require('./Image/movie_theMarvels1.jpg'),
         name: 'Biệt Đội Marvels',
@@ -105,10 +118,10 @@ export default Home = function({navigation}) {
         "đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi."
       },
       {
-        idVideo: 'yrMDJduy4wI',
-        image: require('./Image/movie_drpn1.jpg'),
-        name: 'Đất Rừng Phương Nam',
-        description: "Đất Rừng Phương Nam phiên bản điện ảnh được kế thừa và phát triển từ tiểu thuyết cùng tên của nhà văn Đoàn Giỏi. Bộ phim kể về hành trình phiêu lưu của An - một cậu bé chẳng may mất mẹ trên đường đi tìm cha. Cùng với An, khán giả sẽ trải nghiệm sự trù phú của thiên nhiên và nét đẹp văn hoá đặc sắc của vùng đất Nam Kì Lục Tỉnh, sự hào hiệp của những người nông dân bám đất bám rừng và tinh thần yêu nước kháng Pháp đầu thế kỉ 20. Bên cạnh đó, tình cảm gia đình, tình bạn, tình người, tình thầy trò, tình yêu nước là những cung bậc cảm xúc sâu sắc sẽ đọng lại qua mỗi bước chân của An và đồng bạn.",
+        idVideo: 'v6BuKSaEHxE',
+        image: require('./Image/movie_cd.jpg'),
+        name: 'Chiếm Đoạt',
+        description: "Kể về người vợ của một gia đình thượng lưu thuê cô bảo mẫu “trong mơ” để chăm sóc con trai mình. Nhưng cô không ngờ rằng, phía sau sự trong sáng, tinh khiết kia, cô bảo mẫu luôn che giấu âm mưu nhằm phá hoại hạnh phúc gia đình và khiến cuộc sống của cô thay đổi mãi mãi.",
       },
       {
         idVideo: 'wWSzkkoeolE',
@@ -117,15 +130,17 @@ export default Home = function({navigation}) {
         description: "Cặp vợ chồng trẻ No Jung Yeol (Kang Ha-neul) và Hong Na Ra (Jung So-min) từ cuộc sống hôn nhân màu hồng dần “hiện nguyên hình” trở thành cái gai trong mắt đối phương với vô vàn thói hư, tật xấu. Không thể đi đến tiếng nói chung, Jung Yeol và Na Ra quyết định ra toà ly dị. Tuy nhiên, họ phải chờ 30 ngày cho đến khi mọi thủ tục chính thức được hoàn tất. Trong khoảng thời gian này, một vụ tai nạn xảy ra khiến cả hai mất đi ký ức và không nhớ người kia là ai. 30 ngày chờ đợi để được “đường ai nấy đi” nhưng nhiều tình huống trớ trêu khiến cả hai bắt đầu nảy sinh tình cảm trở lại. Liệu khi nhớ ra mọi thứ, họ vẫn sẽ ký tên vào tờ giấy ly hôn?"
       },
       {
-        image: require('./Image/movie_qmq.jpg'),
-        name: 'Quỷ Môn Quan: Gọi Hồn',
-        description: "",
+        idVideo: 'yrMDJduy4wI',
+        image: require('./Image/movie_drpn1.jpg'),
+        name: 'Đất Rừng Phương Nam',
+        description: "Đất Rừng Phương Nam phiên bản điện ảnh được kế thừa và phát triển từ tiểu thuyết cùng tên của nhà văn Đoàn Giỏi. Bộ phim kể về hành trình phiêu lưu của An - một cậu bé chẳng may mất mẹ trên đường đi tìm cha. Cùng với An, khán giả sẽ trải nghiệm sự trù phú của thiên nhiên và nét đẹp văn hoá đặc sắc của vùng đất Nam Kì Lục Tỉnh, sự hào hiệp của những người nông dân bám đất bám rừng và tinh thần yêu nước kháng Pháp đầu thế kỉ 20. Bên cạnh đó, tình cảm gia đình, tình bạn, tình người, tình thầy trò, tình yêu nước là những cung bậc cảm xúc sâu sắc sẽ đọng lại qua mỗi bước chân của An và đồng bạn.",
       },
       {
-        image: require('./Image/movie_taylorswift1.jpg'),
-        name: 'Những Kỷ Nguyên Của Taylor Swift',
-        description: ""
-      }
+        idVideo: 'UbJQYJjNgw0',
+        image: require('./Image/movie_ahsa.jpg'),
+        name: 'Âm Hồn Siam',
+        description: "Bộ phim kể về mối tình tay ba của hai người bạn thân cùng phải lòng một chàng trai, nhưng cuối cùng chuyện tình này lại động chạm đến ma thuật hắc ám. Điều này đã dẫn đến một thảm kịch khi cuộc trả thù kinh hoàng kéo dài và liên lụy đến đời sau.",
+      },
     ]
 
     setImageList1(data1);
@@ -134,24 +149,40 @@ export default Home = function({navigation}) {
   useEffect(() => {
     const data2 = [
       {
-        image: require('./Image/movie_dc.jpg'),
-        name: 'Đường Cùng',
-        description: ""
+        idVideo: 'tS5xKcjZ9yo',
+        image: require('./Image/movie_nccxldnh.jpg'),
+        name: 'Người Cha Của Xe Lửa Dải Ngân Hà',
+        description: "Cuộc đời của tác gia huyền thoại Miyazawa Kenji - tác giả viết truyện thiếu nhi được yêu thích hàng đầu Nhật Bản. Là con trai cả của Masajiro - một chủ tiệm cầm đồ giàu có, Kenji được nuôi dưỡng với kỳ vọng một ngày nào đó anh sẽ kế thừa công việc kinh doanh của gia đình. Tuy nhiên, Kenji có tinh thần tự do quyết tâm đi theo con đường riêng và tự mình theo đuổi nghiên cứu nông nghiệp, đá quý tổng hợp và các công việc kinh doanh lập dị khác, bất chấp sự hoang mang của cha anh. Dựa trên cuốn tiểu thuyết bán chạy cùng tên, câu chuyện đáng kinh ngạc này mô tả sức mạnh của gia đình và tình yêu vô điều kiện dù trong mọi giai đoạn khó khăn.",
       },
       {
-        image: require('./Image/movie_cd.jpg'),
-        name: 'Chiếm Đoạt',
-        description: ""
+        idVideo: '',
+        image: require('./Image/movie_sttdm.jpg'),
+        name: 'Sự Thật Từ Đôi Môi',
+        description: "Carla Bhem đã làm thư ký cho một công ty phát triển bất động sản trong một thời gian dài. Về cơ bản, công việc của cô ấy là tất cả mọi thứ: từ xử lý hồ sơ và trả lời điện thoại đến soạn thảo dự toán và giao dịch với các nhà cung cấp. Đầu tiên đến vào buổi sáng, cuối cùng ra ngoài vào ban đêm. Vì thế, cô ấy được trả lương như một nông nô, bị đối xử như bùn đất và bị sai khiến như một con chó. Carla chịu đủ rồi. Cô ấy nghĩ rằng cô ấy xứng đáng tốt hơn. Vấn đề chỉ là, trong một xã hội do nam giới thống trị, hy vọng nào dành cho một phụ nữ 35 tuổi với vóc dáng tầm thường và đeo máy trợ thính ở cả hai tai? Tên của giải pháp là Paul Angeli, thực tập sinh mới mà cô quản lý đã thuê. Paul 25 tuổi và hoàn toàn không có kỹ năng phát triển bất động sản - trên thực tế, anh ấy không biết gì. Nhưng anh ta có những phẩm chất khác: anh ta là một tên trộm, mới ra tù, và hơn nữa anh ta còn đẹp trai. Như người ta vẫn nói, 'Phải mất hai người để nhảy tango'. Cô ấy dạy anh ấy cách cư xử tốt và anh ấy dạy cô ấy những điều xấu. Những kết quả đầu tiên ngay lập tức đáng khích lệ."
       },
       {
-        image: require('./Image/movie_yakari.jpg'),
-        name: 'Cậu Bé Dũng Sĩ Yakari',
-        description: ""
+        idVideo: 'NtcN57vQdgc',
+        image: require('./Image/movie_mai.jpg'),
+        name: 'Mai',
+        description: "Mai xoay quanh câu chuyện về cuộc đời của một người phụ nữ cùng tên với bộ phim. Trên First-look Poster, Phương Anh Đào tạo ấn tượng mạnh với cái nhìn tĩnh lặng, xuyên thấu, đặc biệt, trên bờ môi nữ diễn viên là hình ảnh cô đang nằm nghiêng trên mặt nước. Được phủ một màn sương mờ ảo, poster đậm chất nghệ thuật của Mai gây tò mò với lời tựa: “Quá khứ chưa ngủ yên, ngày mai liệu sẽ đến?”."
       },
       {
-        image: require('./Image/movie_dtst.jpg'),
-        name: 'Đấu Trường Sinh Tử',
-        description: ""
+        idVideo: 'kDuiynKxjQU',
+        image: require('./Image/movie_curdt.jpg'),
+        name: 'Cú Úp Rổ Đầu Tiên',
+        description: "The First Slam Dunk - phiên bản điện ảnh đầu tiên của loạt phim/truyện đình đám này sẽ do đích thân tác giả Inoue Takehiko chỉ đạo. Tuy nhiên lần này, câu chuyện sẽ được kể từ góc nhìn của chàng hậu vệ nhỏ con Miyagi Ryota, thay vì anh chàng tóc đỏ xốc nổi Hanamichi. Lấy bối cảnh trận đấu quan trọng giữa Shohoku và Sannoh - đội bóng top 10 toàn quốc, phim đan xen câu chuyện quá khứ của từng thành viên, đặc biệt là Ryota, cùng những diễn biến của trận đấu. Từ đó, tác giả Inoue Takehiko thành công khắc họa việc bóng rổ có ảnh hưởng to lớn như thế nào đến sự trưởng thành của mỗi thành viên Shohoku.",
+      },
+      {
+        idVideo: 'LtE4ACvFiv4',
+        image: require('./Image/movie_aquaman.jpg'),
+        name: 'Aquaman Và Vương Quốc Thất Lạc',
+        description: "Aquaman Và Vương Quốc Thất Lạc là phần hậu truyện của Aquaman năm 2018 khi Arthur lên ngôi vua của Atlantis.  Giờ đây, Arthur Curry ngày nào đã trở thành ông bố bỉm sữa ngày ngày chăm con kiêm cai quản cả vùng Atlantis rộng lớn. Thế nhưng, kẻ thù cũ đời nào để cho nhà vua biển cả yên ổn. Nhờ sự trợ giúp của công nghệ, Black Manta lần nữa trỗi dậy với sức mạnh kinh khủng hơn xưa. Không thể chiến đấu một mình, Arthur đành phải nhờ sự trợ giúp của một kẻ thù khác - đứa em cùng mẹ khác cha Orm. Cùng chống lại kẻ thù chung, liệu cặp anh em chẳng đội chung trời này có thể hàn gắn tình cảm?",
+      },
+      {
+        idVideo: '5yreWvGqbyg',
+        image: require('./Image/movie_nmt.jpg'),
+        name: 'Người Mặt Trời',
+        description: "400 năm qua, loài Ma Cà Rồng đã bí mật sống giữa loài người trong hòa bình, nhưng hiểm họa bỗng ập đến khi một cô gái loài người phát hiện được thân phận của hai anh em Ma Cà Rồng. Người anh khát máu quyết săn lùng cô để bảo vệ bí mật giống loài, trong khi người còn lại chạy đua với thời gian để bảo vệ cô bằng mọi giá.",
       },
       
     ]
@@ -180,7 +211,7 @@ export default Home = function({navigation}) {
         <View style={{}}>
           <View style={{width: '100%', height: 270, }}>
             <ScrollView
-              // ref={stepScroll}
+              // ref={stepScroll} // ref
               horizontal
               pagingEnabled
               onScroll={handleScroll}

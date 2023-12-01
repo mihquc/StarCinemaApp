@@ -7,9 +7,9 @@ export default function Film() {
     return(
       <SafeAreaView style={styles.container}>
         <StatusBar style="auto"/>
-        <Text>
-            Film Screen
-        </Text>
+        <View style={{width: '100%', height: '5%', alignItems: 'center', justifyContent: 'center',}}>
+          <Text style={{fontSize: 18, fontWeight: '600'}}>Điện ảnh</Text>
+        </View>
       </SafeAreaView>
     )
   }
@@ -18,6 +18,5 @@ export default function Film() {
       backgroundColor: '#F5F5F5',
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
     },
   });

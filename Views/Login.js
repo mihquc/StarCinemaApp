@@ -43,11 +43,14 @@ export default Login = function({navigation, onLogin, route}) {
       setPassword(newPassword);
     }
   };
+  // const email1 = route.params.email;
+  // const password1 = route.params.password1;
+  // console.log(email1, password1); 
 
   const checkLogin = () => {
     // const {email1, password1} = route.params;
-    if((email.toString() === 'a@gmail.com' && password.toString() === '123')){ 
-      // || (email.toString() === email1 && password.toString() === password1)) {
+    if((email.toString() === 'a@gmail.com' && password.toString() === '123')){
+      // (email.toString() === email1 && password.toString() === password1) ||
       onLogin();
       navigation.navigate('MyTabs', { screen: 'Tài khoản' });
     }

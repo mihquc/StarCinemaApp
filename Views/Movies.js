@@ -4,7 +4,7 @@ import { View, Image, ScrollView, Text, TouchableOpacity, StyleSheet, SafeAreaVi
 import YoutubeIframe from 'react-native-youtube-iframe';
 import YoutubePlayer from "react-native-youtube-iframe"; 
 
-export default function Movies({navigation, route}) {
+export default function Movies({navigation, route, isLoggedIn}) {
   const [playing, setPlaying] = useState(false);
   const [nameMovie, setNameMovie] = useState('');
   const [idVideo, setIdVideo] = useState('');
@@ -116,7 +116,7 @@ export default function Movies({navigation, route}) {
             <Image style={styles.image1} source={image} resizeMode='stretch'/>
           </View>
           <View style={{width: '62%', height: '100%', alignItems: 'flex-start', justifyContent: 'flex-start',}}>
-            <View style={{marginBottom: '5%'}}>
+            <View style={{marginBottom: '3%'}}>
               <Text style={{fontSize: 20, fontWeight: '600',}}>{nameMovie}</Text>
             </View>
             <View style={styles.viewtext}>
@@ -127,6 +127,18 @@ export default function Movies({navigation, route}) {
               <Image style={styles.imageText} source={require('./Image/icon_calendar.png')} resizeMode='contain'/>
               <Text style={{fontSize: 15, color: 'gray'}}>1-11-2023</Text>
             </View>
+            <View style={styles.viewtext}>
+              <Text style={{fontSize: 15, color: 'gray'}}>Thể loại: </Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>Tâm lý, viễn tưởng, ...</Text>
+            </View>
+            <View style={styles.viewtext}>
+              <Text style={{fontSize: 15, color: 'gray'}}>Diễn viên: </Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>... ... ... ... ...</Text>
+            </View>
+            <View style={styles.viewtext}>
+              <Text style={{fontSize: 15, color: 'gray'}}>Đạo diễn: </Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>...</Text>
+            </View>
           </View>
         </View>
 
@@ -136,7 +148,7 @@ export default function Movies({navigation, route}) {
           <Text style={{fontSize: 17, marginStart: '3%', marginEnd: '3%',}} numberOfLines={expanded ? undefined : 5}> 
            {description}
           </Text>
-          {description.length > (5 * 60) && (
+          {description.length > (5 * 40) && (
             <TouchableOpacity onPress={toggleReadMore} style={styles.readMoreButton}>
               <Text style={styles.readMoreText}>{expanded ? 'Thu gọn' : 'Xem thêm'}</Text>
             </TouchableOpacity>
@@ -212,7 +224,6 @@ const styles = StyleSheet.create({
     width: '100%', 
     height: '100%',
     borderRadius: 5,
-    backgroundColor: 'red',
   },
   imageText: {
     tintColor: 'green', 

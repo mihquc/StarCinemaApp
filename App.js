@@ -28,7 +28,7 @@ function MyTabs({isLoggedIn, onLogout}) {
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
               <Image source={require('./Views/Image/icon_home.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
-              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Trang chủ</Text>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12, marginTop: 3}}>Trang chủ</Text>
             </View>
           )
         }}
@@ -38,7 +38,7 @@ function MyTabs({isLoggedIn, onLogout}) {
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
               <Image source={require('./Views/Image/icon_cinema1.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
-              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Rạp phim</Text>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12, marginTop: 3}}>Rạp phim</Text>
             </View>
           )
         }}
@@ -48,7 +48,7 @@ function MyTabs({isLoggedIn, onLogout}) {
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
               <Image source={require('./Views/Image/icon_film.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
-              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Điện ảnh</Text>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12, marginTop: 3}}>Điện ảnh</Text>
             </View>
           )
         }}
@@ -58,7 +58,7 @@ function MyTabs({isLoggedIn, onLogout}) {
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center', top: 8}}>
               <Image source={require('./Views/Image/icon_person.png')} style={{width: 20, height: 20, tintColor: focused ? '#6600CC' : 'gray'}}/>
-              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12}}>Tài khoản</Text>
+              <Text style={{color: focused ? '#6600CC' : 'white', fontSize: 12, marginTop: 3}}>Tài khoản</Text>
             </View>
           ),
         })}
@@ -86,16 +86,11 @@ export default function App() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
         <Stack.Screen name="Movies" component={Movies} />
-        <Stack.Screen name="Showtime" component={Showtime} />
+        <Stack.Screen name="Showtime">{(props) => <Showtime {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
         <Stack.Screen name="Room" component={Room} />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });

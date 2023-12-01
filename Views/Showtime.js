@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, ScrollView } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+// import CollapsibleTime from '../Component/Collapsible';
+import Collapsible from 'react-native-collapsible';
 
-export default function Showtime({navigation, route}) {
+export default function Showtime({navigation, route, isLoggedIn}) {
     const [name, setName] = useState('');
     const nameRoute =  route.params.nameMovie;
     useEffect(() => {
@@ -11,17 +13,17 @@ export default function Showtime({navigation, route}) {
     }, [])
 
     const data = [
-      { label: 'Toàn Quốc', value: '1' },
-      { label: 'TP Hồ Chí Minh', value: '2' },
-      { label: 'Hà Nội', value: '3' },
-      { label: 'Đà Nẵng', value: '4' },
-      { label: 'Item 5', value: '5' },
-      { label: 'Item 6', value: '6' },
-      { label: 'Item 7', value: '7' },
-      { label: 'Item 8', value: '8' },
+      { address: 'Toàn Quốc', value: '1' },
+      { address: 'TP Hồ Chí Minh', value: '2' },
+      { address: 'Hà Nội', value: '3' },
+      { address: 'Đà Nẵng', value: '4' },
+      { address: 'Quảng Nam', value: '5' },
+      { address: 'Huế', value: '6' },
+      { address: 'An Giang', value: '7' },
+      { address: 'Cà Mau', value: '8' },
     ];
     const data1 = [
-      { label: 'Star Cinema', value: '1' },
+      { cinema: 'Star Cinema', value: 'Star Cinema'},
       // { label: 'TP Hồ Chí Minh', value: '2' },
       // { label: 'Hà Nội', value: '3' },
       // { label: 'Đà Nẵng', value: '4' },
@@ -30,6 +32,17 @@ export default function Showtime({navigation, route}) {
       // { label: 'Item 7', value: '7' },
       // { label: 'Item 8', value: '8' },
     ];
+
+    const dataTime = [
+      { time: '09:45'},
+      { time: '12:45'},
+      { time: '14:15'},
+      { time: '15:45'},
+      { time: '18:00'},
+      { time: '19:45'},
+      { time: '21:15'},
+    ];
+    
 
     const formatDate1 = (text) => {
       let date = new Date(text);
@@ -60,11 +73,11 @@ export default function Showtime({navigation, route}) {
     }
 
     const generateDateArray = (startDate, count) => {
-      const dateArray = [{ date: formatDate(startDate), day: 'Hôm nay'}];
+      const dateArray = [{ dateFormat: formatDate(startDate), day: 'Hôm nay', date: startDate}];
       for (let i = 1; i < count; i++) {
         const nextDate = new Date(startDate);
         nextDate.setDate(nextDate.getDate() + i);
-        dateArray.push({ date: formatDate(nextDate), day: formatDay(nextDate)});
+        dateArray.push({ dateFormat: formatDate(nextDate), day: formatDay(nextDate), date: nextDate});
       }
       return dateArray;
     }
@@ -72,24 +85,18 @@ export default function Showtime({navigation, route}) {
     const numberOfDays = 7; // Thay đổi số lượng ngày tùy ý
     const data2 = generateDateArray(startDate, numberOfDays);
 
-    // const startDate = new Date();
-    // console.log(startDate.getDay());
-    // const data2= [
-    //   {date: formatDate(startDate), day: 'Hôm nay'},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    //   {date: formatDate(startDate.setDate(startDate.getDate() + 1)), day: formatDay(startDate.setDate(startDate.getDate()))},
-    // ]
+
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const toggleExpanded = () => {
+      setIsCollapsed(!isCollapsed);
+    }
   
     const [selected, setSelected] = useState(0);
+    const [selectedItem, setSelectedItem] = useState(new Date());
 
-    const [value, setValue] = useState(null);
+    const [address, setAddress] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [value1, setValue1] = useState(null);
+    const [cinema, setCinema] = useState(null);
     const [isFocus1, setIsFocus1] = useState(false);
   
 
@@ -100,10 +107,22 @@ export default function Showtime({navigation, route}) {
         marginRight: 20, marginLeft: (index === 0) ? 20 : 0, borderRadius: 5, opacity: 1, shadowOffset: { width: 0, height: 6}, shadowOpacity: 0.1}} 
         onPress={() => {
           setSelected(index);
+          setSelectedItem(item.date);
         }}>
           {/* <Text>...</Text> */}
-          <Text style={{color: (selected === index) ? 'white' : 'black', fontSize: 17, fontWeight: '600'}}>{item.date}</Text>
+          <Text style={{color: (selected === index) ? 'white' : 'black', fontSize: 17, fontWeight: '600'}}>{item.dateFormat}</Text>
           <Text style={{color: (selected === index) ? 'white' : 'black',}}>{item.day}</Text>
+        </TouchableOpacity>
+      )
+    }
+
+    const itemTime = ({item, index}) => {
+      return (
+        <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
+          marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
+          onPress={() => {isLoggedIn ? navigation.navigate('Room', {dataTime}) : navigation.navigate('Login')}}
+          >
+          <Text style={{fontSize: 15, fontWeight: '400'}}>{item.time}</Text>
         </TouchableOpacity>
       )
     }
@@ -119,7 +138,7 @@ export default function Showtime({navigation, route}) {
           </TouchableOpacity>
         </View>
         <View style={{width: '100%', height: '4%', alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{fontSize: 17, fontWeight: '600', }}>
+          <Text style={{fontSize: 18, fontWeight: '600', }}>
             Suất Chiếu
           </Text>
         </View>
@@ -131,7 +150,7 @@ export default function Showtime({navigation, route}) {
 
         <View style={{width: '100%', height: '30%', }}>
           <View style={{flexDirection: 'row', width: '100%', height: '37%', justifyContent: 'space-evenly', alignItems: 'center',}}>
-            <View style={{ backgroundColor: 'white', width: '43%', height: '55%'}}>
+            <View style={{ backgroundColor: 'white', width: '43%', height: '52%'}}>
             {/* {renderLabel()} */}
               <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
@@ -141,21 +160,21 @@ export default function Showtime({navigation, route}) {
                 // iconStyle={styles.iconStyle}
                 data={data}
                 // search
-                maxHeight={300}
-                labelField="label"
+                maxHeight={300} 
+                labelField="address"
                 valueField="value"
                 placeholder={'Tỉnh/Thành Phố'}
                 // searchPlaceholder="Search..."
-                value={value}
+                value={address}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                  setValue(item.value);
+                  setAddress(item.value);
                   setIsFocus(false);
                 }}
               />
             </View>   
-            <View style={{ backgroundColor: 'white', width: '43%', height: '55%'}}>
+            <View style={{ backgroundColor: 'white', width: '43%', height: '52%'}}>
             {/* {renderLabel()} */}
               <Dropdown
                 style={[styles.dropdown, isFocus1 && { borderColor: 'blue' }]}
@@ -166,17 +185,18 @@ export default function Showtime({navigation, route}) {
                 data={data1}
                 // search
                 maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={!isFocus1 ? 'Cinema' : '...'}
+                labelField="cinema"
+                valueField="cinema"
+                placeholder={!isFocus1 ? 'Cinema' : 'Cinema'}
                 // searchPlaceholder="Search..."
-                value={value1}
+                value={cinema}
                 onFocus={() => setIsFocus1(true)}
                 onBlur={() => setIsFocus1(false)}
                 onChange={item => {
-                  setValue1(item.value);
+                  setCinema(item.cinema);
                   setIsFocus1(false);
                 }}
+                // disable={true}
               />
             </View>     
           </View>
@@ -190,13 +210,30 @@ export default function Showtime({navigation, route}) {
               keyExtractor={(item, index) => index.toString()}
               style={{}}
             />
-            <Text style={{fontSize: 15, marginVertical: 8}}>{formatDate1(new Date())}</Text>
+            <Text style={{fontSize: 15, marginVertical: 8}}>{formatDate1(selectedItem)}</Text>
           </View>
-          <View style={{backgroundColor: 'silver', flex: 1}}></View>
+          <View style={{backgroundColor: '#EEEEEE', flex: 1}}></View>
         </View>
 
-        <View style={{width: '100%', height: '20%', backgroundColor: 'red'}}>
-          
+        <View style={{width: '100%', flex: 1,}}>
+          {(address != null) && (cinema != null) && (
+          <TouchableOpacity style={{flexDirection: 'row', width: '100%', height: '10%', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 15}}
+            onPress={toggleExpanded}>
+            <Text style={{width: '30%',fontSize: 16, fontWeight: '500',}}>{cinema}</Text>
+            <Image style={{width: '15%', height: '80%',}} source={require('./Image/icon_dropdown.png')} resizeMode='contain'/>
+          </TouchableOpacity>
+          )}
+          <Collapsible collapsed={isCollapsed}>
+            <View style={{borderBottomWidth: 6, height: 115, borderColor: '#EEEEEE'}}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                numColumns={4}
+                data={dataTime}
+                renderItem={itemTime}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          </Collapsible>
         </View>
 
         <View></View>
