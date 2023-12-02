@@ -120,7 +120,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
       return (
         <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
           marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
-          onPress={() => {isLoggedIn ? navigation.navigate('Room', {dataTime}) : navigation.navigate('Login')}}
+          onPress={() => {isLoggedIn ? navigation.navigate('Room', {dataTime, item}) : navigation.navigate('Login')}}
           >
           <Text style={{fontSize: 15, fontWeight: '400'}}>{item.time}</Text>
         </TouchableOpacity>
