@@ -12,51 +12,55 @@ export default function Room({navigation, route}) {
     const [time, setTime] = useState(route.params.item.time);
     const [isFocus, setIsFocus] = useState(false);
 
-    const data = ['K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', ]
+    const data = ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', ]
     const createSeatArray = (sum) => {
       const seatArray = [];
-      let j = 1, y = 1, h = 1, g=1, f=1, e=1, d=1, c=1, b=1, a = 1;
+      let k=1, j = 1, y = 1, h = 1, g=1, f=1, e=1, d=1, c=1, b=1, a = 1;
       for (let i = 0; i < sum; i++) {
         if(i < 12){
-          seatArray.push({seatId: `K${i+1}`});
+          seatArray.push({seatId: `L${i+1}`});
         }
         if(i > 11 && i < 24){
+          seatArray.push({seatId: `K${k}`});
+          k += 1;
+        }
+        if(i > 23 && i < 36){
           seatArray.push({seatId: `J${j}`});
           j += 1;
         }
-        if(i > 23 && i < 36){
+        if(i > 35 && i < 48){
           seatArray.push({seatId: `I${y}`});
           y += 1;
         }
-        if(i > 35 && i < 48){
+        if(i > 47 && i < 60){
           seatArray.push({seatId: `H${h}`});
           h += 1;
         }
-        if(i > 47 && i < 60){
+        if(i > 59 && i < 72){
           seatArray.push({seatId: `G${g}`});
           g += 1;
         }
-        if(i > 59 && i < 72){
+        if(i > 71 && i < 84){
           seatArray.push({seatId: `F${f}`});
           f += 1;
         }
-        if(i > 71 && i < 84){
+        if(i > 83 && i < 96){
           seatArray.push({seatId: `E${e}`});
           e += 1;
         }
-        if(i > 83 && i < 96){
+        if(i > 95 && i < 108){
           seatArray.push({seatId: `D${d}`});
           d += 1;
         }
-        if(i > 95 && i < 108){
+        if(i > 107 && i < 120){
           seatArray.push({seatId: `C${c}`});
           c += 1;
         }
-        if(i > 107 && i < 120){
+        if(i > 119 && i < 132){
           seatArray.push({seatId: `B${b}`});
           b += 1;
         }
-        if(i > 119 && i < 132){
+        if(i > 131 && i < 144){
           seatArray.push({seatId: `A${a}`});
           a += 1;
         }
@@ -71,15 +75,11 @@ export default function Room({navigation, route}) {
 
     const handleSeatPress = (isPressed, item) => {
       if (isPressed) {
-        if(selectedSeatsCount < 8){
           setSelectedSeats([...selectedSeats, item]);
           setPrice(price + calculateSeatPrice(item));
           setSelectedSeatsCount(selectedSeatsCount + 1);
           setSelectedSeatIds([...selectedSeatIds, item.seatId]); // Thêm seatId vào danh sách
-        } else {
-          // Hiển thị cảnh báo khi chọn quá số lượng cho phép
-          Alert.alert('Warning', 'Bạn chỉ có thể chọn tối đa 8 ghế.');
-        }
+
       } else  {
         const updatedSeats = selectedSeats.filter((selectedSeat) => selectedSeat !== item);
         setSelectedSeats(updatedSeats);
@@ -172,7 +172,7 @@ export default function Room({navigation, route}) {
             />
             <FlatList
               numColumns={12}
-              data={createSeatArray(12*11)}
+              data={createSeatArray(12*12)}
               renderItem={viewItem}
               nestedScrollEnabled={true}
               scrollEnabled={false}
@@ -209,7 +209,7 @@ export default function Room({navigation, route}) {
             <View style={{flexDirection: 'row', marginLeft: '3%'}}>
               <Text style={{fontWeight: '600', color: 'gray', }}>{selectedSeatsCount}x</Text>
               <Text style={{fontWeight: '500'}}> ghế: </Text>
-              <Text style={{fontWeight: '700', color:'#999900', color: 'gray',}}>{selectedSeatIds.join(', ')}</Text>
+              <Text style={{fontWeight: '700', color:'#999900', color: 'gray',}} numColumns={1}>{selectedSeatIds.join(', ')}</Text>
             </View>
             <View style={{flexDirection: 'row', marginLeft: '3%', alignItems: 'center'}}>
               <Text style={{fontWeight: '500', color: 'gray'}}>Tổng cộng: </Text>
