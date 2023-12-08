@@ -9,6 +9,7 @@ export default Login = function({navigation, onLogin, route}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonEnabled, setButtonEnabled] = useState(false);
+  const [state, setState] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -48,15 +49,28 @@ export default Login = function({navigation, onLogin, route}) {
   // console.log(email1, password1); 
 
   const checkLogin = () => {
-    // const {email1, password1} = route.params;
-    if((email.toString() === 'a@gmail.com' && password.toString() === '123')){
-      // (email.toString() === email1 && password.toString() === password1) ||
-      onLogin();
-      navigation.navigate('MyTabs', { screen: 'Tài khoản' });
-    }
-     else {
-      // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-      alert('Đăng nhập thất bại. Vui lòng thử lại.');
+    setState(route.params.isButtonEnabled);
+    if(state) {
+      const email1 = route.params.email;
+      const password1 = route.params.password1;
+      if( (email.toString() === email1 && password.toString() === password1) || (email.toString() === 'a@gmail.com' && password.toString() === '123')){
+        onLogin();
+        route.params.onLoginSuccess();
+      }
+       else {
+        // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
+        alert('Đăng nhập thất bại. Vui lòng thử lại.');
+      }
+    } else {
+      if((email.toString() === 'a@gmail.com' && password.toString() === '123')){
+        // (email.toString() === email1 && password.toString() === password1) ||
+        onLogin();
+        route.params.onLoginSuccess();
+      }
+       else {
+        // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
+        alert('Đăng nhập thất bại. Vui lòng thử lại.');
+      }
     }
   };
 

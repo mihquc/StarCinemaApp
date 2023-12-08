@@ -265,8 +265,7 @@ export default Register = function({navigation}) {
           if(isButtonEnabled)
           {
             if (password.trim() === password1.trim()) {
-              navigation.navigate('Login', { email, password1 });
-              console.log(email, password1);
+              navigation.navigate('Login', { email, password1, isButtonEnabled});
             } else {
               alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');
             }

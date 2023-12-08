@@ -33,7 +33,12 @@ export default function Account({navigation}) {
                 <TouchableOpacity style={{backgroundColor: '#999900', marginBottom: 20, width: 300, height: 50, justifyContent: 'center', 
                     alignItems: 'center', borderRadius: 8, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.2}}
                     onPress={() => {
-                        navigation.navigate('Login');
+                        navigation.navigate('Login', {
+                            onLoginSuccess: () => {
+                            // Callback khi đăng nhập thành công, dựa vào trang xuất phát để xác định nơi điều hướng tiếp theo
+                                navigation.navigate('MyTabs', {screen: "Tài khoản"});
+                            },
+                        });
                     }}>
                     <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
                         Đăng nhập
