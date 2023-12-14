@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import DatePicker from 'react-native-date-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Platform, Pressable, Modal, KeyboardAvoidingView} from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Platform, Pressable, Modal, KeyboardAvoidingView, Alert} from 'react-native';
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
+import axios from 'axios';
 
 export default Register = function({navigation}) {
+  const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/";
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -97,6 +99,45 @@ export default Register = function({navigation}) {
     setGender(value);
     checkButtonState(name, email, phone, value, textDate, password, password1);
   };
+
+  const register = () => {
+    if(isButtonEnabled)
+    {
+      if (password.trim() === password1.trim()) {
+        const formatData={ name: name, email: email, phone: phone, gender: (gender==="male")? 0 :((gender==="female")?1:2), 
+        dayofbirth: formatDate(date), password: password}
+        console.log("Post...");
+        try {
+          axios.post(`${URL}/customer`,formatData) // call api
+          .then((response) => {
+            console.log(response.data);
+            if(response.data) {
+              navigation.navigate('Login', {
+                onLoginSuccess: () => {
+                  // Callback được gọi khi người dùng đăng nhập thành công
+                  navigation.navigate('MyTabs', {screen: 'Profile'});
+                } , email, password1}
+              );
+            }
+          })
+          .catch((error)=>{
+            console.log(error);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        // navigation.navigate('Login', {
+        // onLoginSuccess: () => {
+        //   // Callback được gọi khi người dùng đăng nhập thành công
+        //   navigation.navigate('MyTabs', {screen: 'Profile'});
+        // } , email, password1});
+      } else {
+        alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');
+      }
+    } else {
+      alert('Vui lòng nhập đầy đủ thông tin.');
+    }
+  }
 
   const renderRadioButton = (value, label) => (
     <TouchableOpacity
@@ -224,7 +265,7 @@ export default Register = function({navigation}) {
                     value={date}
                     mode='date'
                     display='spinner'
-                    onChange={onChange}   
+                    onChange={onChange} 
                     />
                   )}
                   <TouchableOpacity onPress={confirm} style={{ height: '13%', alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.2, borderBottomWidth: 0.2}}>
@@ -261,18 +302,7 @@ export default Register = function({navigation}) {
       </KeyboardAwareScrollView>
 
       <TouchableOpacity style={[styles.button, { backgroundColor: isButtonEnabled ? '#999900' : '#DCDCDC'}]}
-        onPress={() => {
-          if(isButtonEnabled)
-          {
-            if (password.trim() === password1.trim()) {
-              navigation.navigate('Login', { email, password1, isButtonEnabled});
-            } else {
-              alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');
-            }
-          } else {
-            alert('Vui lòng nhập đầy đủ thông tin.');
-          }
-        }}
+        onPress={register}
         >
         <Text style={{ color: isButtonEnabled ? 'white' : '#F5F5F5', fontSize: 16, fontWeight: '600' }}>Hoàn tất</Text>
       </TouchableOpacity>

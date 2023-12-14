@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
 
-export default function Cinema() {
+export default function Cinema({navigation}) {
   const [address, setAddress] = useState('Đà Nẵng');
   const [tempAdress, setTempAddress] = useState('Đà Nẵng');
   const [isPickerVisible, setPickerVisible] = useState(false);
@@ -30,61 +30,61 @@ export default function Cinema() {
     const data = [
       {
         id: '01',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'Đà Nẵng',
       },
       {
         id: '02',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema 1',
         address: 'Đà Nẵng',
       },
       {
         id: '03',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'Hà Nội',
       },
       {
         id: '04',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'TP Hồ Chí Minh',
       },
       {
         id: '05',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema 1',
         address: 'TP Hồ Chí Minh',
       },
       {
         id: '06',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema 2',
         address: 'TP Hồ Chí Minh',
       },
       {
         id: '07',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'Huế',
       },
       {
         id: '08',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'Quảng Nam',
       },
       {
         id: '09',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'An Giang',
       },
       {
         id: '10',
-        image: <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>,
+        image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
         address: 'Cà Mau',
       },
@@ -106,21 +106,20 @@ export default function Cinema() {
 
   const viewItem = ({item}) => {
     return (
-      <View style={{alignItems: 'flex-start', flexDirection: 'row', margin: 15, justifyContent: 'flex-start', }}>
-        {item.image}
-        <View>
-          <Text>{item.name}</Text>
-          <Text>{item.address}</Text>
+      <TouchableOpacity style={{ width: '100%', height: 100, alignItems: 'center', flexDirection: 'row', borderBottomWidth: 0.2}}
+        onPress={() => {
+          // navigation.navigate('Showtime')
+        }}>
+        <View style={{width: '28%', height: '80%', alignItems: 'flex-end'}}>
+          <Image style={styles.imageCinema} source={item.image}/>
         </View>
-      </View>
+        <View style={{width: '72%', height: '80%'}}>
+          <Text style={{fontSize: 15, fontWeight: '500', }}>{item.name}</Text>
+          <Text style={{fontSize: 15, fontWeight: '500', }}>{item.address}</Text>
+        </View>
+      </TouchableOpacity>
     )
-  }
-
-  const itemSeparatorView = ()=>{
-    return (
-      <View style={{width: '100%', height: 0.5, backgroundColor: 'gray'}}/>
-    )
-  }
+  } 
 
     return(
       <SafeAreaView style={styles.container}>
@@ -182,7 +181,6 @@ export default function Cinema() {
           data={getCinemaByAddress(address)}
           renderItem={viewItem}
           keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={itemSeparatorView}
           style={{width: '100%'}}
         />
       </SafeAreaView>

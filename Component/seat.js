@@ -15,4 +15,4 @@ const Seat = ({item, style, onPress, index}) => {
   )
 }
 
-export default Seat;
+export default Seat; 

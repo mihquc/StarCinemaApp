@@ -1,15 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
+import axios from 'axios';
 
 export default Login = function({navigation, onLogin, route}) {
+  const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [email1, setEmail1] = useState('');
+  const [password1, setPassword1] = useState('');
   const [isButtonEnabled, setButtonEnabled] = useState(false);
-  const [state, setState] = useState(false);
+  // const [state, setState] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -44,34 +48,61 @@ export default Login = function({navigation, onLogin, route}) {
       setPassword(newPassword);
     }
   };
-  // const email1 = route.params.email;
-  // const password1 = route.params.password1;
-  // console.log(email1, password1); 
+  // useEffect(() => {
+  //   if (route.params) {
+  //     setEmail1(route.params.email);
+  //     setPassword1(route.params.password1);
+  //   }
+  // }, [route.params]); 
 
   const checkLogin = () => {
-    setState(route.params.isButtonEnabled);
-    if(state) {
-      const email1 = route.params.email;
-      const password1 = route.params.password1;
-      if( (email.toString() === email1 && password.toString() === password1) || (email.toString() === 'a@gmail.com' && password.toString() === '123')){
-        onLogin();
-        route.params.onLoginSuccess();
-      }
-       else {
-        // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-        alert('Đăng nhập thất bại. Vui lòng thử lại.');
-      }
-    } else {
-      if((email.toString() === 'a@gmail.com' && password.toString() === '123')){
-        // (email.toString() === email1 && password.toString() === password1) ||
-        onLogin();
-        route.params.onLoginSuccess();
-      }
-       else {
-        // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-        alert('Đăng nhập thất bại. Vui lòng thử lại.');
-      }
+    try {
+      axios.get(URL)
+      .then((response) => {
+        console.log(response.data);
+        if(response.data){
+          const data = response.data;
+          const matchingCustomer = data.find(data => data.email === email && data.password === password);
+          if(matchingCustomer){
+            onLogin();
+            const { onLoginSuccess } = route.params || {};
+            if (onLoginSuccess) {
+              onLoginSuccess();
+            }
+          } else {
+            // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
+            alert('Đăng nhập thất bại. Vui lòng thử lại.');
+          }
+        }
+      })
+      .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
     }
+    // for (let i = 0; i < data.length; i++) {
+    //   if((data[i].email === email) && (data[i].password === password)){
+    //     onLogin();
+    //     const { onLoginSuccess } = route.params || {};
+    //     if (onLoginSuccess) {
+    //       onLoginSuccess();
+    //     }
+    //   }
+    //     else {
+    //     // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
+    //     alert('Đăng nhập thất bại. Vui lòng thử lại.');
+    //   }
+    // }  
+    // if((email.toString() === email1 && password.toString() === password1) || (email.toString() === 'a@gmail.com' && password.toString() === '123')){
+    //   onLogin();
+    //   const { onLoginSuccess } = route.params || {};
+    //   if (onLoginSuccess) {
+    //     onLoginSuccess();
+    //   }
+    // }
+    //   else {
+    //   // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
+    //   alert('Đăng nhập thất bại. Vui lòng thử lại.');
+    // } 
   };
 
   return (

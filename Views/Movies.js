@@ -8,8 +8,12 @@ export default function Movies({navigation, route, isLoggedIn}) {
   const [playing, setPlaying] = useState(false);
   const [nameMovie, setNameMovie] = useState('');
   const [idVideo, setIdVideo] = useState('');
+  const [duration, setDuration] = useState(null);
+  const [endDate, setEndDate] = useState('');
   const [image, setImage] = useState();
   const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("");
+  const [actor, setActor] = useState("");
   const [videoHeight, setVideoHeight] = useState(200); // Chiều cao mặc định
 
   const [expanded, setExpanded] = useState(false);
@@ -26,24 +30,39 @@ export default function Movies({navigation, route, isLoggedIn}) {
     }
   }, [expanded])
  
-  const nameMovieHome = route.params.item.name;
-  const idVideoHome = route.params.item.idVideo;
-  const imageMovie = route.params.item.image;
-  const descriptionMovie = route.params.item.description;
+  const nameMovieHome = route.params.item.title;
+  const idVideoHome = route.params.item.trailerUrl;
+  const durationMovie = route.params.item.duration;
+  const imageMovie = route.params.item.posterUrl;
+  const endDateMovie = route.params.item.endDate
+  const descriptionMovie = route.params.item.movieDescription;
+  const genreMovie = route.params.item.genre;
+  const actorMovie = route.params.item.actor;
 
   useEffect(() => {
     setNameMovie(nameMovieHome);
     setIdVideo(idVideoHome);
     setImage(imageMovie);
+    setEndDate(endDateMovie);
     setDescription(descriptionMovie);
+    setGenre(genreMovie);
+    setActor(actorMovie);
+    setDuration(durationMovie);
   }, []);
 
-  // const onStateChange = useCallback((state) => {
-  //   if (state === "ended") {
-  //     setPlaying(false);
-  //     Alert.alert("video has finished playing!");
-  //   }
-  // }, []);
+  const getYouTubeVideoId = (url) => {
+    if (!url) {
+      return null;
+    }
+    // Regular expression để tìm ID video trong đường link YouTube
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+    // Kiểm tra xem đường link có phù hợp với regular expression không
+    const match = url.match(regex);
+
+    // Nếu có, trả về ID video; ngược lại, trả về null
+    return match ? match[1] : null;
+  };
  
     return(
     <View style={styles.container}>
@@ -58,7 +77,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
             <Image style={{width: 30, height: 30, tintColor: 'white'}} source={require('./Image/icon_back.png')} resizeMode= 'contain'/>
         </TouchableOpacity>
 
-        <Image source={image} style={styles.image} /> 
+        <Image source={{uri: image}} style={styles.image} /> 
 
         {/* Nút Play ở giữa */}
         <TouchableOpacity
@@ -70,7 +89,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
             marginTop: -25, // Chỉnh giữa theo chiều dọc
           }}
           onPress={() => {setPlaying(true)}}
-        > 
+        >
           <Image
             source={require('./Image/icon_playvideo.png')}
             style={{ width: 50, height: 50, tintColor: 'white'}}
@@ -92,9 +111,9 @@ export default function Movies({navigation, route, isLoggedIn}) {
                 <YoutubePlayer
                   // ref={playerRef}
                   height={Dimensions.get('window').height}
-                  videoId={idVideo} 
+                  videoId={getYouTubeVideoId(idVideo)} 
                   play={playing}
-                  // onReady={() => {
+                  // onReady={() => { 
                   //   // Video đã sẵn sàng
                   // }}
                   onChangeState={(e) => {
@@ -113,7 +132,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
       {/* <ScrollView style={{ backgroundColor: 'red'}}> */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', height: '21%', top: '2%'}}>
           <View style={{width: '27%', height: '90%',}}>
-            <Image style={styles.image1} source={image} resizeMode='stretch'/>
+            <Image style={styles.image1} source={{uri: image}} resizeMode='stretch'/>
           </View>
           <View style={{width: '62%', height: '100%', alignItems: 'flex-start', justifyContent: 'flex-start',}}>
             <View style={{marginBottom: '3%'}}>
@@ -121,19 +140,19 @@ export default function Movies({navigation, route, isLoggedIn}) {
             </View>
             <View style={styles.viewtext}>
               <Image style={styles.imageText} source={require('./Image/icon_hisTime.png')} resizeMode='contain'/>
-              <Text style={{fontSize: 15, color: 'gray'}}>{120} phút</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{duration} phút</Text>
             </View>
             <View style={styles.viewtext}>
               <Image style={styles.imageText} source={require('./Image/icon_calendar.png')} resizeMode='contain'/>
-              <Text style={{fontSize: 15, color: 'gray'}}>1-11-2023</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{endDate}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Thể loại: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>Tâm lý, viễn tưởng, ...</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{genre}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Diễn viên: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>... ... ... ... ...</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{actor}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Đạo diễn: </Text>
@@ -171,7 +190,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
         <TouchableOpacity style={{backgroundColor: '#999900', width: '88%', height: '48%', alignItems: 'center', justifyContent: 'center', borderRadius: 5,
         opacity: 1, shadowOffset: { width: 0, height: 2}, shadowOpacity: 0.1}}
         onPress={() => {navigation.navigate('Showtime', {nameMovie})}}>
-          <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>Đặt vé</Text>
+          <Text style={{color: 'white', fontSize: 16, fontWeight: '600' }}>Đặt vé</Text>
         </TouchableOpacity>
       </View>
     </View>
