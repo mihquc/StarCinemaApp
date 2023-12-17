@@ -3,9 +3,9 @@ import { View, Image, TouchableOpacity } from 'react-native';
 
 const Header = ({ iconSource, onPress}) => {
   return (
-    <View style={{width: '88%', height: '6%', justifyContent: 'center',}} >
-        <TouchableOpacity style={{width: '10%', height: '80%', justifyContent: 'center', alignItems: 'center'}} onPress={onPress}>
-          <Image source={iconSource}  style={{width: '40%', height: '40%',}} resizeMode='cover'/>
+    <View style={{width: '88%', height: '4%', justifyContent: 'center',}} >
+        <TouchableOpacity style={{width: '9%', height: '100%', justifyContent: 'center', alignItems: 'center',}} onPress={onPress}>
+          <Image source={iconSource}  style={{width: '50%', height: '50%',}} resizeMode='stretch'/>
         </TouchableOpacity>
       </View>
   );

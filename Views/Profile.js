@@ -1,12 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile({navigation, route}){
+    const dispatch = useDispatch();
+
+    const isLoggedIn = useSelector((state) => state.loginInfo.isLoggedIn);
+    const customer = useSelector((state) => state.loginInfo.customer);
+    // console.log("isLoggedIn: ", isLoggedIn);
+    // console.log("customer: ", customer);
+
     const {onLogout} = route.params;
 
     const handleLogout = () => {
         onLogout();
+        dispatch({ type: 'LOGOUT' });
         navigation.navigate('MyTabs', { screen: 'Tài khoản' });
     }
     
@@ -21,13 +30,13 @@ export default function Profile({navigation, route}){
 
             <View style={{width: '100%', height: '40%', alignItems: 'center', justifyContent: 'space-evenly',}}>
                 <View style={{width: '30%', height: '40%', backgroundColor: 'gray', borderRadius: '60%', alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: '50%', height: '50%', }} source={require('./Image/icon_person.png')} resizeMode='stretch'/>
+                    <Image style={{width: '95%', height: '95%', borderRadius: 100}} source={{uri: customer.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/800px-Unknown_person.jpg"}} resizeMode='stretch'/>
                 </View>
                 <View style={{width: '90%', height: '18%', flexDirection: 'row', alignItems: 'baseline'}}>
                     <View style={{width: '75%', height: '100%',}}>
                         <View style={{flexDirection: 'row', width: '100%', height: '50%', alignItems: 'center', justifyContent: 'space-evenly'}}>
                             <Image style={{width: '6%', height: '56%', tintColor: 'purple'}} source={require('./Image/icon_medal.png')}/>
-                            <Text style={{width: '88%', fontSize: 18, fontWeight: '600', }}>Nguyễn Minh Quốc</Text>
+                            <Text style={{width: '88%', fontSize: 18, fontWeight: '600', }}>{customer.name}</Text>
                         </View>
                     </View>
 

@@ -3,19 +3,11 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { View, Image, ScrollView, Text, TouchableOpacity, StyleSheet, SafeAreaView, Alert, ImageBackground, Dimensions, Modal, Slider } from 'react-native';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import YoutubePlayer from "react-native-youtube-iframe"; 
+import { useSelector } from 'react-redux';
 
-export default function Movies({navigation, route, isLoggedIn}) {
+export default function Movies({navigation, isLoggedIn}) {
   const [playing, setPlaying] = useState(false);
-  const [nameMovie, setNameMovie] = useState('');
-  const [idVideo, setIdVideo] = useState('');
-  const [duration, setDuration] = useState(null);
-  const [endDate, setEndDate] = useState('');
-  const [image, setImage] = useState();
-  const [description, setDescription] = useState("");
-  const [genre, setGenre] = useState("");
-  const [actor, setActor] = useState("");
-  const [videoHeight, setVideoHeight] = useState(200); // Chiều cao mặc định
-
+  const Movie = useSelector((state) => state.movies.selectedMovie);
   const [expanded, setExpanded] = useState(false);
 
   const toggleReadMore = () => {
@@ -29,26 +21,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
       setViewHeight(viewRef.current.height);
     }
   }, [expanded])
- 
-  const nameMovieHome = route.params.item.title;
-  const idVideoHome = route.params.item.trailerUrl;
-  const durationMovie = route.params.item.duration;
-  const imageMovie = route.params.item.posterUrl;
-  const endDateMovie = route.params.item.endDate
-  const descriptionMovie = route.params.item.movieDescription;
-  const genreMovie = route.params.item.genre;
-  const actorMovie = route.params.item.actor;
 
-  useEffect(() => {
-    setNameMovie(nameMovieHome);
-    setIdVideo(idVideoHome);
-    setImage(imageMovie);
-    setEndDate(endDateMovie);
-    setDescription(descriptionMovie);
-    setGenre(genreMovie);
-    setActor(actorMovie);
-    setDuration(durationMovie);
-  }, []);
 
   const getYouTubeVideoId = (url) => {
     if (!url) {
@@ -77,7 +50,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
             <Image style={{width: 30, height: 30, tintColor: 'white'}} source={require('./Image/icon_back.png')} resizeMode= 'contain'/>
         </TouchableOpacity>
 
-        <Image source={{uri: image}} style={styles.image} /> 
+        <Image source={{uri: Movie.posterUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"}} style={styles.image} /> 
 
         {/* Nút Play ở giữa */}
         <TouchableOpacity
@@ -111,7 +84,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
                 <YoutubePlayer
                   // ref={playerRef}
                   height={Dimensions.get('window').height}
-                  videoId={getYouTubeVideoId(idVideo)} 
+                  videoId={getYouTubeVideoId(Movie.trailerUrl)}
                   play={playing}
                   // onReady={() => { 
                   //   // Video đã sẵn sàng
@@ -132,31 +105,31 @@ export default function Movies({navigation, route, isLoggedIn}) {
       {/* <ScrollView style={{ backgroundColor: 'red'}}> */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', height: '21%', top: '2%'}}>
           <View style={{width: '27%', height: '90%',}}>
-            <Image style={styles.image1} source={{uri: image}} resizeMode='stretch'/>
+            <Image style={styles.image1} source={{uri: Movie.posterUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"}} resizeMode='stretch'/>
           </View>
           <View style={{width: '62%', height: '100%', alignItems: 'flex-start', justifyContent: 'flex-start',}}>
             <View style={{marginBottom: '3%'}}>
-              <Text style={{fontSize: 20, fontWeight: '600',}}>{nameMovie}</Text>
+              <Text style={{fontSize: 20, fontWeight: '600',}}>{Movie.title}</Text>
             </View>
             <View style={styles.viewtext}>
               <Image style={styles.imageText} source={require('./Image/icon_hisTime.png')} resizeMode='contain'/>
-              <Text style={{fontSize: 15, color: 'gray'}}>{duration} phút</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.duration} phút</Text>
             </View>
             <View style={styles.viewtext}>
               <Image style={styles.imageText} source={require('./Image/icon_calendar.png')} resizeMode='contain'/>
-              <Text style={{fontSize: 15, color: 'gray'}}>{endDate}</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.endDate}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Thể loại: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>{genre}</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.genre}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Diễn viên: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>{actor}</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.actor}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Đạo diễn: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>...</Text>
+              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.director}</Text>
             </View>
           </View>
         </View>
@@ -165,9 +138,9 @@ export default function Movies({navigation, route, isLoggedIn}) {
         <View style={{ width: '100%', height: expanded ? viewHeight : undefined , borderTopWidth: 0.2, borderColor: 'gray'}} ref={viewRef}>
           <Text style={{fontSize: 17, fontWeight: '600', marginStart: '3%', marginEnd: '3%', paddingBottom: '2%', paddingTop: '2%'}}>Nội dung</Text>
           <Text style={{fontSize: 17, marginStart: '3%', marginEnd: '3%',}} numberOfLines={expanded ? undefined : 5}> 
-           {description}
+           {Movie.movieDescription}
           </Text>
-          {description.length > (5 * 40) && (
+          {Movie.movieDescription.length > (5 * 40) && (
             <TouchableOpacity onPress={toggleReadMore} style={styles.readMoreButton}>
               <Text style={styles.readMoreText}>{expanded ? 'Thu gọn' : 'Xem thêm'}</Text>
             </TouchableOpacity>
@@ -189,7 +162,7 @@ export default function Movies({navigation, route, isLoggedIn}) {
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={{backgroundColor: '#999900', width: '88%', height: '48%', alignItems: 'center', justifyContent: 'center', borderRadius: 5,
         opacity: 1, shadowOffset: { width: 0, height: 2}, shadowOpacity: 0.1}}
-        onPress={() => {navigation.navigate('Showtime', {nameMovie})}}>
+        onPress={() => {navigation.navigate('Showtime')}}>
           <Text style={{color: 'white', fontSize: 16, fontWeight: '600' }}>Đặt vé</Text>
         </TouchableOpacity>
       </View>

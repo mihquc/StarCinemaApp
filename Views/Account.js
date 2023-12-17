@@ -36,6 +36,7 @@ export default function Account({navigation}) {
                         navigation.navigate('Login', {
                             onLoginSuccess: () => {
                             // Callback khi đăng nhập thành công, dựa vào trang xuất phát để xác định nơi điều hướng tiếp theo
+                                // console.log(matchingCustomer);
                                 navigation.navigate('MyTabs', {screen: "Tài khoản"});
                             },
                         });

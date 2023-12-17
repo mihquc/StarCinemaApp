@@ -4,14 +4,14 @@ import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaVie
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 export default Login = function({navigation, onLogin, route}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [email1, setEmail1] = useState('');
-  const [password1, setPassword1] = useState('');
+  const [listCustomer, setListCustomer] = useState([]);
   const [isButtonEnabled, setButtonEnabled] = useState(false);
   // const [state, setState] = useState(false);
 
@@ -48,21 +48,27 @@ export default Login = function({navigation, onLogin, route}) {
       setPassword(newPassword);
     }
   };
-  // useEffect(() => {
-  //   if (route.params) {
-  //     setEmail1(route.params.email);
-  //     setPassword1(route.params.password1);
-  //   }
-  // }, [route.params]); 
+
+  const dispatch = useDispatch();
+  const updateData = (customer) => {
+    try {
+      dispatch({ type: 'LOGIN', customer: customer });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const checkLogin = () => {
     try {
       axios.get(URL)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if(response.data){
           const data = response.data;
+          // setListCustomer(data);
           const matchingCustomer = data.find(data => data.email === email && data.password === password);
+          // console.log(matchingCustomer);
+          updateData(matchingCustomer);
           if(matchingCustomer){
             onLogin();
             const { onLoginSuccess } = route.params || {};
@@ -79,30 +85,6 @@ export default Login = function({navigation, onLogin, route}) {
     } catch (error) {
       console.log(error);
     }
-    // for (let i = 0; i < data.length; i++) {
-    //   if((data[i].email === email) && (data[i].password === password)){
-    //     onLogin();
-    //     const { onLoginSuccess } = route.params || {};
-    //     if (onLoginSuccess) {
-    //       onLoginSuccess();
-    //     }
-    //   }
-    //     else {
-    //     // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-    //     alert('Đăng nhập thất bại. Vui lòng thử lại.');
-    //   }
-    // }  
-    // if((email.toString() === email1 && password.toString() === password1) || (email.toString() === 'a@gmail.com' && password.toString() === '123')){
-    //   onLogin();
-    //   const { onLoginSuccess } = route.params || {};
-    //   if (onLoginSuccess) {
-    //     onLoginSuccess();
-    //   }
-    // }
-    //   else {
-    //   // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-    //   alert('Đăng nhập thất bại. Vui lòng thử lại.');
-    // } 
   };
 
   return (

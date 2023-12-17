@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import axios from 'axios';
-import Movies from './Movies';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { width: screenWidth } = Dimensions.get('window');
 console.log(screenWidth);
@@ -10,6 +10,9 @@ console.log(screenWidth);
 export default Home = function({navigation}) {
   const URLMovies = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/movie";
   const URLMovies1 = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
+
+  const isLoggedIn = useSelector((state) => state.loginInfo.isLoggedIn);
+  const customer = useSelector((state) => state.loginInfo.customer);
 
   const [imageList, setImageList] = useState([]);
   const [imageList1, setImageList1] = useState([]);
@@ -40,11 +43,27 @@ export default Home = function({navigation}) {
 
   // const stepScroll = useRef(null);  //ref
 
+  const dispatch = useDispatch();
+  const selectMovie = (movie) => {
+    try {
+      dispatch({ type: 'SELECT_MOVIE', selectedMovie: movie });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const listMovie = (movies) => {
+    try {
+      dispatch({ type: 'SET_MOVIES', movies: movies });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     axios.get(URLMovies)
     .then((response) => {
       const data = response.data;
       // console.log(data);
+      listMovie(data);
       setImageList1(data); 
     })
     .catch((error) => {console.log(error);});
@@ -56,6 +75,9 @@ export default Home = function({navigation}) {
       setImageList2(data); 
     })
     .catch((error) => {console.log(error);});
+
+    console.log("customer: ", customer); 
+    console.log("isLoggedIn: ", isLoggedIn);
 
     // 1. load data tu server
     const data = [
@@ -78,25 +100,32 @@ export default Home = function({navigation}) {
 
     const data1 = [
       {
-        image: require('./Image/movie_du1.jpg')
+        image: require('./Image/movie_du1.jpg'),
+        name: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_nvcc.jpg')
+        image: require('./Image/movie_nvcc.jpg'),
+        name: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_cd1.jpg')
+        image: require('./Image/movie_cd1.jpg'),
+        name: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_theMarvels.jpg')
+        image: require('./Image/movie_theMarvels.jpg'),
+        name: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_drpn.jpg')
+        image: require('./Image/movie_drpn.jpg'),
+        name: 'Thứ 4 vui vẻ',
       },
     ];
     setListDiscount(data1);
     // 2. cap nhat len state cua screen
     setImageList(data);
   }, [])
+
+  const movies = useSelector((state) => state.movies.movies);
 
   // useEffect(() => {
   //   if(imageList.length > 0) {
@@ -232,15 +261,18 @@ export default Home = function({navigation}) {
   const viewItem = ({item, index}) => {
     // console.log(index);
     return(
-      <View style={{width: screenWidth/2, justifyContent: 'flex-start', alignItems:'center', 
-        marginBottom: '2%'}}>
-        <TouchableOpacity onPress={() => {navigation.navigate('Movies', {item})}} style={{width: '88%', height: 270, borderRadius: 5,}}>
+      <TouchableOpacity style={{width: screenWidth/2, justifyContent: 'flex-start', alignItems:'center', marginBottom: '2%'}}
+        onPress={() => {
+          selectMovie(item);
+          navigation.navigate('Movies', {item});
+        }} >
+        <View style={{width: '88%', height: 270, borderRadius: 5,}}>
           <Image style={styles.image1} source={{uri: item.posterUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"}}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {navigation.navigate('Movies', {item})}} style={{width: '88%', marginTop: '2%', alignItems: 'flex-start',}}> 
+        </View>
+        <View style={{width: '88%', marginTop: '2%', alignItems: 'flex-start',}}> 
           <Text style={styles.textImage}>{item.title}</Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       
     )
   }
@@ -284,7 +316,7 @@ export default Home = function({navigation}) {
         
         <View style={{marginBottom: '0%'}}>
           <FlatList
-            data={isTextClicked ? imageList1 : imageList2}
+            data={isTextClicked ? movies : imageList2}
             numColumns={2}
             renderItem={viewItem}
             keyExtractor={(item, index) => index.toString()}
@@ -304,10 +336,10 @@ export default Home = function({navigation}) {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {
               return(
-                <TouchableOpacity style={{width: 250, height: 200, marginRight: 20, 
-                  marginLeft: index===0 ? 20 : 0,}}>
+                <TouchableOpacity style={{width: 250, height: 200, marginRight: 20, marginLeft: index===0 ? 20 : 0,}}
+                  onPress={() => {navigation.navigate('Discount', {item})}}>
                   <Image source={item.image} style={{resizeMode: 'stretch', width: '100%', height: '90%', borderRadius: 8, marginTop: '6%'}}/>
-                  <Text style={{fontSize: 15, fontWeight: '600', marginTop: '2%', width: '100%', height: '10%',}}>Thứ 3 vui vẻ</Text>
+                  <Text style={{fontSize: 15, fontWeight: '600', marginTop: '2%', width: '100%', height: '10%',}}>{item.name}</Text>
                 </TouchableOpacity>
             )}}
             // scrollEventThrottle={16}

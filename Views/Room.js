@@ -3,14 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, FlatList, Alert } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Seat from '../Component/seat';
+import { useSelector } from 'react-redux';
 
 export default function Room({navigation, route}) {
-    
-  const [nameMovie, setNameMovie] = useState(route.params.name);
-  const [price, setPrice] = useState(0);
+  const Movie = useSelector((state) => state.movies.selectedMovie);
   
-  const [time, setTime] = useState(route.params.item.time);
-  const [isFocus, setIsFocus] = useState(false);
+  const [price, setPrice] = useState(0);
 
   const data = ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', ]
   const createSeatArray = (sum) => {
@@ -128,11 +126,11 @@ export default function Room({navigation, route}) {
       </View>
 
       <View style={{width: '100%', height: '10%', borderTopWidth: 0.2, flexDirection: 'row', justifyContent: 'space-evenly',}}>
-        <View style={{width: '60%', height: '100%', backgroundColor: 'red'}}>
-          <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{nameMovie}</Text>
+        <View style={{width: '60%', height: '100%',}}>
+          <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{Movie.title}</Text>
         </View>
         <View style={{width: '28%', height: '100%', justifyContent: 'center',}}>
-          
+          <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{Movie.language}</Text>
         </View>
       </View>
 

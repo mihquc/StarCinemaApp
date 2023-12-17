@@ -16,10 +16,17 @@ import Movies from './Views/Movies';
 import Showtime from './Views/Showtime';
 import Room from './Views/Room';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Discount from './Views/Discount';
+import ShowtimeAddress from './Views/ShowtimebyAddress';
+import { Provider } from 'react-redux';
+// import { store } from './Redux/store';
+import { createStore } from 'redux';
+import rootReducer from './Redux/reducers';
+
 
 const Tab = createBottomTabNavigator();
 
-function MyTabs({isLoggedIn, onLogout}) {
+function MyTabs({isLoggedIn, onLogout, customer}) {
 
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarShowLabel: false}}>
@@ -69,9 +76,11 @@ function MyTabs({isLoggedIn, onLogout}) {
 }
 
 const Stack = createNativeStackNavigator();
+const store = createStore(rootReducer);
 
-export default function App() {
+export default function App({navigation}) {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  // const [customer, setCustomer] = useState(null);
   const handleLogin = () => {
     setLoggedIn(true);
   };
@@ -80,16 +89,20 @@ export default function App() {
   };
 
   return(
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="MyTabs" screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login">{(props) => <Login {...props} onLogin={handleLogin} />}</Stack.Screen>
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
-        <Stack.Screen name="Movies" component={Movies} />
-        <Stack.Screen name="Showtime">{(props) => <Showtime {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
-        <Stack.Screen name="Room" component={Room} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="MyTabs" screenOptions={{headerShown: false}}>
+          <Stack.Screen name="Login">{(props) => <Login {...props} onLogin={handleLogin} />}</Stack.Screen>
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="MyTabs" >{(props) => <MyTabs {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
+          <Stack.Screen name="Movies" component={Movies} />
+          <Stack.Screen name="Showtime">{(props) => <Showtime {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
+          <Stack.Screen name="Room" component={Room} />
+          <Stack.Screen name="Discount" component={Discount} />
+          <Stack.Screen name="ShowtimeAddress">{(props) => <ShowtimeAddress {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
 const styles = StyleSheet.create({

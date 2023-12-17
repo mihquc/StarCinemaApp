@@ -4,13 +4,10 @@ import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaVie
 import { Dropdown } from 'react-native-element-dropdown';
 // import CollapsibleTime from '../Component/Collapsible';
 import Collapsible from 'react-native-collapsible';
+import { useSelector } from 'react-redux';
 
-export default function Showtime({navigation, route, isLoggedIn}) {
-    const [name, setName] = useState('');
-    const nameRoute =  route.params.nameMovie;
-    useEffect(() => {
-        setName(nameRoute);
-    }, [])
+export default function Showtime({navigation, isLoggedIn}) {
+    const Movie = useSelector((state) => state.movies.selectedMovie);
 
     const data = [
       { address: 'Toàn Quốc', value: '1' },
@@ -85,7 +82,6 @@ export default function Showtime({navigation, route, isLoggedIn}) {
     const numberOfDays = 7; // Thay đổi số lượng ngày tùy ý
     const data2 = generateDateArray(startDate, numberOfDays);
 
-
     const [isCollapsed, setIsCollapsed] = useState(false);
     const toggleExpanded = () => {
       setIsCollapsed(!isCollapsed);
@@ -120,11 +116,11 @@ export default function Showtime({navigation, route, isLoggedIn}) {
       return (
         <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
           marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
-          onPress={() => {isLoggedIn ? navigation.navigate('Room', {dataTime, item, name}) : navigation.navigate('Login', {
+          onPress={() => {isLoggedIn ? navigation.navigate('Room', {item}) : navigation.navigate('Login', {
             onLoginSuccess: () => {
               // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
               isLoggedIn = true;
-              navigation.navigate('Room', {dataTime, item, name, isLoggedIn, address});
+              navigation.navigate('Room', {item, isLoggedIn, address});
           },
         })}}
         >
@@ -150,7 +146,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
         </View>
         <View style={{width: '100%', height: '4%', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 0.2}}>
           <Text style={{fontSize: 17, fontWeight: '600', }}>
-            {name}
+            {Movie.title}
           </Text>
         </View>
 

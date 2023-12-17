@@ -2,12 +2,18 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 export default function Cinema({navigation}) {
   const [address, setAddress] = useState('Đà Nẵng');
   const [tempAdress, setTempAddress] = useState('Đà Nẵng');
   const [isPickerVisible, setPickerVisible] = useState(false);
   const [cinemaList, setCinemaList] = useState([]);
+
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const toggleExpanded = () => {
+    setIsCollapsed(!isCollapsed);
+  }
 
   const togglePicker = () => {
     setPickerVisible(!isPickerVisible);
@@ -104,11 +110,11 @@ export default function Cinema({navigation}) {
     return data;
   }
 
-  const viewItem = ({item}) => {
+  const viewItem = ({item, index}) => {
     return (
       <TouchableOpacity style={{ width: '100%', height: 100, alignItems: 'center', flexDirection: 'row', borderBottomWidth: 0.2}}
         onPress={() => {
-          // navigation.navigate('Showtime')
+          navigation.navigate('ShowtimeAddress', {item});
         }}>
         <View style={{width: '28%', height: '80%', alignItems: 'flex-end'}}>
           <Image style={styles.imageCinema} source={item.image}/>
