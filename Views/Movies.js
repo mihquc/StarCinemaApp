@@ -135,7 +135,7 @@ export default function Movies({navigation, isLoggedIn}) {
         </View>
 
         <ScrollView style={{}}>
-        <View style={{ width: '100%', height: expanded ? viewHeight : undefined , borderTopWidth: 0.2, borderColor: 'gray'}} ref={viewRef}>
+        <View style={{ width: '100%', height: expanded ? viewHeight : undefined , borderColor: 'gray'}} ref={viewRef}>
           <Text style={{fontSize: 17, fontWeight: '600', marginStart: '3%', marginEnd: '3%', paddingBottom: '2%', paddingTop: '2%'}}>Nội dung</Text>
           <Text style={{fontSize: 17, marginStart: '3%', marginEnd: '3%',}} numberOfLines={expanded ? undefined : 5}> 
            {Movie.movieDescription}

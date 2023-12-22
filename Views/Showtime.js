@@ -5,30 +5,72 @@ import { Dropdown } from 'react-native-element-dropdown';
 // import CollapsibleTime from '../Component/Collapsible';
 import Collapsible from 'react-native-collapsible';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 export default function Showtime({navigation, isLoggedIn}) {
     const Movie = useSelector((state) => state.movies.selectedMovie);
+    const Showtimes = useSelector((state) => state.movies.showtimes);
+    const formatDateShowtime = (cinema) => {
+      const data = [];
+      for (let i = 0; i < Showtimes.length; i++) {
+        if(Showtimes[i].cinema.cinemaName === cinema){
+          for (let j = 0; j < Showtimes[i].showTimeList.length; j++) {
+            const dateObject = moment(Showtimes[i].showTimeList[j].startTime, 'DD/MM/YYYY HH:mm:ss');
+            const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
+            const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
+            const hour = dateObject.hours();
+            let minute = dateObject.minutes();
+            minute = (minute < 10) ? `0${minute}` : minute;
+            data.push({date: `${date}/${month}`, hour: `${hour}:${minute}`});
+          }
+        }
+      }
+      return data;
+    }
+    // const dateObject = moment(Showtimes[1].showTimeList[1].startTime, 'DD/MM/YYYY HH:mm:ss');
+    // const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
+    // const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
+    // console.log(formatDateShowtime('StarCinema Cần Thơ')); 
 
     const data = [
       { address: 'Toàn Quốc', value: '1' },
-      { address: 'TP Hồ Chí Minh', value: '2' },
-      { address: 'Hà Nội', value: '3' },
-      { address: 'Đà Nẵng', value: '4' },
-      { address: 'Quảng Nam', value: '5' },
-      { address: 'Huế', value: '6' },
-      { address: 'An Giang', value: '7' },
-      { address: 'Cà Mau', value: '8' },
+      { address: 'StarCinema Hồ Chí Minh', value: '2' },
+      { address: 'StarCinema Hà Nội', value: '3' },
+      { address: 'StarCinema Đà Nẵng', value: '4' },
+      { address: 'StarCinema Hải Phòng', value: '5' },
+      { address: 'StarCinema Cần Thơ', value: '6' },
     ];
     const data1 = [
-      { cinema: 'Star Cinema', value: 'Star Cinema'},
-      // { label: 'TP Hồ Chí Minh', value: '2' },
-      // { label: 'Hà Nội', value: '3' },
-      // { label: 'Đà Nẵng', value: '4' },
-      // { label: 'Item 5', value: '5' },
-      // { label: 'Item 6', value: '6' },
-      // { label: 'Item 7', value: '7' },
-      // { label: 'Item 8', value: '8' },
+      { address: 'TP Hồ Chí Minh', cinema: 'StarCinema Hồ Chí Minh' },
+      { address: 'Hà Nội', cinema: 'StarCinema Hà Nội' },
+      { address: 'Đà Nẵng', cinema: 'StarCinema Đà Nẵng' },
+      { address: 'Hải Phòng', cinema: 'StarCinema Hải Phòng'},
+      { address: 'Cần Thơ', cinema: 'StarCinema Cần Thơ'},
     ];
+
+    const getCinemaByAddress = (address) => {
+      const data = [];
+      for (let i = 0; i < data1.length; i++){
+        if(data1[i].cinema === address) {
+          data.push(data1[i]);
+        } else if (address === 'Toàn Quốc'){
+          return data1;
+        } 
+      }
+      return data;
+    }
+    const getShowtimeByCinema = (cinema) => {
+      const data = [];
+      const dataShowtime = formatDateShowtime(cinema);
+      for (let i = 0; i < dataShowtime.length; i++) {
+        if (formatDate(selectedItem).toString() == dataShowtime[i].date.toString()) {
+          data.push(dataShowtime[i]); 
+        }
+      }
+      return data;
+    }
+    // const st = getShowtimeByCinema("StarCinema Cần Thơ");
+    // console.log(getShowtimeByCinema('StarCinema Cần Thơ')); 
 
     const dataTime = [
       { time: '09:45'},
@@ -90,13 +132,14 @@ export default function Showtime({navigation, isLoggedIn}) {
     const [selected, setSelected] = useState(0);
     const [selectedItem, setSelectedItem] = useState(new Date());
 
-    const [address, setAddress] = useState(null);
+    const [address, setAddress] = useState('Toàn Quốc');
     const [isFocus, setIsFocus] = useState(false);
     const [cinema, setCinema] = useState(null);
     const [isFocus1, setIsFocus1] = useState(false);
-  
 
-    const [date, setDate] = useState('');
+    // const st = getShowtimeByCinema("StarCinema Cần Thơ");
+    // console.log(st);
+  
     const viewItem = ({item, index}) => {
       return (
         <TouchableOpacity style={{width: 100, height: 80, backgroundColor: (selected === index) ? 'purple' : '#F5F5F5', justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 45,
@@ -112,11 +155,46 @@ export default function Showtime({navigation, isLoggedIn}) {
       )
     }
 
-    const itemTime = ({item, index}) => {
+    // const itemTime = ({item, index}) => {
+    //   return (
+    //     <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
+    //       marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
+    //       onPress={() => {isLoggedIn ? navigation.navigate('Room', {item, address}) : navigation.navigate('Login', {
+    //         onLoginSuccess: () => {
+    //           // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
+    //           isLoggedIn = true;
+    //           navigation.navigate('Room', {item, isLoggedIn, address});
+    //       },
+    //     })}}
+    //     >
+    //       <Text style={{fontSize: 15, fontWeight: '400'}}>{item.time}</Text>
+    //     </TouchableOpacity>
+    //   )
+    // }
+
+    const Showtime = ({item, index}) => {
+      // console.log(item.cinema);
       return (
+        <View style={{width: '100%', flex: 1, borderBottomWidth: 7, borderColor: '#EEEEEE'}}>
+          <Text style={{width: '60%', fontSize: 16, fontWeight: '500',}}>{item.cinema}</Text>
+          <View style={{width: '100%', flex: 1, marginBottom: '4%'}}>
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              numColumns={4}
+              data={getShowtimeByCinema(item.cinema)}
+              renderItem={ViewTime}
+              keyExtractor={(item, index) => {index.toString()}}
+            /> 
+          </View>
+        </View>
+      )
+    }
+    const ViewTime = (item, index) => {
+      // console.log(item);
+      return(
         <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
           marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
-          onPress={() => {isLoggedIn ? navigation.navigate('Room', {item}) : navigation.navigate('Login', {
+          onPress={() => {isLoggedIn ? navigation.navigate('Room', {item, address}) : navigation.navigate('Login', {
             onLoginSuccess: () => {
               // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
               isLoggedIn = true;
@@ -124,9 +202,10 @@ export default function Showtime({navigation, isLoggedIn}) {
           },
         })}}
         >
-          <Text style={{fontSize: 15, fontWeight: '400'}}>{item.time}</Text>
+          <Text style={{fontSize: 15, fontWeight: '400'}}>{item.item.hour}</Text>
         </TouchableOpacity>
       )
+      
     }
 
     return(
@@ -152,55 +231,27 @@ export default function Showtime({navigation, isLoggedIn}) {
 
         <View style={{width: '100%', height: '30%', }}>
           <View style={{flexDirection: 'row', width: '100%', height: '37%', justifyContent: 'space-evenly', alignItems: 'center',}}>
-            <View style={{ backgroundColor: 'white', width: '43%', height: '52%'}}>
-            {/* {renderLabel()} */}
+            <View style={{ backgroundColor: 'white', width: '90%', height: '52%'}}>
               <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
-                // inputSearchStyle={styles.inputSearchStyle}
-                // iconStyle={styles.iconStyle}
                 data={data}
                 // search
                 maxHeight={300} 
                 labelField="address"
-                valueField="value"
+                valueField="address"
                 placeholder={'Tỉnh/Thành Phố'}
                 // searchPlaceholder="Search..."
                 value={address}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                  setAddress(item.value);
+                  setAddress(item.address);
                   setIsFocus(false);
                 }}
               />
             </View>   
-            <View style={{ backgroundColor: 'white', width: '43%', height: '52%'}}>
-            {/* {renderLabel()} */}
-              <Dropdown
-                style={[styles.dropdown, isFocus1 && { borderColor: 'blue' }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                // inputSearchStyle={styles.inputSearchStyle}
-                // iconStyle={styles.iconStyle}
-                data={data1}
-                // search
-                maxHeight={300}
-                labelField="cinema"
-                valueField="cinema"
-                placeholder={!isFocus1 ? 'Cinema' : 'Cinema'}
-                // searchPlaceholder="Search..."
-                value={cinema}
-                onFocus={() => setIsFocus1(true)}
-                onBlur={() => setIsFocus1(false)}
-                onChange={item => {
-                  setCinema(item.cinema);
-                  setIsFocus1(false);
-                }}
-                // disable={true}
-              />
-            </View>     
           </View>
 
           <View style={{width: '100%', height: '60%', borderTopWidth: 0.2, alignItems: 'center',}}>
@@ -217,27 +268,13 @@ export default function Showtime({navigation, isLoggedIn}) {
           <View style={{backgroundColor: '#EEEEEE', flex: 1}}></View>
         </View>
 
-        <View style={{width: '100%', flex: 1,}}>
-          {(address != null) && (cinema != null) && (
-          <TouchableOpacity style={{flexDirection: 'row', width: '100%', height: '10%', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 15}}
-            onPress={toggleExpanded}>
-            <Text style={{width: '30%',fontSize: 16, fontWeight: '500',}}>{cinema}</Text>
-            <Image style={{width: '15%', height: '80%',}} source={require('./Image/icon_dropdown.png')} resizeMode='contain'/>
-          </TouchableOpacity>
-          )}
-          {(address != null) && (cinema != null) && (
-          <Collapsible collapsed={isCollapsed}>
-            <View style={{borderBottomWidth: 6, height: 115, borderColor: '#EEEEEE'}}>
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                numColumns={4}
-                data={dataTime}
-                renderItem={itemTime}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
-          </Collapsible>
-          )}
+        <View style={{width: '95%', flex: 1, marginTop: '2%',}}>
+          <FlatList 
+            showsVerticalScrollIndicator={false}
+            data={getCinemaByAddress(address)}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={Showtime}
+          />
         </View>
 
         <View></View>

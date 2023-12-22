@@ -66,7 +66,7 @@ export default Login = function({navigation, onLogin, route}) {
         if(response.data){
           const data = response.data;
           // setListCustomer(data);
-          const matchingCustomer = data.find(data => data.email === email && data.password === password);
+          const matchingCustomer = data.find(data => data.userName === email && data.password === password);
           // console.log(matchingCustomer);
           updateData(matchingCustomer);
           if(matchingCustomer){
@@ -100,8 +100,8 @@ export default Login = function({navigation, onLogin, route}) {
         <View style={{alignItems: 'center', width: '100%', marginTop: 40}}>
           <TextInputField style={{marginTop: 80}}
             iconSource={require('./Image/icon_person.png')}
-            keyboardType="email-address"
-            placeholder="Email"
+            // keyboardType="email-address"
+            placeholder="Tên tài khoản"
             onChangeText={handleEmailChange}
             value={email}
             autoCapitalize="none"

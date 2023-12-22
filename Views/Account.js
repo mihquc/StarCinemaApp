@@ -12,26 +12,26 @@ export default function Account({navigation}) {
             <Text style={{fontSize: 18, fontWeight: '600'}}>Tài khoản</Text>
         </View>
 
-        <ScrollView>
-            <View style={{alignItems: 'center'}}>
-                <Image source={require('./Image/Bap.png')} style={{ width: 190, height: 190, marginTop: 60}} />
-                <Text style={{ fontSize: 17, color: 'black', fontWeight: '600', marginTop: 20}}>Đăng Ký Thành Viên Star</Text>
+        <ScrollView style={{width: '100%'}}>
+            <View style={{alignItems: 'center', justifyContent: 'space-evenly', width: '100%', height: 350}}>
+                <Image source={require('./Image/Bap.png')} style={{ width: '54%', height: '62%', resizeMode: 'stretch'}} />
+                <Text style={{ fontSize: 19, color: 'black', fontWeight: '600',}}>Đăng Ký Thành Viên Star</Text>
             </View>
 
-            <View style={{flexDirection: 'row', justifyContent:'space-around', marginTop: 40}}>
-                <View style={{alignItems: 'center'}}>
-                    <Image source={require('./Image/icon_card.png')} style={{ width: 40, height: 40, marginBottom: 10, tintColor: '#999900'}}/>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent:'space-evenly', width: '100%', height: '20%',}}>
+                <View style={{alignItems: 'center', justifyContent: 'space-between', width: '13%', height: '65%',}}>
+                    <Image source={require('./Image/icon_card.png')} style={{ width: '88%', height: '80%', tintColor: '#999900', resizeMode: 'stretch'}}/>
                     <Text style={{fontWeight: '400', color: 'purple'}}>Star</Text>
                 </View>
-                <View style={{alignItems: 'center'}}>
-                    <Image source={require('./Image/icon_gift.png')} style={{ width: 40, height: 40, marginBottom: 10, tintColor: '#999900'}}/>
+                <View style={{alignItems: 'flex-start', justifyContent: 'space-between', width: '13%', height: '65%',}}>
+                    <Image source={require('./Image/icon_gift.png')} style={{width: '90%', height: '80%', tintColor: '#999900', resizeMode: 'stretch'}}/>
                     <Text style={{fontWeight: '400', color: 'purple'}}>Ưu đãi</Text>
                 </View>
             </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 140}}>
-                <TouchableOpacity style={{backgroundColor: '#999900', marginBottom: 20, width: 300, height: 50, justifyContent: 'center', 
-                    alignItems: 'center', borderRadius: 8, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.2}}
+            <View style={{justifyContent: 'space-between', alignItems: 'center', marginTop: '10%', width: '100%', height: '26%',}}>
+                <TouchableOpacity style={{backgroundColor: '#999900', width: '80%', height: '45%', justifyContent: 'center', 
+                    alignItems: 'center', borderRadius: 6, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.2}}
                     onPress={() => {
                         navigation.navigate('Login', {
                             onLoginSuccess: () => {
@@ -45,8 +45,8 @@ export default function Account({navigation}) {
                         Đăng nhập
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ width: 300, height: 50, justifyContent: 'center', alignItems: 'center', 
-                    backgroundColor: 'white', borderRadius: 8, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.1,}}
+                <TouchableOpacity style={{ width: '80%', height: '45%', justifyContent: 'center', alignItems: 'center', 
+                    backgroundColor: 'white', borderRadius: 6, shadowOffset: { width: 0, height: 3}, shadowOpacity: 0.1,}}
                     onPress={() => {
                         navigation.navigate('Register');
                     }}>

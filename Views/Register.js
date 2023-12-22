@@ -11,48 +11,8 @@ import axios from 'axios';
 export default Register = function({navigation}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/";
 
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-  const [textDate, setTextDate] = useState('');
-
-  const toggleDatePicker = () => {
-    setShow(!show);
-  };
-  
-  const onChange = ({type}, selectedDate) => {
-    if(type == 'set'){
-      const currentDate = selectedDate;
-      setDate(currentDate);
-
-      if(Platform.OS === 'android'){
-        toggleDatePicker();
-        setTextDate(formatDate(currentDate));
-      }
-    }else{
-      toggleDatePicker();
-    }
-  };
-
-  const confirm = () => {
-    setTextDate(formatDate(date));
-    toggleDatePicker();
-    checkButtonState(name, email, phone, gender, textDate, password, password1);
-  }
-
-  const formatDate = (text) => {
-    let date = new Date(text);
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    month = (month < 10) ? `0${month}` : month;
-    day = (day < 10) ? `0${day}` : day;
-
-    return `${day}-${month}-${year}`;
-  }
-
   const [name, setName] = useState('');
+  const [userName, setUserName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,32 +21,37 @@ export default Register = function({navigation}) {
 
   const handleNameChange = (text) => {
     setName(text);
-    checkButtonState(text, email, phone, gender, textDate, password, password1);
+    checkButtonState(text, email, phone, gender, userName, password, password1);
+  };
+
+  const handleUserNameChange = (text) => {
+    setUserName(text);
+    checkButtonState(name, email, phone, gender, text, password, password1);
   };
 
   const handleEmailChange = (text) => {
     setEmail(text);
-    checkButtonState(name, text, phone, gender, textDate, password, password1);
+    checkButtonState(name, text, phone, gender, userName, password, password1);
   };  
 
   const handlePhoneChange = (text) => {
     setPhone(text);
-    checkButtonState(name, email, text, gender, textDate, password, password1);
+    checkButtonState(name, email, text, gender, userName, password, password1);
   };
 
   const handlePasswordChange = (text) => {
     setPassword(text);
-    checkButtonState(name, email, phone, gender, textDate, text, password1);
+    checkButtonState(name, email, phone, gender, userName, text, password1);
   };
   
   const handlePassword1Change = (text) => {
     setPassword1(text);
-    checkButtonState(name, email, phone, gender, textDate, password, text);
+    checkButtonState(name, email, phone, gender, userName, password, text);
   };
 
-  const checkButtonState = (nameValue, emailValue, phoneValue, genderValue, dateValue, passwordValue, password1Value) => {
+  const checkButtonState = (nameValue, emailValue, phoneValue, genderValue, userNameValue, passwordValue, password1Value) => {
     if (nameValue.trim() !== '' && emailValue.trim() !== '' && phoneValue.trim() !== '' && 
-    genderValue.trim() !== '' && dateValue.trim() !== '' && passwordValue.trim() !== '' && password1Value.trim() !== '') {
+    genderValue.trim() !== '' && userNameValue.trim() !== '' && passwordValue.trim() !== '' && password1Value.trim() !== '') {
       setButtonEnabled(true);
     } else {
       setButtonEnabled(false);
@@ -97,18 +62,18 @@ export default Register = function({navigation}) {
 
   const handleGenderChange = (value) => {
     setGender(value);
-    checkButtonState(name, email, phone, value, textDate, password, password1);
+    checkButtonState(name, email, phone, value, userName, password, password1);
   };
 
   const register = () => {
     if(isButtonEnabled)
     {
       if (password.trim() === password1.trim()) {
-        const formatData={ name: name, email: email, phone: phone, gender: (gender==="male")? 0 :((gender==="female")?1:2), 
-        dayofbirth: formatDate(date), password: password}
+        const formatData={ nickName: name, email: email, phonenumber: phone, sex: (gender==="male")? 0 :((gender==="female")?1:2), 
+        userName: userName, password: password, avatar: ""} 
         console.log("Post...");
         try {
-          axios.post(`${URL}/customer`,formatData) // call api
+          axios.post(`${URL}/customer`, formatData) // call api
           .then((response) => {
             console.log(response.data);
             if(response.data) {
@@ -116,7 +81,7 @@ export default Register = function({navigation}) {
                 onLoginSuccess: () => {
                   // Callback được gọi khi người dùng đăng nhập thành công
                   navigation.navigate('MyTabs', {screen: 'Profile'});
-                } , email, password1}
+                } , userName, password1}
               );
             }
           })
@@ -204,80 +169,28 @@ export default Register = function({navigation}) {
           />
 
           <TextInputField
-          iconSource={require('./Image/icon_iphone.png')}
-          placeholder="Số điện thoại"
-          onChangeText={handlePhoneChange}
-          value={phone}
-          keyboardType="numeric"
-        />
+            iconSource={require('./Image/icon_iphone.png')}
+            placeholder="Số điện thoại"
+            onChangeText={handlePhoneChange}
+            value={phone}
+            keyboardType="numeric"
+          />
 
-          <View style={{marginTop: 15}}>
+          <View style={{marginTop: 15, width: '88%', height: '10%', justifyContent: 'center'}}>
             <Text>Giới tính (tùy chọn)</Text>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
+            <View style={{width: '100%', flexDirection: 'row', marginTop: 10}}>
               {renderRadioButton('male', 'Nam')}
               {renderRadioButton('female', 'Nữ')}
               {renderRadioButton('undefined', 'Chưa xác định')}
             </View>
           </View>
 
-          <View style={[styles.inputContainer, {justifyContent: 'space-between'}]}>
-            {!show && (
-              <Pressable  
-                style={{height: '100%', width: '80%'}}
-                onPress={toggleDatePicker}
-              >
-                <TextInput
-                  style={[styles.input, {}]}
-                  placeholder="Ngày sinh"
-                  editable={false}
-                  value={textDate}
-                  // onTextChange={setTextDate}
-                  onPressIn={toggleDatePicker}
-                />
-              </Pressable>
-            )}
-
-            <View style={{height: '100%', width: '13%', justifyContent: 'center', alignItems: 'center'}}>
-              <Image source={require('./Image/icon_calendar.png')} style={{width:18, height: 18, tintColor: 'gray'}} />
-            </View>
-          </View>
-
-                  
-          <Modal
-              transparent={true}
-              animationType="slide"
-              visible={show}
-              onRequestClose={() => {
-                setShow(false);
-              }}
-            >
-              <View style={{flex: 1, justifyContent: 'flex-end',}}>
-                
-                <View style={{ backgroundColor: 'white', borderTopWidth: 0.1, borderRadius: 30, height: '50%', margin: 20,
-                    shadowOffset: { width: 0, height: 5}, shadowOpacity: 0.7}}>
-                  <View style={{justifyContent: 'center', alignItems: 'center', height: '8%', borderBottomWidth: 0.2}}>
-                    <Text style={{fontSize: 17, fontWeight: '500', color: 'purple'}}>Ngày sinh</Text>
-                  </View>
-                  {show && (
-                    <DateTimePicker
-                    style={{width: '100%',height: '65%',}}
-                    textColor='black'
-                    value={date}
-                    mode='date'
-                    display='spinner'
-                    onChange={onChange} 
-                    />
-                  )}
-                  <TouchableOpacity onPress={confirm} style={{ height: '13%', alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.2, borderBottomWidth: 0.2}}>
-                    <Text style={{fontSize: 20, color: 'purple'}}>Xác nhận</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={()=>{setShow(false)}} style={{height: '11%', alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{fontSize: 20, color: 'purple'}}>Đóng</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
+          <TextInputField
+            iconSource={require('./Image/icon_person.png')}
+            placeholder="Tên tài khoản"
+            onChangeText={handleUserNameChange}
+            value={userName}
+          />
           
           <TextInputField
             iconSource={require('./Image/icon_lock.png')}
@@ -329,24 +242,24 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     inputContainer: {
-        flexDirection: 'row',
-        width: '88%',
-        height: 45,
-        backgroundColor: 'white',
-        borderWidth: 0.2,
-        borderRadius: 4,
-        marginTop: '5%'
+      flexDirection: 'row',
+      width: '88%',
+      height: 45,
+      backgroundColor: 'white',
+      borderWidth: 0.2,
+      borderRadius: 4,
+      marginTop: '5%'
     },
     input: {
-        marginLeft: 10,
-        width: '100%',
-        height: '100%',
+      marginLeft: 10,
+      width: '100%',
+      height: '100%',
     },
     icon: {
-        width: 15,
-        height: 15,
-        marginTop: 14,
-        marginLeft: 10,
+      width: 15,
+      height: 15,
+      marginTop: 14,
+      marginLeft: 10,
     },
     button: {
       justifyContent: 'center',

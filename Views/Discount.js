@@ -8,7 +8,7 @@ export default function Discount({navigation, route}) {
   const [name, setName] = useState('');
   // console.log(route.params.item.image);
   useEffect(() => {
-    setName(route.params.item.name);
+    setName(route.params.item.title);
   })
 
   return(
@@ -16,7 +16,7 @@ export default function Discount({navigation, route}) {
       <StatusBar style="auto"/>
       <Header iconSource={require('./Image/icon_xx.png')} onPress={() => {navigation.goBack()}}/>
       <View style={{width: '100%', height: '35%', alignItems: 'flex-start', justifyContent: 'flex-start',}}>
-        <Image style={{width: '100%', height: '100%', resizeMode: 'stretch'}} source={route.params.item.image}/>
+        <Image style={{width: '100%', height: '100%', resizeMode: 'stretch'}} source={{uri: route.params.item.imageUrl}}/>
       </View>
       <View style={{width: '92%', height: '57%', marginTop: '2%'}}>
         <Text style={{fontSize: 16, fontWeight: '500'}}>{name}</Text>

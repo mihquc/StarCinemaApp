@@ -5,17 +5,16 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 const { width: screenWidth } = Dimensions.get('window');
-console.log(screenWidth);
+// console.log(screenWidth);
 
 export default Home = function({navigation}) {
-  const URLMovies = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/movie";
+  const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq";
+  const URLMovies = "https://9dfa-2001-ee0-4b7b-4950-45fe-2b36-fcc8-7224.ngrok-free.app/dev-api/customer/homepage/search/nowplayingmovies";
   const URLMovies1 = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
-
-  const isLoggedIn = useSelector((state) => state.loginInfo.isLoggedIn);
-  const customer = useSelector((state) => state.loginInfo.customer);
+  const URLPromotions = "https://04fc-2402-800-629c-469a-fdae-eeb2-7db1-d18e.ngrok.io/dev-api/customer/homepage/search/promotions";
 
   const [imageList, setImageList] = useState([]);
-  const [imageList1, setImageList1] = useState([]);
+  const [imageList1, setImageList1] = useState([]); 
   const [imageList2, setImageList2] = useState([]);
   const [listDiscount, setListDiscount] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,6 +42,7 @@ export default Home = function({navigation}) {
 
   // const stepScroll = useRef(null);  //ref
 
+  // lưu trữ store
   const dispatch = useDispatch();
   const selectMovie = (movie) => {
     try {
@@ -58,17 +58,27 @@ export default Home = function({navigation}) {
       console.log(error);
     }
   }
+  const listShowtime = (showtimes) => {
+    try {
+      dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    axios.get(URLMovies)
+    //phim đang chiếu
+    axios.get(`${URL}/movie`)
     .then((response) => {
       const data = response.data;
       // console.log(data);
       listMovie(data);
-      setImageList1(data); 
+      setImageList1(data);
     })
     .catch((error) => {console.log(error);});
 
-    axios.get(URLMovies1)
+    // phim sắp chiếu
+    axios.get(`${URL}/customer`) 
     .then((response) => {
       const data = response.data;
       // console.log(data);
@@ -76,8 +86,27 @@ export default Home = function({navigation}) {
     })
     .catch((error) => {console.log(error);});
 
-    console.log("customer: ", customer); 
-    console.log("isLoggedIn: ", isLoggedIn);
+    // khuyến mãi
+    axios.get(URLPromotions)
+    .then((response) => {
+      const data = response.data;
+      console.log(data);
+      setListDiscount(data); 
+    })
+    .catch((error) => {console.log(error);});
+
+    // showtime
+    axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList")
+    .then((response) => {
+      const data = response.data;
+      listShowtime(data);
+      // console.log(data[1].showTimeList);
+      // console.log(response.request._response);
+      // console.log(response.request._response);
+      // console.log(showTimeInfoList); 
+      // console.log(data[1].showTimeList);
+    }).catch((error) => {console.error(error);});
+
 
     // 1. load data tu server
     const data = [
@@ -100,32 +129,30 @@ export default Home = function({navigation}) {
 
     const data1 = [
       {
-        image: require('./Image/movie_du1.jpg'),
-        name: 'Thứ 4 vui vẻ',
+        imageUrl: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
+        title: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_nvcc.jpg'),
-        name: 'Thứ 4 vui vẻ',
+        image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
+        title: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_cd1.jpg'),
-        name: 'Thứ 4 vui vẻ',
+        image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
+        title: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_theMarvels.jpg'),
-        name: 'Thứ 4 vui vẻ',
+        image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
+        title: 'Thứ 4 vui vẻ',
       },
       {
-        image: require('./Image/movie_drpn.jpg'),
-        name: 'Thứ 4 vui vẻ',
+        image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
+        title: 'Thứ 4 vui vẻ',
       },
     ];
     setListDiscount(data1);
     // 2. cap nhat len state cua screen
     setImageList(data);
   }, [])
-
-  const movies = useSelector((state) => state.movies.movies);
 
   // useEffect(() => {
   //   if(imageList.length > 0) {
@@ -261,7 +288,7 @@ export default Home = function({navigation}) {
   const viewItem = ({item, index}) => {
     // console.log(index);
     return(
-      <TouchableOpacity style={{width: screenWidth/2, justifyContent: 'flex-start', alignItems:'center', marginBottom: '2%'}}
+      <TouchableOpacity style={{width: screenWidth/2.1, justifyContent: 'flex-start', alignItems:'center', marginBottom: '2%',}}
         onPress={() => {
           selectMovie(item);
           navigation.navigate('Movies', {item});
@@ -314,9 +341,9 @@ export default Home = function({navigation}) {
           </TouchableOpacity>
         </View>
         
-        <View style={{marginBottom: '0%'}}>
+        <View style={{alignItems: 'center'}}>
           <FlatList
-            data={isTextClicked ? movies : imageList2}
+            data={isTextClicked ? imageList1 : imageList2}
             numColumns={2}
             renderItem={viewItem}
             keyExtractor={(item, index) => index.toString()}
@@ -338,8 +365,8 @@ export default Home = function({navigation}) {
               return(
                 <TouchableOpacity style={{width: 250, height: 200, marginRight: 20, marginLeft: index===0 ? 20 : 0,}}
                   onPress={() => {navigation.navigate('Discount', {item})}}>
-                  <Image source={item.image} style={{resizeMode: 'stretch', width: '100%', height: '90%', borderRadius: 8, marginTop: '6%'}}/>
-                  <Text style={{fontSize: 15, fontWeight: '600', marginTop: '2%', width: '100%', height: '10%',}}>{item.name}</Text>
+                  <Image source={{uri: item.imageUrl || "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png"}} style={{resizeMode: 'stretch', width: '100%', height: '90%', borderRadius: 8, marginTop: '6%'}}/>
+                  <Text style={{fontSize: 15, fontWeight: '600', marginTop: '2%', width: '100%',}}>{item.title}</Text>
                 </TouchableOpacity>
             )}}
             // scrollEventThrottle={16}
@@ -364,7 +391,7 @@ const styles = StyleSheet.create({
   },
   image1: {
     width: '100%', 
-    height: 270,
+    height: 267,
     borderRadius: 5,
   },
   dot: {

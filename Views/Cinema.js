@@ -2,24 +2,38 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
-import Collapsible from 'react-native-collapsible';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+// import moment from 'moment';
+// const dateString = "21/12/2023 18:00:00";
+
+//   // Chuyển đổi chuỗi thành đối tượng moment
+//   const dateObject = moment(dateString, 'DD/MM/YYYY HH:mm:ss');
+
+//   // Lấy ra ngày, tháng, năm và giờ
+//   const ngay = dateObject.date();
+//   const thang = dateObject.month() + 1; // Tháng bắt đầu từ 0
+//   const nam = dateObject.year();
+//   const gio = dateObject.hour();
 
 export default function Cinema({navigation}) {
-  const [address, setAddress] = useState('Đà Nẵng');
-  const [tempAdress, setTempAddress] = useState('Đà Nẵng');
+  const [address, setAddress] = useState('StarCinema Đà Nẵng');
+  const [tempAdress, setTempAddress] = useState('StarCinema Đà Nẵng');
   const [isPickerVisible, setPickerVisible] = useState(false);
   const [cinemaList, setCinemaList] = useState([]);
+  const [showTimeInfoList, setShowTimeInfoList] = useState([]);
 
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const toggleExpanded = () => {
-    setIsCollapsed(!isCollapsed);
+  const dispatch = useDispatch();
+  const listShowtime = (showtimes) => {
+    try {
+      dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const togglePicker = () => {
     setPickerVisible(!isPickerVisible);
-    // if (!isPickerVisible) {
-    //   setTempAddress(address);
-    // }
   };
 
   const confirm = () => {
@@ -33,6 +47,15 @@ export default function Cinema({navigation}) {
   };
 
   useEffect(() =>{
+    axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList")
+    .then((response) => {
+      const data = response.data;
+      // console.log(response.request._response);
+      setShowTimeInfoList((data));
+      // console.log(response.request._response);
+      // console.log(showTimeInfoList); 
+      // console.log(data[1].showTimeList);
+    }).catch((error) => {console.error(error);});
     const data = [
       {
         id: '01',
@@ -43,85 +66,53 @@ export default function Cinema({navigation}) {
       {
         id: '02',
         image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema 1',
-        address: 'Đà Nẵng',
+        name: 'Star Cinema',
+        address: 'Hà Nội',
       },
       {
         id: '03',
         image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
-        address: 'Hà Nội',
+        address: 'TP Hồ Chí Minh',
       },
       {
         id: '04',
         image: require('./Image/cinema_dn.png'),
         name: 'Star Cinema',
-        address: 'TP Hồ Chí Minh',
-      },
-      {
-        id: '05',
-        image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema 1',
-        address: 'TP Hồ Chí Minh',
-      },
-      {
-        id: '06',
-        image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema 2',
-        address: 'TP Hồ Chí Minh',
-      },
-      {
-        id: '07',
-        image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema',
         address: 'Huế',
-      },
-      {
-        id: '08',
-        image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema',
-        address: 'Quảng Nam',
-      },
-      {
-        id: '09',
-        image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema',
-        address: 'An Giang',
-      },
-      {
-        id: '10',
-        image: require('./Image/cinema_dn.png'),
-        name: 'Star Cinema',
-        address: 'Cà Mau',
       },
     ]
     setCinemaList(data);
+    // console.log(cinemaList.length);
   }, [])
 
   const getCinemaByAddress = (address) => {
     const data = [];
-    for (let i = 0; i < cinemaList.length; i++) {
-      if (cinemaList[i].address === address) {
-        data.push(cinemaList[i]);
+    for (let i = 0; i < showTimeInfoList.length; i++) {
+      if (showTimeInfoList[i].cinema.cinemaName === address) {
+        data.push(showTimeInfoList[i]);
+        // console.log(showTimeInfoList[i].showTimeList)
+        listShowtime(showTimeInfoList[i].showTimeList);
       } else if (address === 'Toàn quốc') {
-        return cinemaList;
+        return showTimeInfoList;
       }
     }
+    // listShowtime(data);
     return data;
   }
-
+  
   const viewItem = ({item, index}) => {
     return (
       <TouchableOpacity style={{ width: '100%', height: 100, alignItems: 'center', flexDirection: 'row', borderBottomWidth: 0.2}}
         onPress={() => {
           navigation.navigate('ShowtimeAddress', {item});
         }}>
-        <View style={{width: '28%', height: '80%', alignItems: 'flex-end'}}>
-          <Image style={styles.imageCinema} source={item.image}/>
+        <View style={{width: '32%', height: '80%', alignItems: 'flex-end',}}>
+          <Image style={styles.imageCinema} source={require('./Image/cinema_dn.png')}/>
         </View>
-        <View style={{width: '72%', height: '80%'}}>
-          <Text style={{fontSize: 15, fontWeight: '500', }}>{item.name}</Text>
-          <Text style={{fontSize: 15, fontWeight: '500', }}>{item.address}</Text>
+        <View style={{width: '68%', height: '80%', justifyContent: 'space-evenly'}}>
+          <Text style={{fontSize: 15, fontWeight: '500', }}>{item.cinema.cinemaName}</Text>
+          <Text style={{fontSize: 15, fontWeight: '500', }}>{item.cinema.cinemaAdress}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -161,13 +152,11 @@ export default function Cinema({navigation}) {
                     style={{}}
                   >
                     <Picker.Item label="Toàn quốc" value="Toàn quốc" />
-                    <Picker.Item label="TP Hồ Chí Minh" value="TP Hồ Chí Minh" />
-                    <Picker.Item label="Hà Nội" value="Hà Nội" />
-                    <Picker.Item label="Đà Nẵng" value="Đà Nẵng" />
-                    <Picker.Item label="Huế" value="Huế" />
-                    <Picker.Item label="Quảng Nam" value="Quảng Nam" />
-                    <Picker.Item label="An Giang" value="An Giang" />
-                    <Picker.Item label="Cà Mau" value="Cà Mau" />
+                    <Picker.Item label="StarCinema Hồ Chí Minh" value="StarCinema Hồ Chí Minh"/>
+                    <Picker.Item label="StarCinema Hà Nội" value="StarCinema Hà Nội" />
+                    <Picker.Item label="StarCinema Đà Nẵng" value="StarCinema Đà Nẵng" />
+                    <Picker.Item label="StarCinema Hải Phòng" value="StarCinema Hải Phòng" />
+                    <Picker.Item label="StarCinema Cần Thơ" value="StarCinema Cần Thơ" />
                   </Picker>
 
                   <TouchableOpacity onPress={confirm} style={{ height: '15%', alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.2, borderBottomWidth: 0.2}}>

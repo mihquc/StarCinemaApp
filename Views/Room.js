@@ -1,14 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, FlatList, Alert } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, FlatList, } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Seat from '../Component/seat';
 import { useSelector } from 'react-redux';
 
 export default function Room({navigation, route}) {
   const Movie = useSelector((state) => state.movies.selectedMovie);
-  
-  const [price, setPrice] = useState(0);
+
+  const address = route.params.address;
+  const time = route.params.item.item.hour;
+  // console.log(time);
+  // console.log(address);
 
   const data = ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', ]
   const createSeatArray = (sum) => {
@@ -69,15 +72,15 @@ export default function Room({navigation, route}) {
   const [selectedSeatIds, setSelectedSeatIds] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedSeatsCount, setSelectedSeatsCount] = useState(0);
-  // const [exceededLimit, setExceededLimit] = useState(false);
+  // const [isDisabled, setDisabled] = useState(false);
+  const [price, setPrice] = useState(0);
 
   const handleSeatPress = (isPressed, item) => {
     if (isPressed) {
-        setSelectedSeats([...selectedSeats, item]);
-        setPrice(price + calculateSeatPrice(item));
-        setSelectedSeatsCount(selectedSeatsCount + 1);
-        setSelectedSeatIds([...selectedSeatIds, item.seatId]); // Thêm seatId vào danh sách
-
+      setSelectedSeats([...selectedSeats, item]);
+      setPrice(price + calculateSeatPrice(item));
+      setSelectedSeatsCount(selectedSeatsCount + 1);
+      setSelectedSeatIds([...selectedSeatIds, item.seatId]); // Thêm seatId vào danh sách
     } else  {
       const updatedSeats = selectedSeats.filter((selectedSeat) => selectedSeat !== item);
       setSelectedSeats(updatedSeats);
@@ -193,7 +196,12 @@ export default function Room({navigation, route}) {
           </View>
         </View>
         <View style={{height: '100%', flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-          <TouchableOpacity style={{width: '88%', height: '75%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#999900', borderRadius: 5}}>
+          <TouchableOpacity style={{width: '88%', height: '75%', alignItems: 'center', justifyContent: 'center', backgroundColor: (price>0) ? '#999900' : '#CCCCCC', 
+          borderRadius: 5}} onPress={() => {
+              if (price > 0) {
+                navigation.navigate('Payment', {address, time, selectedSeatIds, price});
+              }
+            }}> 
             <Text style={{color: 'white', fontSize: 16, fontWeight: '700'}}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>
