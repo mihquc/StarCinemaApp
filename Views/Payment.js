@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'react-native';
 import { useSelector } from 'react-redux'
 import { Dropdown } from 'react-native-element-dropdown';
+import Loader from '../Component/loader';
 
 export default function Payment({navigation, route}) {
     const movie = useSelector((state) => state.movies.selectedMovie);
@@ -14,11 +15,16 @@ export default function Payment({navigation, route}) {
     const [titlePromotion, setPromotion] = useState('');
     const [discount, setDiscount] = useState(0);
     const [alertVisible, setAlertVisible] = useState(true);
+    const [progress, setProgress] = useState(false);
 
-    const hideAlert = () => {
+    const confirmAlert = () => {
       setAlertVisible(false);
     };
-
+    const cancelAlert = () => {
+      setAlertVisible(false);
+      navigation.popToTop();
+      setProgress(false);
+    };
     useEffect(() => {
       setAlertVisible(true);
     }, []);
@@ -59,23 +65,31 @@ export default function Payment({navigation, route}) {
 
         <Modal transparent visible={alertVisible} animationType="slide">
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)',}}>
-            <View style={{backgroundColor: 'white', borderRadius: 5, alignItems: 'center', width: '80%', height: '30%',}}>
-              <View style={{width: '100%', height: '20%', backgroundColor: 'gray', alignItems: 'center', justifyContent: 'center'}}>
-                <View style={{width: '10%', height: '45%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3}}>
+            <View style={{backgroundColor: 'white', borderRadius: 2, alignItems: 'center', width: '88%', height: '27%',}}>
+              <View style={{width: '100%', height: '23%', alignItems: 'center', justifyContent: 'flex-end'}}>
+                <View style={{width: '12%', height: '50%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3}}>
                   <Text style={{color: 'white', fontSize: 14, fontWeight: '600'}}>{movie.rated}</Text>
                 </View>
               </View>
-              <View style={{width: '100%', height: '60%', backgroundColor: 'red'}}>
-
+              <View style={{width: '100%', height: '55%', alignItems: 'center'}}>
+                <View style={{width: '85%', height: '50%', alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={{fontWeight: '600', textAlign: 'center', fontSize: 17}}>Xác nhận mua vé cho người có độ tuổi phù hợp</Text>
+                </View>
+                <View style={{width: '84%', height: '60%',}}>
+                  <Text style={{textAlign: 'center', fontSize: 15}}>Tôi xác nhận mua vé phim này cho người có độ tuổi từ {18} tuổi trở lên.</Text>
+                </View>
               </View>
-              <View style={{flexDirection: 'row', width: '100%', height: '20%', }}>
-                <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: 'darkgray', justifyContent: 'center', alignItems: 'center'}} 
-                  onPress={hideAlert}>
-                  <Text style={{fontWeight: '600', fontSize: 16, color: 'black'}}>Từ chối</Text>
+              <View style={{flexDirection: 'row', width: '100%', height: '22%', }}>
+                <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: '#EEEEEE', justifyContent: 'center', alignItems: 'center'}} 
+                  onPress={() => {
+                    setProgress(true);
+                    cancelAlert();
+                  }}>
+                  <Text style={{fontWeight: '500', fontSize: 16, color: 'black'}}>Từ chối</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: '#999900', justifyContent: 'center', alignItems: 'center'}} 
-                  onPress={hideAlert}>
-                  <Text style={{fontWeight: '600', fontSize: 16, color: 'white'}}>Xác nhận</Text>
+                  onPress={confirmAlert}>
+                  <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>Đồng ý</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -173,6 +187,7 @@ export default function Payment({navigation, route}) {
               </TouchableOpacity>
             </View>
         </View>
+        {progress ? <Loader indeterminate={progress}/> : null}
       </SafeAreaView>
     )
   }

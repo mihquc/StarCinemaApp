@@ -23,6 +23,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './Redux/reducers';
 import Payment from './Views/Payment';
+import UpdateProfile from './Views/UpdateProfile';
+import UpdatePassword from './Views/UpdatePassword';
 
 
 const Tab = createBottomTabNavigator();
@@ -101,6 +103,8 @@ export default function App({navigation}) {
           <Stack.Screen name="Room" component={Room} />
           <Stack.Screen name="Discount" component={Discount} />
           <Stack.Screen name="Payment" component={Payment} />
+          <Stack.Screen name="UpdateProfile" component={UpdateProfile}/>
+          <Stack.Screen name="UpdatePassword" component={UpdatePassword}/>
           <Stack.Screen name="ShowtimeAddress">{(props) => <ShowtimeAddress {...props} isLoggedIn={isLoggedIn} onLogout={handleLogout}/>}</Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

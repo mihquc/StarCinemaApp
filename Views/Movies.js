@@ -4,11 +4,13 @@ import { View, Image, ScrollView, Text, TouchableOpacity, StyleSheet, SafeAreaVi
 import YoutubeIframe from 'react-native-youtube-iframe';
 import YoutubePlayer from "react-native-youtube-iframe"; 
 import { useSelector } from 'react-redux';
+import Loader from '../Component/loader';
 
 export default function Movies({navigation, isLoggedIn}) {
   const [playing, setPlaying] = useState(false);
   const Movie = useSelector((state) => state.movies.selectedMovie);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);  
+  const [progress, setProgress] = useState(false);
 
   const toggleReadMore = () => {
     setExpanded(!expanded);
@@ -36,8 +38,11 @@ export default function Movies({navigation, isLoggedIn}) {
     // Nếu có, trả về ID video; ngược lại, trả về null
     return match ? match[1] : null;
   };
- 
-    return(
+  const pressBooking = () => {
+    navigation.navigate('Showtime');
+    setProgress(false);
+  }
+  return(
     <View style={styles.container}>
       {/* Phần tai thỏ */}
       <View style={styles.notchContainer}>
@@ -162,10 +167,14 @@ export default function Movies({navigation, isLoggedIn}) {
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={{backgroundColor: '#999900', width: '88%', height: '48%', alignItems: 'center', justifyContent: 'center', borderRadius: 5,
         opacity: 1, shadowOffset: { width: 0, height: 2}, shadowOpacity: 0.1}}
-        onPress={() => {navigation.navigate('Showtime')}}>
+        onPress={() => {
+          setProgress(true);
+          pressBooking();
+        }}>
           <Text style={{color: 'white', fontSize: 16, fontWeight: '600' }}>Đặt vé</Text>
         </TouchableOpacity>
       </View>
+      {progress ? <Loader indeterminate={progress}/> : null}
     </View>
   );
 };

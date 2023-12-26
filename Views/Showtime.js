@@ -2,10 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, ScrollView } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-// import CollapsibleTime from '../Component/Collapsible';
-import Collapsible from 'react-native-collapsible';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import Loader from '../Component/loader';
 
 export default function Showtime({navigation, isLoggedIn}) {
     const Movie = useSelector((state) => state.movies.selectedMovie);
@@ -59,7 +58,7 @@ export default function Showtime({navigation, isLoggedIn}) {
       }
       return data;
     }
-    const getShowtimeByCinema = (cinema) => {
+    const getShowtimeByDate = (cinema) => {
       const data = [];
       const dataShowtime = formatDateShowtime(cinema);
       for (let i = 0; i < dataShowtime.length; i++) {
@@ -69,8 +68,6 @@ export default function Showtime({navigation, isLoggedIn}) {
       }
       return data;
     }
-    // const st = getShowtimeByCinema("StarCinema Cần Thơ");
-    // console.log(getShowtimeByCinema('StarCinema Cần Thơ')); 
 
     const dataTime = [
       { time: '09:45'},
@@ -135,22 +132,22 @@ export default function Showtime({navigation, isLoggedIn}) {
     const [address, setAddress] = useState('Toàn Quốc');
     const [isFocus, setIsFocus] = useState(false);
     const [cinema, setCinema] = useState(null);
-    const [isFocus1, setIsFocus1] = useState(false);
+    const [progress, setProgress] = useState(false);
 
     // const st = getShowtimeByCinema("StarCinema Cần Thơ");
     // console.log(st);
   
     const viewItem = ({item, index}) => {
       return (
-        <TouchableOpacity style={{width: 100, height: 80, backgroundColor: (selected === index) ? 'purple' : '#F5F5F5', justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 45,
+        <TouchableOpacity style={{width: 100, height: 77, backgroundColor: (selected === index) ? 'purple' : '#F5F5F5', justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 45,
         marginRight: 20, marginLeft: (index === 0) ? 20 : 0, borderRadius: 5, opacity: 1, shadowOffset: { width: 0, height: 6}, shadowOpacity: 0.1}} 
         onPress={() => {
           setSelected(index);
           setSelectedItem(item.date);
         }}>
           {/* <Text>...</Text> */}
-          <Text style={{color: (selected === index) ? 'white' : 'black', fontSize: 17, fontWeight: '600'}}>{item.dateFormat}</Text>
-          <Text style={{color: (selected === index) ? 'white' : 'black',}}>{item.day}</Text>
+          <Text style={{color: (selected === index) ? 'white' : 'black', fontSize: 15, fontWeight: '600'}}>{item.dateFormat}</Text>
+          <Text style={{color: (selected === index) ? 'white' : 'black', fontSize: 13,}}>{item.day}</Text>
         </TouchableOpacity>
       )
     }
@@ -175,54 +172,70 @@ export default function Showtime({navigation, isLoggedIn}) {
     const Showtime = ({item, index}) => {
       // console.log(item.cinema);
       return (
-        <View style={{width: '100%', flex: 1, borderBottomWidth: 7, borderColor: '#EEEEEE'}}>
+        <>
+        {(getShowtimeByDate(item.cinema).length !== 0) ? 
+        <View style={{width: '100%', flex: 1, borderBottomWidth: 7, borderColor: '#EEEEEE', marginTop: index === 0 ? 0 : 5}}>
           <Text style={{width: '60%', fontSize: 16, fontWeight: '500',}}>{item.cinema}</Text>
           <View style={{width: '100%', flex: 1, marginBottom: '4%'}}>
             <FlatList
               showsHorizontalScrollIndicator={false}
               numColumns={4}
-              data={getShowtimeByCinema(item.cinema)}
+              data={getShowtimeByDate(item.cinema)}
               renderItem={ViewTime}
               keyExtractor={(item, index) => {index.toString()}}
             /> 
           </View>
-        </View>
+        </View> : null}
+        </>
       )
+    }
+    const pressRoom = (item) => {
+      if(isLoggedIn) {
+        navigation.navigate('Room', {item, address});
+        setProgress(false);
+      } else {
+        navigation.navigate('Login', {
+          onLoginSuccess: () => {
+            // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
+            isLoggedIn = true;
+            navigation.navigate('Room', {item, isLoggedIn, address});
+            setProgress(false); 
+          },
+        });
+        setProgress(false);
+      }
     }
     const ViewTime = (item, index) => {
       // console.log(item);
       return(
         <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
           marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
-          onPress={() => {isLoggedIn ? navigation.navigate('Room', {item, address}) : navigation.navigate('Login', {
-            onLoginSuccess: () => {
-              // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
-              isLoggedIn = true;
-              navigation.navigate('Room', {item, isLoggedIn, address});
-          },
-        })}}
+          onPress={() => {
+            setProgress(true);
+            pressRoom(item);
+          }}
         >
           <Text style={{fontSize: 15, fontWeight: '400'}}>{item.item.hour}</Text>
         </TouchableOpacity>
       )
-      
     }
 
     return(
       <SafeAreaView style={styles.container}>
         <StatusBar style="auto"/>
-        <View style={{width: '90%', height: "5%", justifyContent: "flex-end"}}>
-          <TouchableOpacity style={{width: '9%', height: '100%', justifyContent: "center"}} onPress={()=>{
+        <View style={{width: '90%', height: "5%", justifyContent: "flex-start",  flexDirection: 'row'}}>
+          <TouchableOpacity style={{width: '9%', height: '100%', justifyContent: "center",}} onPress={()=>{
             navigation.goBack();
           }}>
             <Image style={{width: '90%', height: '80%'}} source={require('./Image/icon_back.png')} resizeMode='contain'/>
           </TouchableOpacity>
+          <View style={{width: '82%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontSize: 18, fontWeight: '600', }}>
+              Suất Chiếu
+            </Text>
+          </View>
         </View>
-        <View style={{width: '100%', height: '4%', alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{fontSize: 18, fontWeight: '600', }}>
-            Suất Chiếu
-          </Text>
-        </View>
+
         <View style={{width: '100%', height: '4%', alignItems: 'center', justifyContent: 'center', borderBottomWidth: 0.2}}>
           <Text style={{fontSize: 17, fontWeight: '600', }}>
             {Movie.title}
@@ -269,15 +282,19 @@ export default function Showtime({navigation, isLoggedIn}) {
         </View>
 
         <View style={{width: '95%', flex: 1, marginTop: '2%',}}>
+          {(getShowtimeByDate(address).length !== 0) ? 
           <FlatList 
             showsVerticalScrollIndicator={false}
             data={getCinemaByAddress(address)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={Showtime}
-          />
+          /> : 
+          <View style={{width: '100%', height: '70%',alignItems: 'center', justifyContent: 'center'}}>
+            <Image style={{ width: '28%', height: '32%', tintColor: 'gray', resizeMode: 'contain' }} source={require('./Image/film.png')}/>
+            <Text style={{fontWeight: '500', color: 'gray', marginTop: '2%', fontSize: 15}}>Hiện tại phim chưa có lịch chiếu</Text>
+          </View>}
         </View>
-
-        <View></View>
+        {progress ? <Loader indeterminate={progress}/> : null}
       </SafeAreaView>
     )
   }

@@ -46,7 +46,8 @@ export default function Profile({navigation, route}){
                     </TouchableOpacity>
                 </View>
                 <View style={{width: '95%', height: '15%', justifyContent: 'center', flexDirection: 'row', }}>
-                    <TouchableOpacity style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'center', borderRightWidth: 0.2, borderColor: 'silver'}}>
+                    <TouchableOpacity style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'center', borderRightWidth: 0.2, borderColor: 'silver'}}
+                      onPress={() => {navigation.navigate('UpdateProfile')}}>
                         <Image style={{width: '13%', height: '38%', marginHorizontal: '2%', tintColor: 'black', }} source={require('./Image/icon_pencil.png')} resizeMode='contain' />
                         <Text style={{fontWeight: '600', fontSize: 15}}>Thông tin</Text>
                     </TouchableOpacity>

@@ -51,7 +51,7 @@ export default function Cinema({navigation}) {
     .then((response) => {
       const data = response.data;
       // console.log(response.request._response);
-      setShowTimeInfoList((data));
+      setShowTimeInfoList(data);
       // console.log(response.request._response);
       // console.log(showTimeInfoList); 
       // console.log(data[1].showTimeList);
@@ -92,7 +92,6 @@ export default function Cinema({navigation}) {
       if (showTimeInfoList[i].cinema.cinemaName === address) {
         data.push(showTimeInfoList[i]);
         // console.log(showTimeInfoList[i].showTimeList)
-        listShowtime(showTimeInfoList[i].showTimeList);
       } else if (address === 'Toàn quốc') {
         return showTimeInfoList;
       }
@@ -102,9 +101,11 @@ export default function Cinema({navigation}) {
   }
   
   const viewItem = ({item, index}) => {
+    // console.log(item.showTimeList);
     return (
       <TouchableOpacity style={{ width: '100%', height: 100, alignItems: 'center', flexDirection: 'row', borderBottomWidth: 0.2}}
         onPress={() => {
+          listShowtime(item.showTimeList);
           navigation.navigate('ShowtimeAddress', {item});
         }}>
         <View style={{width: '32%', height: '80%', alignItems: 'flex-end',}}>

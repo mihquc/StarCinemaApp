@@ -5,6 +5,7 @@ import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import Loader from '../Component/loader';
 
 export default Login = function({navigation, onLogin, route}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
@@ -12,6 +13,7 @@ export default Login = function({navigation, onLogin, route}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listCustomer, setListCustomer] = useState([]);
+  const [progress, setProgress] = useState(false);
   const [isButtonEnabled, setButtonEnabled] = useState(false);
   // const [state, setState] = useState(false);
 
@@ -74,6 +76,7 @@ export default Login = function({navigation, onLogin, route}) {
             const { onLoginSuccess } = route.params || {};
             if (onLoginSuccess) {
               onLoginSuccess();
+              setProgress(false);
             }
           } else {
             // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
@@ -125,7 +128,11 @@ export default Login = function({navigation, onLogin, route}) {
       
 
       <TouchableOpacity style={[styles.button, { backgroundColor: isButtonEnabled ? '#999900' : '#DCDCDC'}]}
-        onPress={checkLogin}
+        onPress={() => {
+            setProgress(true);
+            checkLogin();
+          }
+        }
       >
         <Text style={{ color: isButtonEnabled ? 'white' : '#F5F5F5', fontSize: 16, fontWeight: '600' }}>Đăng nhập</Text>
       </TouchableOpacity>
@@ -140,6 +147,7 @@ export default Login = function({navigation, onLogin, route}) {
           <Text style={{color: '#999900', fontWeight: '600'}}>Đăng ký</Text>
         </TouchableOpacity>
       </View>
+      {progress ? <Loader indeterminate={progress}/> : null}
     </SafeAreaView>
   );
 }

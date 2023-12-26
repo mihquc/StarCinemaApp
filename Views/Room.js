@@ -4,6 +4,7 @@ import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollVi
 import { Dropdown } from 'react-native-element-dropdown';
 import Seat from '../Component/seat';
 import { useSelector } from 'react-redux';
+import Loader from '../Component/loader';
 
 export default function Room({navigation, route}) {
   const Movie = useSelector((state) => state.movies.selectedMovie);
@@ -72,7 +73,7 @@ export default function Room({navigation, route}) {
   const [selectedSeatIds, setSelectedSeatIds] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedSeatsCount, setSelectedSeatsCount] = useState(0);
-  // const [isDisabled, setDisabled] = useState(false);
+  const [progress, setProgress] = useState(false);
   const [price, setPrice] = useState(0);
 
   const handleSeatPress = (isPressed, item) => {
@@ -110,6 +111,12 @@ export default function Room({navigation, route}) {
         onPress={handleSeatPress}/>
     )
   };
+  const pressContinue = () => {
+    if (price > 0) {
+      navigation.navigate('Payment', {address, time, selectedSeatIds, price});
+    }
+    setProgress(false);
+  }
 
   return(
     <SafeAreaView style={styles.container}>
@@ -197,15 +204,15 @@ export default function Room({navigation, route}) {
         </View>
         <View style={{height: '100%', flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
           <TouchableOpacity style={{width: '88%', height: '75%', alignItems: 'center', justifyContent: 'center', backgroundColor: (price>0) ? '#999900' : '#CCCCCC', 
-          borderRadius: 5}} onPress={() => {
-              if (price > 0) {
-                navigation.navigate('Payment', {address, time, selectedSeatIds, price});
-              }
-            }}> 
+          borderRadius: 5}} onPress={()=>{
+            setProgress(true);
+            pressContinue();
+          }}> 
             <Text style={{color: 'white', fontSize: 16, fontWeight: '700'}}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>
       </View>
+      {progress ? <Loader indeterminate={progress}/> : null}
     </SafeAreaView>
   )
 }
