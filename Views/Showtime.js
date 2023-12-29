@@ -13,6 +13,8 @@ export default function Showtime({navigation, isLoggedIn}) {
       const data = [];
       for (let i = 0; i < Showtimes.length; i++) {
         if(Showtimes[i].cinema.cinemaName === cinema){
+          // for (let j = 0; j < Showtimes[i].showtimeList.length; j++) {
+          //   const dateObject = moment(Showtimes[i].showtimeList[j].startTime, 'DD/MM/YYYY HH:mm:ss');
           for (let j = 0; j < Showtimes[i].showTimeList.length; j++) {
             const dateObject = moment(Showtimes[i].showTimeList[j].startTime, 'DD/MM/YYYY HH:mm:ss');
             const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
@@ -31,6 +33,21 @@ export default function Showtime({navigation, isLoggedIn}) {
     // const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
     // console.log(formatDateShowtime('StarCinema Cần Thơ')); 
 
+    // const data = [
+    //   { address: 'Toàn Quốc', value: '1' },
+    //   { address: 'star cinema Hồ Chí Minh', value: '2' },
+    //   { address: 'star cinema Hà Nội', value: '3' },
+    //   { address: 'star cinema Đà Nẵng', value: '4' },
+    //   { address: 'star cinema Hải Phòng', value: '5' },
+    //   { address: 'star cinema Cần Thơ', value: '6' },
+    // ];
+    // const data1 = [
+    //   { address: 'TP Hồ Chí Minh', cinema: 'star cinema Hồ Chí Minh' },
+    //   { address: 'Hà Nội', cinema: 'star cinema Hà Nội' },
+    //   { address: 'Đà Nẵng', cinema: 'star cinema Đà Nẵng' },
+    //   { address: 'Hải Phòng', cinema: 'star cinema Hải Phòng'},
+    //   { address: 'Cần Thơ', cinema: 'star cinema Cần Thơ'},
+    // ];
     const data = [
       { address: 'Toàn Quốc', value: '1' },
       { address: 'StarCinema Hồ Chí Minh', value: '2' },
@@ -120,11 +137,6 @@ export default function Showtime({navigation, isLoggedIn}) {
     const startDate = new Date(); // Thay đổi ngày bắt đầu tùy ý
     const numberOfDays = 7; // Thay đổi số lượng ngày tùy ý
     const data2 = generateDateArray(startDate, numberOfDays);
-
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const toggleExpanded = () => {
-      setIsCollapsed(!isCollapsed);
-    }
   
     const [selected, setSelected] = useState(0);
     const [selectedItem, setSelectedItem] = useState(new Date());
@@ -170,13 +182,13 @@ export default function Showtime({navigation, isLoggedIn}) {
     // }
 
     const Showtime = ({item, index}) => {
-      // console.log(item.cinema);
+      // console.log(item);
       return (
         <>
-        {(getShowtimeByDate(item.cinema).length !== 0) ? 
+        {(getShowtimeByDate(item.cinema).length !== 0) ?
         <View style={{width: '100%', flex: 1, borderBottomWidth: 7, borderColor: '#EEEEEE', marginTop: index === 0 ? 0 : 5}}>
           <Text style={{width: '60%', fontSize: 16, fontWeight: '500',}}>{item.cinema}</Text>
-          <View style={{width: '100%', flex: 1, marginBottom: '4%'}}>
+          <View style={{width: '90%', flex: 1, marginBottom: '4%', marginLeft: '2%'}}>
             <FlatList
               showsHorizontalScrollIndicator={false}
               numColumns={4}
@@ -185,7 +197,8 @@ export default function Showtime({navigation, isLoggedIn}) {
               keyExtractor={(item, index) => {index.toString()}}
             /> 
           </View>
-        </View> : null}
+        </View>
+         : null} 
         </>
       )
     }
@@ -282,17 +295,23 @@ export default function Showtime({navigation, isLoggedIn}) {
         </View>
 
         <View style={{width: '95%', flex: 1, marginTop: '2%',}}>
-          {(getShowtimeByDate(address).length !== 0) ? 
           <FlatList 
             showsVerticalScrollIndicator={false}
             data={getCinemaByAddress(address)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={Showtime}
-          /> : 
+          />
+          {/* {(getShowtimeByDate(address).length !== 0) ? 
           <View style={{width: '100%', height: '70%',alignItems: 'center', justifyContent: 'center'}}>
             <Image style={{ width: '28%', height: '32%', tintColor: 'gray', resizeMode: 'contain' }} source={require('./Image/film.png')}/>
             <Text style={{fontWeight: '500', color: 'gray', marginTop: '2%', fontSize: 15}}>Hiện tại phim chưa có lịch chiếu</Text>
-          </View>}
+          </View> : 
+          <FlatList 
+            showsVerticalScrollIndicator={false}
+            data={getCinemaByAddress(address)}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={Showtime}
+          />} */}
         </View>
         {progress ? <Loader indeterminate={progress}/> : null}
       </SafeAreaView>

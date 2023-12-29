@@ -7,6 +7,7 @@ import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaVie
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
 import axios from 'axios';
+import Loader from '../Component/loader';
 
 export default Register = function({navigation}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/";
@@ -64,7 +65,7 @@ export default Register = function({navigation}) {
     setGender(value);
     checkButtonState(name, email, phone, value, userName, password, password1);
   };
-
+  const [progress, setProgress] = useState(false);
   const register = () => {
     if(isButtonEnabled)
     {
@@ -72,35 +73,30 @@ export default Register = function({navigation}) {
         const formatData={ nickName: name, email: email, phonenumber: phone, sex: (gender==="male")? 0 :((gender==="female")?1:2), 
         userName: userName, password: password, avatar: ""} 
         console.log("Post...");
-        try {
-          axios.post(`${URL}/customer`, formatData) // call api
-          .then((response) => {
-            console.log(response.data);
-            if(response.data) {
-              navigation.navigate('Login', {
-                onLoginSuccess: () => {
-                  // Callback được gọi khi người dùng đăng nhập thành công
-                  navigation.navigate('MyTabs', {screen: 'Profile'});
-                } , userName, password1}
-              );
-            }
-          })
-          .catch((error)=>{
-            console.log(error);
-          });
-        } catch (error) {
+        axios.post(`${URL}/customer`, formatData) // call api
+        .then((response) => {
+          console.log(response.data);
+          if(response.data) {
+            navigation.navigate('Login', {
+              onLoginSuccess: () => {
+                // Callback được gọi khi người dùng đăng nhập thành công
+                navigation.navigate('MyTabs', {screen: 'Profile'});
+              } , userName, password1}
+            );
+            setProgress(false);
+          }
+        })
+        .catch((error)=>{
           console.log(error);
-        }
-        // navigation.navigate('Login', {
-        // onLoginSuccess: () => {
-        //   // Callback được gọi khi người dùng đăng nhập thành công
-        //   navigation.navigate('MyTabs', {screen: 'Profile'});
-        // } , email, password1});
+        });
+
       } else {
-        alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');
+        Alert.alert('Thông báo!', 'Mật khẩu không trùng khớp, vui lòng nhập lại.');
+        setProgress(false);
       }
     } else {
-      alert('Vui lòng nhập đầy đủ thông tin.');
+      Alert.alert('Thông báo!', 'Vui lòng nhập đầy đủ thông tin.');
+      setProgress(false);
     }
   }
 
@@ -215,7 +211,10 @@ export default Register = function({navigation}) {
       </KeyboardAwareScrollView>
 
       <TouchableOpacity style={[styles.button, { backgroundColor: isButtonEnabled ? '#999900' : '#DCDCDC'}]}
-        onPress={register}
+        onPress={() => {
+          setProgress(true);
+          register();
+        }}
         >
         <Text style={{ color: isButtonEnabled ? 'white' : '#F5F5F5', fontSize: 16, fontWeight: '600' }}>Hoàn tất</Text>
       </TouchableOpacity>
@@ -230,6 +229,7 @@ export default Register = function({navigation}) {
           <Text style={{color: '#999900', fontWeight: '600'}}>Đăng nhập</Text>
         </TouchableOpacity>
       </View>
+      { progress ? <Loader indeterminate={progress}/> : null}
     </SafeAreaView>
     )
 }

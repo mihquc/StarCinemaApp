@@ -61,13 +61,13 @@ export default Home = function({navigation}) {
       console.log(error);
     }
   }
-  const listShowtime = (showtimes) => {
-    try {
-      dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const listShowtime = (showtimes) => {
+  //   try {
+  //     dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   useEffect(() => {
     //phim đang chiếu
@@ -99,16 +99,16 @@ export default Home = function({navigation}) {
     .catch((error) => {console.log(error);});
 
     // showtime
-    axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList")
-    .then((response) => {
-      const data = response.data;
-      listShowtime(data);
-      // console.log(data[1].showTimeList);
-      // console.log(response.request._response);
-      // console.log(response.request._response);
-      // console.log(showTimeInfoList); 
-      // console.log(data[1].showTimeList);
-    }).catch((error) => {console.error(error);});
+    // axios.get("https://50db-2001-ee0-4b4c-7840-c08c-a079-cbcd-2e54.ngrok-free.app/dev-api/customer/homepage/search/showtimeInfoList/5") 
+    // .then((response) => {
+    //   const data = response.data;
+    //   listShowtime(data);
+    //   // console.log(data[1].showTimeList);
+    //   // console.log(response.request._response);
+    //   // console.log(response.request._response);
+    //   // console.log(showTimeInfoList); 
+    //   // console.log(data[1].showTimeList);
+    // }).catch((error) => {console.error(error);});
 
 
     // 1. load data tu server
@@ -179,7 +179,7 @@ export default Home = function({navigation}) {
       const currentOffset = nativeEvent.contentOffset.x;
       let imageIndex = 0;
       if(currentOffset > 0){
-        imageIndex = Math.floor((nativeEvent.contentOffset.x + screenWidth/2) / (screenWidth - (22*screenWidth/100)));
+        imageIndex = Math.floor((nativeEvent.contentOffset.x + screenWidth/2) / (screenWidth));
       }
       setCurrentIndex(imageIndex);
     }
@@ -313,9 +313,11 @@ export default Home = function({navigation}) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar style="auto"/>
       <ScrollView style={{flex: 1,}} showsVerticalScrollIndicator={false}>
+        <View style={{width: '100%', height: '2.5%',}}> 
+        </View>
         <View style={{width: '100%', height: 270,}}>
           <ScrollView
             // ref={stepScroll} // ref
@@ -383,7 +385,7 @@ export default Home = function({navigation}) {
         </View>
       </ScrollView>
       {progress ? <Loader indeterminate={progress}/> : null} 
-    </SafeAreaView> 
+    </View>
   );
 }
 const styles = StyleSheet.create({

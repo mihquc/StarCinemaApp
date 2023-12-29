@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { View, Image, ScrollView, Text, TouchableOpacity, StyleSheet, SafeAreaView, Alert, ImageBackground, Dimensions, Modal, Slider } from 'react-native';
-import YoutubeIframe from 'react-native-youtube-iframe';
 import YoutubePlayer from "react-native-youtube-iframe"; 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Component/loader';
+import axios from 'axios';
 
 export default function Movies({navigation, isLoggedIn}) {
+  const URL = "https://65f5-2001-ee0-4b4c-7840-e5a2-c4c5-4b19-28b6.ngrok-free.app/dev-api/customer/homepage/search/showtimeInfoList";
   const [playing, setPlaying] = useState(false);
   const Movie = useSelector((state) => state.movies.selectedMovie);
   const [expanded, setExpanded] = useState(false);  
@@ -24,6 +25,28 @@ export default function Movies({navigation, isLoggedIn}) {
     }
   }, [expanded])
 
+  const dispatch = useDispatch();
+  const listShowtime = (showtimes) => {
+    try {
+      dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    // console.log(Movie.id);
+    // axios.get(`${URL}/${Movie.id}`) 
+    axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList") 
+    .then((response) => {
+      const data = response.data; 
+      listShowtime(data);
+      // console.log(data[1].showTimeList);
+      // console.log(response.request._response);
+      // console.log(response.request._response);
+      // console.log(showTimeInfoList); 
+      // console.log(data[1].showTimeList);
+    }).catch((error) => {console.error(error);});
+  }, [])
 
   const getYouTubeVideoId = (url) => {
     if (!url) {

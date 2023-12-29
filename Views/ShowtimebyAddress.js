@@ -43,6 +43,7 @@ export default function ShowtimeAddress({navigation, route, isLoggedIn}) {
   const [address, setAddress] = useState('');
   useEffect(() => {
     setAddress(route.params.item.cinema.cinemaName);
+    console.log(movies);
   }, [])
 
   const formatDate = (text) => {

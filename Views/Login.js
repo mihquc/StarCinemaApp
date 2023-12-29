@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Alert, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
 import axios from 'axios';
@@ -9,7 +9,6 @@ import Loader from '../Component/loader';
 
 export default Login = function({navigation, onLogin, route}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listCustomer, setListCustomer] = useState([]);
@@ -61,10 +60,10 @@ export default Login = function({navigation, onLogin, route}) {
   }
 
   const checkLogin = () => {
-    try {
-      axios.get(URL)
-      .then((response) => {
-        // console.log(response.data);
+    axios.get(URL)
+    .then((response) => {
+      // console.log(response.data);
+      if (isButtonEnabled) {
         if(response.data){
           const data = response.data;
           // setListCustomer(data);
@@ -80,14 +79,16 @@ export default Login = function({navigation, onLogin, route}) {
             }
           } else {
             // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-            alert('Đăng nhập thất bại. Vui lòng thử lại.');
+            Alert.alert('Thông Báo!','Tài khoản hoặc mật khẩu không chính xác. Vui lòng thử lại!');
+            setProgress(false);
           }
         }
-      })
-      .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
+      } else {
+        Alert.alert('Thông Báo!', 'Vui lòng nhập thông tin đăng nhập!');
+        setProgress(false);
+      }
+    })
+    .catch((error) => console.log(error));
   };
 
   return (

@@ -8,9 +8,10 @@ const Seat = ({item, style, onPress, index}) => {
     setIsPressed(!isPressed);
     onPress && onPress(!isPressed, item); // Truyền trạng thái mới của ô khi được nhấn
   };
+  // console.log(item);
   return(
     <TouchableOpacity style={[style, { backgroundColor: isPressed ? '#999900' : 'white', alignItems: 'center', justifyContent: 'center'}]} onPress={handlePress}>
-      <Text style={{color: 'white', fontSize: 8, fontWeight: '500'}}>{item.seatId}</Text>
+      <Text style={{color: 'white', fontSize: 8, fontWeight: '500'}}>{`${item.rowCode}${item.columnCode}`}</Text>
     </TouchableOpacity>
   )
 }
