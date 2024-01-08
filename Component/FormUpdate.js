@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Modal } from 'react-native'
+import React, { useState } from 'react'
 
 const renderRadioButton = (value, label, gender) => (
     <View
@@ -13,7 +13,7 @@ const renderRadioButton = (value, label, gender) => (
         style={{
             marginRight: 8,
             width: 16, 
-            height: 16,
+            height: 16, 
             borderRadius: 10,
             borderWidth: 0.2,
             borderColor: gender === value ? '#E5E5E5' : 'gray',
@@ -36,11 +36,43 @@ const renderRadioButton = (value, label, gender) => (
     </View>
   );
 
-export default function FormUpdate ({name, phone, email, gender, handleEmailChange }) {
+export default function FormUpdate ({name, phone, email, gender, avatar, handleEmailChange }) {
+  const [isVisible, setVisible] = useState(false);
   return (
     <View style={{width: '100%', alignItems: 'center', justifyContent: 'space-evenly', height: '70%'}}>
-      <View style={{width: '30%', height: '27%', borderWidth: 0.2, alignItems: 'center', justifyContent: 'center', borderRadius: 100, borderColor: 'gray'}}>
-        <Image style={{width: '95%', height: '95%', resizeMode: 'stretch', borderRadius: 100}} source={{uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/800px-Unknown_person.jpg"}}/>
+      <View style={{width: '30%', height: '27%', borderWidth: 0.2, alignItems: 'center', justifyContent: 'center', 
+        borderRadius: 100, borderColor: 'gray', backgroundColor: 'gray'}}>
+        <Image style={{width: '99%', height: '99%', resizeMode: 'stretch', borderRadius: 100, position: 'absolute'}} source={{uri: avatar || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/800px-Unknown_person.jpg"}}/>
+        <TouchableOpacity style={{width: '20%', height: '20%', left: '50%', backgroundColor: '#999900', borderRadius: 100, 
+          alignItems: 'center', justifyContent: 'center',}} onPress={() => setVisible(true)}>
+          <Image style={{width: '60%', height: '60%', tintColor: 'white'}} source={require('../Views/Image/icon_camera.png')}/>
+        </TouchableOpacity>
+        <Modal
+          transparent={true}
+          animationType="slide"
+          visible={isVisible}
+          onRequestClose={() => {
+            setVisible(false);
+          }}
+        >
+          <View style={{flex: 1, justifyContent: 'flex-end',}}>
+            
+            <View style={{ backgroundColor: 'white', borderTopWidth: 0.1, borderRadius: 30, height: '43%', margin: 20,
+                shadowOffset: { width: 0, height: 5}, shadowOpacity: 0.7}}>
+              <TouchableOpacity onPress={confirm} style={{ height: '15%', alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.2, borderBottomWidth: 0.2}}>
+                <Text style={{fontSize: 20, color: 'purple'}}>Camera</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={confirm} style={{ height: '15%', alignItems: 'center', justifyContent: 'center', borderTopWidth: 0.2, borderBottomWidth: 0.2}}>
+                <Text style={{fontSize: 20, color: 'purple'}}>Thư viện</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={closePicker} style={{height: '15%', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{fontSize: 20, color: 'purple'}}>Đóng</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
       <View style={{width: '88%', height: 45, backgroundColor: '#E5E5E5', borderRadius: 4, borderWidth: 0.2, borderColor: 'gray'}}>
         <TextInput 
