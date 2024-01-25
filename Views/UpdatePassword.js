@@ -73,7 +73,6 @@ export default function UpdatePassword({ navigation }) {
                         setProgress(false);
                         Alert.alert('Thông báo', 'Thay đổi mật khẩu thành công.')
                     } else {
-                        // Alert.alert('Mật khẩu hiện tại không chính xác!');
                         setProgress(false);
                         setCheckText(2);
                         setButtonEnabled(false);
@@ -81,7 +80,6 @@ export default function UpdatePassword({ navigation }) {
                 }).catch((error) => { console.log(error); });
             }
         } else {
-            // Alert.alert('Thông báo!', 'Vui lòng nhập thông tin.');
             setProgress(false);
             setCheckText(1);
             setCheckText1(1);

@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import DatePicker from 'react-native-date-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Platform, Pressable, Modal, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, Alert } from 'react-native';
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
 import axios from 'axios';
@@ -78,13 +76,12 @@ export default Register = function ({ navigation }) {
           username: userName, password: password, avatar: ""
         }
         console.log("Post...");
-        axios.post(URLR, formatData) // call api
+        axios.post(URLR, formatData)
           .then((response) => {
             console.log(response.data);
             if (response.data.code === 200) {
               navigation.navigate('Login', {
                 onLoginSuccess: () => {
-                  // Callback được gọi khi người dùng đăng nhập thành công
                   navigation.navigate('MyTabs', { screen: 'Profile' });
                 }, userName, password1
               }
@@ -151,9 +148,9 @@ export default Register = function ({ navigation }) {
       <Header iconSource={require('./Image/icon_xx.png')} onPress={() => { navigation.goBack() }} />
       <KeyboardAwareScrollView style={{ width: '100%', height: '88%' }}
         showsVerticalScrollIndicator={false}
-        extraScrollHeight={0} // Chiều cao bổ sung khi bàn phím hiện lên
-        enableOnAndroid={true} // Cho phép trên Android
-        enableAutomaticScroll={true} // Cho phép cuộn tự động khi TextInput được chọn
+        extraScrollHeight={0}
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
       >
         <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%', marginVertical: '6%' }}>
           <Image source={require('./Image/Ghe.png')} style={{ width: 190, height: 190, }} />

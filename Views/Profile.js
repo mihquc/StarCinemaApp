@@ -11,8 +11,6 @@ export default function Profile({ navigation, route }) {
     const isLoggedIn = useSelector((state) => state.loginInfo.isLoggedIn);
     const customer1 = useSelector((state) => state.loginInfo.customer);
     const token = useSelector((state) => state.loginInfo.token);
-    // console.log("isLoggedIn: ", isLoggedIn);
-    // console.log("customer: ", customer);
     const [user, setUser] = useState({
         avatar: null,
         customerType: null,
@@ -43,11 +41,8 @@ export default function Profile({ navigation, route }) {
     const getProfile = () => {
         axios.get(`${URLP}?Authorization=Customer-Bearer ${token}`)
             .then((response) => {
-                // const data1 = [];
                 const data = response.data.data.user;
-                // data1.push(data);
                 console.log(data);
-                // console.log(data1);
                 updateData(data);
                 setUser(data);
             })
@@ -55,10 +50,9 @@ export default function Profile({ navigation, route }) {
     }
     useEffect(() => {
         getProfile();
-        // console.log(customer);
+
     }, [])
-    // const customer = useSelector((state) => state.loginInfo.customer);
-    console.log(user);
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style='auto' />

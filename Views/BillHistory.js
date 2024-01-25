@@ -46,8 +46,6 @@ export default function BillHistory({ navigation }) {
     axios.get(`${URLI}?Authorization=Customer-Bearer ${token}`)
       .then((response) => {
         const data = response.data.data;
-        // console.log(data);
-        // console.log(data1);
         setListBills(data);
       })
       .catch((error) => { console.log(error); });
@@ -65,7 +63,6 @@ export default function BillHistory({ navigation }) {
     { id: 1 },
   ]
   const viewItem = (item, index) => {
-    // console.log(item)
     return (
       <TouchableOpacity style={{
         width: screenWidth - (16 / 100 * screenWidth), height: 150, borderRadius: 2, flexDirection: 'row',

@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { View, Image, ScrollView, Text, TouchableOpacity, StyleSheet, SafeAreaView, Alert, ImageBackground, Dimensions, Modal, Slider } from 'react-native';
-import YoutubeIframe from 'react-native-youtube-iframe';
+import { View, Image, ScrollView, Text, TouchableOpacity, StyleSheet, Dimensions, Modal } from 'react-native';
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Component/loader';
@@ -37,10 +36,7 @@ export default function Movies({ navigation, isLoggedIn }) {
     }
   }
   useEffect(() => {
-    // console.log(Movie.id);
     axios.get(`${URLS}/${Movie.id}`)
-      // axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList") 
-      // axios.get("https://658be023859b3491d3f4f2c6.mockapi.io/pbl6/api/showtimeInfoList") 
       .then((response) => {
         const data = response.data;
         listShowtime(data);
@@ -51,13 +47,10 @@ export default function Movies({ navigation, isLoggedIn }) {
     if (!url) {
       return null;
     }
-    // Regular expression để tìm ID video trong đường link YouTube
     const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
-    // Kiểm tra xem đường link có phù hợp với regular expression không
     const match = url.match(regex);
 
-    // Nếu có, trả về ID video; ngược lại, trả về null
     return match ? match[1] : null;
   };
   const pressBooking = () => {
@@ -66,7 +59,7 @@ export default function Movies({ navigation, isLoggedIn }) {
   }
   return (
     <View style={styles.container}>
-      {/* Phần tai thỏ */}
+
       <View style={styles.notchContainer}>
         <TouchableOpacity style={{
           position: 'absolute',
@@ -79,14 +72,13 @@ export default function Movies({ navigation, isLoggedIn }) {
 
         <Image source={{ uri: Movie.posterUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg" }} style={styles.image} />
 
-        {/* Nút Play ở giữa */}
         <TouchableOpacity
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
-            marginLeft: -25, // Chỉnh giữa theo chiều ngang
-            marginTop: -25, // Chỉnh giữa theo chiều dọc
+            marginLeft: -25,
+            marginTop: -25,
           }}
           onPress={() => { setPlaying(true) }}
         >
@@ -95,7 +87,7 @@ export default function Movies({ navigation, isLoggedIn }) {
             style={{ width: 50, height: 50, tintColor: 'white' }}
           />
         </TouchableOpacity>
-        {/* Video YouTube */}
+
         <Modal
           visible={playing}
           transparent={true}
@@ -109,13 +101,9 @@ export default function Movies({ navigation, isLoggedIn }) {
               </TouchableOpacity>
               <View style={styles.videoContainer}>
                 <YoutubePlayer
-                  // ref={playerRef}
                   height={Dimensions.get('window').height}
                   videoId={getYouTubeVideoId(Movie.trailerUrl)}
                   play={playing}
-                  // onReady={() => { 
-                  //   // Video đã sẵn sàng
-                  // }}
                   onChangeState={(e) => {
                     if (e.state === 'ended') {
                       setPlaying(false);
@@ -129,7 +117,7 @@ export default function Movies({ navigation, isLoggedIn }) {
         </Modal>
       </View>
 
-      {/* <ScrollView style={{ backgroundColor: 'red'}}> */}
+
       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', height: '21%', top: '2%' }}>
         <View style={{ width: '27%', height: '90%', }}>
           <Image style={styles.image1} source={{ uri: Movie.posterUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg" }} resizeMode='stretch' />
@@ -173,19 +161,9 @@ export default function Movies({ navigation, isLoggedIn }) {
             </TouchableOpacity>
           )}
         </View>
-
-
-        {/* diễn viên */}
-        {/* <View style={{width: '100%', height: '90%', borderTopWidth: 0.2, borderColor: 'gray', borderBottomWidth: 0.2, backgroundColor: 'red'}}>
-          <View>
-
-          </View>
-        </View> */}
       </ScrollView>
-      {/* </ScrollView> */}
 
 
-      {/* Phần dưới cùng */}
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={{
           backgroundColor: '#999900', width: '88%', height: '48%', alignItems: 'center', justifyContent: 'center', borderRadius: 5,
@@ -208,15 +186,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   notchContainer: {
-    height: '30%', // Chiều cao của phần tai thỏ
-    backgroundColor: 'white', // Màu sắc của phần tai thỏ (có thể thay đổi)
+    height: '30%',
+    backgroundColor: 'white',
   },
   imageContainer: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue', // Màu sắc của phần chứa ảnh (có thể thay đổi)
+    backgroundColor: 'blue',
   },
   modalContainer: {
     flex: 1,
@@ -243,7 +221,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover', // Đảm bảo ảnh lấp đầy phần chứa
+    resizeMode: 'cover',
   },
   image1: {
     width: '100%',
@@ -278,7 +256,6 @@ const styles = StyleSheet.create({
   readMoreText: {
     color: 'orange',
     fontWeight: '700',
-    // textDecorationLine: 'underline',
   },
 
 });

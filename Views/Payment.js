@@ -15,7 +15,6 @@ export default function Payment({ navigation, route }) {
   const URLLink = `${URL}/customer/booking/vnpay/url`;
   const movie = useSelector((state) => state.movies.selectedMovie);
   const token = useSelector((state) => state.loginInfo.token);
-  const hallId = route.params.hallId;
   const listSeatId = route.params.listSeatId;
   const date = route.params.date;
   const time = route.params.time;
@@ -25,14 +24,11 @@ export default function Payment({ navigation, route }) {
   const [isFocus, setIsFocus] = useState(false);
   const [titlePromotion, setPromotion] = useState('');
   const [discount, setDiscount] = useState(0);
-  // const [id, setId] = useState(0);
   const [link, setLink] = useState('');
   const [listDiscount, setListDiscount] = useState([]);
   const [alertVisible, setAlertVisible] = useState(true);
   const [alertBack, setAlertBack] = useState(false);
-  const [alertTimer, setAlertTimer] = useState(false);
   const [progress, setProgress] = useState(false);
-  // console.log(token);
 
   const confirmAlert = () => {
     setAlertVisible(false);
@@ -52,7 +48,6 @@ export default function Payment({ navigation, route }) {
     axios.get(`${URLLink}/${seatId.join(',')}/${id}?Authorization=Customer-Bearer ${token}`)
       .then((response) => {
         const data = response.data;
-        // console.log(data.data);
         setLink(data.data);
       })
       .catch((error) => { console.log(error); });
@@ -61,14 +56,10 @@ export default function Payment({ navigation, route }) {
     axios.get(URLPromotions)
       .then((response) => {
         const data = response.data;
-        // console.log(data);
         setListDiscount(data);
       })
       .catch((error) => { console.log(error); });
 
-    // getLink(listSeatId, id);
-    // console.log(link);
-    // console.log(id);
   }, [])
 
   const formatDay = (text) => {
@@ -87,34 +78,7 @@ export default function Payment({ navigation, route }) {
     day = (day < 10) ? `0${day}` : day;
     return `${day}/${month}/${year}`;
   }
-  // console.log(id);
-  const data = [
-    {
-      imageUrl: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
-      title: 'Thứ 4 vui vẻ',
-      discount: 10,
-    },
-    {
-      image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
-      title: 'Marry christmas',
-      discount: 5,
-    },
-    {
-      image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
-      title: 'Khách hàng quen thuộc',
-      discount: 7,
-    },
-    {
-      image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
-      title: 'Cuối tuần săn vé',
-      discount: 8,
-    },
-    {
-      image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
-      title: 'Nhận quà cuối năm',
-      discount: 12,
-    },
-  ];
+
 
   const total = price - (price * discount / 100);
 
@@ -293,19 +257,16 @@ export default function Payment({ navigation, route }) {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 data={listDiscount}
-                // search
                 maxHeight={300}
                 labelField="title"
                 valueField="title"
                 placeholder={'Khuyến mãi'}
-                // searchPlaceholder="Search..."
                 value={titlePromotion}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
                   setPromotion(item.title);
                   setDiscount(item.discount);
-                  // setId(item.id);
                   setIsFocus(false);
                   getLink(listSeatId, item.id);
                 }}

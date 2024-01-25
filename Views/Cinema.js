@@ -1,27 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-// import moment from 'moment';
-// const dateString = "21/12/2023 18:00:00";
+import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Modal } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-//   // Chuyển đổi chuỗi thành đối tượng moment
-//   const dateObject = moment(dateString, 'DD/MM/YYYY HH:mm:ss');
-
-//   // Lấy ra ngày, tháng, năm và giờ
-//   const ngay = dateObject.date();
-//   const thang = dateObject.month() + 1; // Tháng bắt đầu từ 0
-//   const nam = dateObject.year();
-//   const gio = dateObject.hour();
 
 export default function Cinema({ navigation }) {
   const [address, setAddress] = useState('star cinema Đà Nẵng');
   const [tempAdress, setTempAddress] = useState('star cinema Đà Nẵng');
   const [isPickerVisible, setPickerVisible] = useState(false);
   const [cinemaList, setCinemaList] = useState([]);
-  // const [showTimeInfoList, setShowTimeInfoList] = useState([]);
 
   const dispatch = useDispatch();
   const listShowtime = (showtimes) => {
@@ -47,48 +35,6 @@ export default function Cinema({ navigation }) {
   };
 
   useEffect(() => {
-    // axios.get("https://658be023859b3491d3f4f2c6.mockapi.io/pbl6/api/showtimeInfoList")
-    // .then((response) => {
-    //   const data = response.data;
-    //   // console.log(response.request._response);
-    //   setShowTimeInfoList(data);
-    //   // console.log(response.request._response);
-    //   // console.log(showTimeInfoList); 
-    //   // console.log(data[1].showTimeList);
-    // }).catch((error) => {console.error(error);});
-
-    // const data = [
-    //   {
-    //     id: '01',
-    //     image: require('./Image/cinema_dn.png'),
-    //     name: 'StarCinema Đà Nẵng',
-    //     address: 'địa chỉ',
-    //   },
-    //   {
-    //     id: '02',
-    //     image: require('./Image/cinema_dn.png'),
-    //     name: 'StarCinema Hà Nội',
-    //     address: 'địa chỉ',
-    //   },
-    //   {
-    //     id: '03',
-    //     image: require('./Image/cinema_dn.png'),
-    //     name: 'StarCinema Hồ Chí Minh',
-    //     address: 'địa chỉ',
-    //   },
-    //   {
-    //     id: '04',
-    //     image: require('./Image/cinema_dn.png'),
-    //     name: 'StarCinema Hải Phòng',
-    //     address: 'địa chỉ',
-    //   },
-    //   {
-    //     id: '05',
-    //     image: require('./Image/cinema_dn.png'),
-    //     name: 'StarCinema Cần Thơ',
-    //     address: 'địa chỉ',
-    //   },
-    // ]
     const data = [
       {
         id: '01',
@@ -122,7 +68,6 @@ export default function Cinema({ navigation }) {
       },
     ]
     setCinemaList(data);
-    // console.log(cinemaList.length);
   }, [])
 
   const getCinemaByAddress = (address) => {
@@ -130,21 +75,17 @@ export default function Cinema({ navigation }) {
     for (let i = 0; i < cinemaList.length; i++) {
       if (cinemaList[i].name === address) {
         data.push(cinemaList[i]);
-        // console.log(showTimeInfoList[i].showTimeList)
       } else if (address === 'Toàn quốc') {
         return cinemaList;
       }
     }
-    // listShowtime(data);
     return data;
   }
 
   const viewItem = ({ item, index }) => {
-    // console.log(item);
     return (
       <TouchableOpacity style={{ width: '100%', height: 100, alignItems: 'center', flexDirection: 'row', borderBottomWidth: 0.2 }}
         onPress={() => {
-          // listShowtime(item.showTimeList);
           navigation.navigate('ShowtimeAddress', { item });
         }}>
         <View style={{ width: '32%', height: '80%', alignItems: 'flex-end', }}>
@@ -193,12 +134,6 @@ export default function Cinema({ navigation }) {
                   }}
                   style={{}}
                 >
-                  {/* <Picker.Item label="Toàn quốc" value="Toàn quốc" />
-                    <Picker.Item label="StarCinema Hồ Chí Minh" value="StarCinema Hồ Chí Minh"/>
-                    <Picker.Item label="StarCinema Hà Nội" value="StarCinema Hà Nội" />
-                    <Picker.Item label="StarCinema Đà Nẵng" value="StarCinema Đà Nẵng" />
-                    <Picker.Item label="StarCinema Hải Phòng" value="StarCinema Hải Phòng" />
-                    <Picker.Item label="StarCinema Cần Thơ" value="StarCinema Cần Thơ" /> */}
                   <Picker.Item label="Toàn quốc" value="Toàn quốc" />
                   <Picker.Item label="star cinema Hồ Chí Minh" value="star cinema Hồ Chí Minh" />
                   <Picker.Item label="star cinema Hà Nội" value="star cinema Hà Nội" />

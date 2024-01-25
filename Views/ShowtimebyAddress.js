@@ -8,13 +8,10 @@ import URL from '../Component/API';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
-  // const id = route.params.item.id;
   const cinemaName = route.params.item.name;
   const [showTimeInfoList, setShowTimeInfoList] = useState([]);
   const [selected, setSelected] = useState(0);
   const [selectedItem, setSelectedItem] = useState(new Date());
-  // const Showtimes = useSelector((state) => state.movies.showtimes)
-  const ilogin = useSelector((state) => state.loginInfo.isLoggedIn)
   const URLShowtime = `${URL}/customer/homepage/search/showtimeInfoList`;
   const dispatch = useDispatch();
   const setCinemaName = (cinemaName) => {
@@ -52,9 +49,7 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
   useEffect(() => {
     setAddress(cinemaName);
     getAPI();
-    // console.log(movies);
   }, [])
-  // console.log(showTimeInfoList);
 
   const formatDate = (text) => {
     let date = new Date(text);
@@ -82,16 +77,14 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
     }
     return dateArray;
   }
-  const startDate = new Date(); // Thay đổi ngày bắt đầu tùy ý
-  const numberOfDays = 4; // Thay đổi số lượng ngày tùy ý
+  const startDate = new Date();
+  const numberOfDays = 4;
   const data2 = generateDateArray(startDate, numberOfDays);
 
   const getAPI = async () => {
     try {
-      // const res = await axios.get(`https://7b43-2001-ee0-4b4e-3a10-d9bc-9de-3bba-e8b4.ngrok-free.app/dev-api/customer/homepage/search/showtimeInfoList/${id}`);
       const res = await axios.get(`${URLShowtime}`);
       setShowTimeInfoList(res.data);
-      // console.log(showTimeInfoList);
     } catch (error) {
       console.log(error);
     }
@@ -100,9 +93,6 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
     const data = [];
     for (let i = 0; i < showTimeInfoList.length; i++) {
       if (showTimeInfoList[i].cinemaName === cinemaName && showTimeInfoList[i].movieId === id) {
-        // for (let j = 0; j < Showtimes[i].showtimeList.length; j++) {
-        //   const dateObject = moment(Showtimes[i].showtimeList[j].startTime, 'DD/MM/YYYY HH:mm:ss');
-
         const dateObject = moment(showTimeInfoList[i].startTime, 'DD/MM/YYYY HH:mm:ss');
         const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
         const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
@@ -110,7 +100,6 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
         let minute = dateObject.minutes();
         minute = (minute < 10) ? `0${minute}` : minute;
         data.push({ date: `${date}/${month}`, hour: `${hour}:${minute}`, cinemaName: showTimeInfoList[i].cinemaName, id: showTimeInfoList[i].id, movieId: showTimeInfoList[i].movieId });
-
       }
     }
     return data;
@@ -118,8 +107,6 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
   const getShowtimeByDate = (id) => {
     const data = [];
     const dataShowtime = getShowtimeByMovie(id);
-    // console.log(getMovieById(id));
-    // selectMovie(getMovieById(id));
     for (let i = 0; i < dataShowtime.length; i++) {
       if (formatDate(selectedItem).toString() === dataShowtime[i].date.toString()) {
         data.push(dataShowtime[i]);
@@ -147,78 +134,13 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
           setSelected(index);
           setSelectedItem(item.date);
         }}>
-        {/* <Text>...</Text> */}
         <Text style={{ color: (selected === index) ? 'white' : 'black', fontSize: 15, fontWeight: '600' }}>{item.dateFormat}</Text>
         <Text style={{ color: (selected === index) ? 'white' : 'black', fontSize: 13, }}>{item.day}</Text>
       </TouchableOpacity>
     )
   }
-  const dataTime = [
-    {
-      idMovie: 1,
-      times: [
-        { time: '09:45', },
-        { time: '12:45', },
-        { time: '14:15', },
-        { time: '15:45', },
-        { time: '18:00', },
-        { time: '19:45', },
-        { time: '21:15', },
-        { time: '21:15', },
-        { time: '21:15', },
-        { time: '21:15', },
-      ]
-    },
-    {
-      idMovie: 2,
-      times: [
-        { time: '09:45', },
-        { time: '12:45', },
-        { time: '14:15', },
-        { time: '15:45', },
-        { time: '18:00', },
-        { time: '19:45', },
-      ]
-    },
-    {
-      idMovie: 3,
-      times: [
-        { time: '13:45', },
-        { time: '16:00', },
-        { time: '20:45', },
-      ]
-    },
-    {
-      idMovie: 4,
-      times: [
-        { time: '14:45', },
-        { time: '19:00', },
-      ]
-    },
-    {
-      idMovie: 5,
-      times: [
-        { time: '21:00', },
-      ]
-    },
-    {
-      idMovie: 6,
-      times: [
-        { time: '14:45', },
-        { time: '18:00', },
-      ]
-    },
-  ];
-  const getTimesById = (data, id) => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].idMovie.toString() === id) {
-        return data[i].times;
-      }
-    }
-  }
+
   const ViewMovie = ({ item, index }) => {
-    // console.log(item.id);
-    // console.log(movie);
     return (
       <>
         {(getShowtimeByDate(item.id).length !== 0) ?
@@ -246,8 +168,6 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
                     <Text>{item.endDate}</Text>
                   </View>
                 </View>
-
-                {/* <Text>{item.rating}</Text> */}
               </View>
             </View>
             <View style={{ marginBottom: '3%' }}>
@@ -265,14 +185,12 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
     )
   }
   const viewTime = ({ item, index }) => {
-    // console.log(item.movieId);
     return (
       <TouchableOpacity style={{
         width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
         marginLeft: (index % 4 === 0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,
       }}
         onPress={() => {
-          // selectMovie(getMovieById(item.idMovie));
           if (isLoggedIn) {
             setCinemaName(item.cinemaName);
             setTime(item.hour);
@@ -282,7 +200,7 @@ export default function ShowtimeAddress({ navigation, route, isLoggedIn }) {
           } else {
             navigation.navigate('Login', {
               onLoginSuccess: () => {
-                // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
+
                 isLoggedIn = true;
                 setCinemaName(item.cinemaName);
                 setTime(item.hour);

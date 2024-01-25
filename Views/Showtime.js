@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, ScrollView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, ScrollView } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -15,8 +15,6 @@ export default function Showtime({ navigation, isLoggedIn }) {
       if (Showtimes[i].cinema.cinemaName === cinema) {
         for (let j = 0; j < Showtimes[i].showtimeList.length; j++) {
           const dateObject = moment(Showtimes[i].showtimeList[j].startTime, 'DD/MM/YYYY HH:mm:ss');
-          // for (let j = 0; j < Showtimes[i].showTimeList.length; j++) {
-          //   const dateObject = moment(Showtimes[i].showTimeList[j].startTime, 'DD/MM/YYYY HH:mm:ss');
           const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
           const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
           const hour = dateObject.hours();
@@ -31,10 +29,6 @@ export default function Showtime({ navigation, isLoggedIn }) {
     }
     return data;
   }
-  // const dateObject = moment(Showtimes[1].showTimeList[1].startTime, 'DD/MM/YYYY HH:mm:ss');
-  // const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
-  // const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
-  // console.log(formatDateShowtime('StarCinema Cần Thơ')); 
 
   const data = [
     { cinema: 'Toàn Quốc', value: '1' },
@@ -51,21 +45,7 @@ export default function Showtime({ navigation, isLoggedIn }) {
     { cinema: 'star cinema Hải Phòng' },
     { cinema: 'star cinema Cần Thơ' },
   ];
-  // const data = [
-  //   { cinema: 'Toàn Quốc', value: '1' },
-  //   { cinema: 'StarCinema Hồ Chí Minh', value: '2' },
-  //   { cinema: 'StarCinema Hà Nội', value: '3' },
-  //   { cinema: 'StarCinema Đà Nẵng', value: '4' },
-  //   { cinema: 'StarCinema Hải Phòng', value: '5' },
-  //   { cinema: 'StarCinema Cần Thơ', value: '6' },
-  // ];
-  // const data1 = [
-  //   { cinema: 'StarCinema Hồ Chí Minh' },
-  //   { cinema: 'StarCinema Hà Nội' },
-  //   { cinema: 'StarCinema Đà Nẵng' },
-  //   { cinema: 'StarCinema Hải Phòng'},
-  //   { cinema: 'StarCinema Cần Thơ'},
-  // ];
+
 
   const getCinemaByAddress = (address) => {
     const data = [];
@@ -137,8 +117,8 @@ export default function Showtime({ navigation, isLoggedIn }) {
     }
     return dateArray;
   }
-  const startDate = new Date(); // Thay đổi ngày bắt đầu tùy ý
-  const numberOfDays = 4; // Thay đổi số lượng ngày tùy ý
+  const startDate = new Date();
+  const numberOfDays = 4;
   const data2 = generateDateArray(startDate, numberOfDays);
 
   const [selected, setSelected] = useState(0);
@@ -148,9 +128,6 @@ export default function Showtime({ navigation, isLoggedIn }) {
   const [isFocus, setIsFocus] = useState(false);
   const [cinema, setCinema] = useState('Toàn Quốc');
   const [progress, setProgress] = useState(false);
-
-  // const st = getShowtimeByCinema("StarCinema Cần Thơ");
-  // console.log(st);
 
   const viewItem = ({ item, index }) => {
     return (
@@ -169,25 +146,8 @@ export default function Showtime({ navigation, isLoggedIn }) {
     )
   }
 
-  // const itemTime = ({item, index}) => {
-  //   return (
-  //     <TouchableOpacity style={{width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
-  //       marginLeft: (index%4===0) ? 19 : 0, marginRight: 14, marginTop: (index < 4) ? 5 : 12,}}
-  //       onPress={() => {isLoggedIn ? navigation.navigate('Room', {item, address}) : navigation.navigate('Login', {
-  //         onLoginSuccess: () => {
-  //           // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
-  //           isLoggedIn = true;
-  //           navigation.navigate('Room', {item, isLoggedIn, address});
-  //       },
-  //     })}}
-  //     >
-  //       <Text style={{fontSize: 15, fontWeight: '400'}}>{item.time}</Text>
-  //     </TouchableOpacity>
-  //   )
-  // }
 
   const Showtime = ({ item, index }) => {
-    // console.log(item);
     return (
       <>
         {(getShowtimeByDate(item.cinema).length !== 0) ?
@@ -239,7 +199,6 @@ export default function Showtime({ navigation, isLoggedIn }) {
     } else {
       navigation.navigate('Login', {
         onLoginSuccess: () => {
-          // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
           isLoggedIn = true;
           setCinemaName(item.item.cinemaName);
           setTime(item.item.hour);
@@ -252,7 +211,6 @@ export default function Showtime({ navigation, isLoggedIn }) {
     }
   }
   const ViewTime = (item, index) => {
-    // console.log(item);
     return (
       <TouchableOpacity style={{
         width: 82, height: 38, alignItems: 'center', justifyContent: 'center', borderWidth: 0.2, borderRadius: 5,
@@ -298,12 +256,10 @@ export default function Showtime({ navigation, isLoggedIn }) {
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               data={data}
-              // search
               maxHeight={300}
               labelField="cinema"
               valueField="cinema"
               placeholder={'Tỉnh/Thành Phố'}
-              // searchPlaceholder="Search..."
               value={cinema}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
@@ -336,17 +292,6 @@ export default function Showtime({ navigation, isLoggedIn }) {
           keyExtractor={(item, index) => index.toString()}
           renderItem={Showtime}
         />
-        {/* {(getShowtimeByDate(cinema).length !== 0) ? 
-          <View style={{width: '100%', height: '70%',alignItems: 'center', justifyContent: 'center'}}>
-            <Image style={{ width: '28%', height: '32%', tintColor: 'gray', resizeMode: 'contain' }} source={require('./Image/film.png')}/>
-            <Text style={{fontWeight: '500', color: 'gray', marginTop: '2%', fontSize: 15}}>Hiện tại phim chưa có lịch chiếu</Text>
-          </View> : 
-          <FlatList 
-            showsVerticalScrollIndicator={false}
-            data={getCinemaByAddress(cinema)}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={Showtime}
-          />} */}
       </View>
       {progress ? <Loader indeterminate={progress} /> : null}
     </SafeAreaView>
