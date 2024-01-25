@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Alert, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
@@ -9,14 +9,11 @@ import Loader from '../Component/loader';
 import URL from '../Component/API';
 
 export default Login = function ({ navigation, onLogin, route }) {
-  // const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
   const URLAuth = `${URL}/customer/auth/login`;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [listCustomer, setListCustomer] = useState([]);
   const [progress, setProgress] = useState(false);
   const [isButtonEnabled, setButtonEnabled] = useState(false);
-  // const [state, setState] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -74,20 +71,12 @@ export default Login = function ({ navigation, onLogin, route }) {
       password: password
     }
     axios.post(URLAuth, format)
-      // axios.get(URL)
       .then((response) => {
-        // console.log(response.data);
         if (isButtonEnabled) {
           if (response.data.code === 200) {
             const data = response.data.data;
             console.log(response.data);
-            // const data = response.data;
-            // setListCustomer(data);
-            // const matchingCustomer = data.find(data => data.userName === email && data.password === password);
-            // console.log(matchingCustomer);
-            // updateData(matchingCustomer);
             setToken(data.token);
-            // if (matchingCustomer) {
             onLogin();
             const { onLoginSuccess } = route.params || {};
             if (onLoginSuccess) {
@@ -96,11 +85,9 @@ export default Login = function ({ navigation, onLogin, route }) {
             }
           }
           else {
-            // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
             Alert.alert('Thông Báo!', 'Tài khoản hoặc mật khẩu không chính xác. Vui lòng thử lại!');
             setProgress(false);
           }
-          // }
         } else {
           Alert.alert('Thông Báo!', 'Vui lòng nhập thông tin đăng nhập!');
           setProgress(false);
@@ -122,7 +109,6 @@ export default Login = function ({ navigation, onLogin, route }) {
         <View style={{ alignItems: 'center', width: '100%', marginTop: 40 }}>
           <TextInputField style={{ marginTop: 80 }}
             iconSource={require('./Image/icon_person.png')}
-            // keyboardType="email-address"
             placeholder="Tên tài khoản"
             onChangeText={handleEmailChange}
             value={email}
@@ -140,9 +126,6 @@ export default Login = function ({ navigation, onLogin, route }) {
             onKeyPress={handleKeyPress2}
           />
         </View>
-
-
-        {/* <Text style={{ color: 'purple', fontSize: 12, fontWeight: '500', marginTop: 10, marginBottom: 170, marginLeft: 260 }}>Quên mật khẩu?</Text> */}
       </ScrollView>
 
 

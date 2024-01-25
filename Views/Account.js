@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import React, { } from 'react';
+import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 
 export default function Account({ navigation }) {
 
@@ -37,8 +37,6 @@ export default function Account({ navigation }) {
                         onPress={() => {
                             navigation.navigate('Login', {
                                 onLoginSuccess: () => {
-                                    // Callback khi đăng nhập thành công, dựa vào trang xuất phát để xác định nơi điều hướng tiếp theo
-                                    // console.log(matchingCustomer);
                                     navigation.navigate('MyTabs', { screen: "Tài khoản" });
                                 },
                             });

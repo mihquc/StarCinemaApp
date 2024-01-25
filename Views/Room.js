@@ -12,12 +12,9 @@ export default function Room({ navigation, route }) {
   const Movie = useSelector((state) => state.movies.selectedMovie);
   const date = route.params.selectedItem;
   const [seatListOder, setSeatListOrder] = useState([]);
-  // const idShowtime = route.params.item.item.id;
   const idShowtime = useSelector((state) => state.movies.id);
   const time = useSelector((state) => state.movies.time);
-  // const cinemaName = route.params.item.item.cinemaName;
   const cinemaName = useSelector((state) => state.movies.cinemaName);
-  const rowCode = [];
   const data1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',]
   useEffect(() => {
     axios.get(`${URLSO}/${idShowtime}`)
@@ -27,9 +24,6 @@ export default function Room({ navigation, route }) {
         for (let i = 0; i < data.length; i++) {
           for (let j = 0; j < data[i].seatList.length; j++) {
             seatListInfo.push(data[i].seatList[j]);
-            // if (data[i].seatList[j].rowCode === data1[j]){
-
-            // }
           }
         }
         setSeatListOrder(seatListInfo);
@@ -66,9 +60,7 @@ export default function Room({ navigation, route }) {
     }
   };
   console.log(listSeatId);
-  // console.log(selectedSeatIds);
   const calculateSeatPrice = (item) => {
-    // Giả sử giá của mỗi ghế là 50,000 đồng
     let pricePerTicket = {};
     if (item.seatTypeName === 'Vip') {
       pricePerTicket = item.price;
